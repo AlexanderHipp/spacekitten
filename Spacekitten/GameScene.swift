@@ -135,25 +135,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Determine speed of the monster
         let actualDuration = random(min: CGFloat(10.0), max: CGFloat(10.0))
         
+        
         // Create the actions
         let actionMove = SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: NSTimeInterval(actualDuration))
         
-        // Grow player
-//        playerSize += 10
-        player.size = CGSize(width: playerSize, height: playerSize)
-        
-        
         let actionMoveDone = SKAction.removeFromParent()
-//        let loseAction = SKAction.runBlock() {
+        
+        
+        
+        let loseAction = SKAction.runBlock() {
 //            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
 //            let gameOverScene = GameOverScene(size: self.size, won: false)
 //            self.view?.presentScene(gameOverScene, transition: reveal)
-//        }
+            self.growPlayer()
+        }
         
         
-        monster.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        monster.runAction(SKAction.sequence([actionMove, actionMoveDone, loseAction]))
         
     }
+    
+    func growPlayer() {
+        playerSize += 10
+        player.size = CGSize(width: playerSize, height: playerSize)
+    }
+    
+    
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         

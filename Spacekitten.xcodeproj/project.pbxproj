@@ -63,12 +63,12 @@
 				FAE549241D19D4AA009BAE8C /* AppDelegate.swift */,
 				FAE549281D19D4AA009BAE8C /* GameScene.swift */,
 				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
+				FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */,
 				FAE5492C1D19D4AA009BAE8C /* Main.storyboard */,
-				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
-				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 				FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */,
 				FAE549341D19D4AA009BAE8C /* Info.plist */,
-				FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */,
+				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
+				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 			);
 			path = Spacekitten;
 			sourceTree = "<group>";
@@ -301,6 +301,7 @@
 				FAE549391D19D4AA009BAE8C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
