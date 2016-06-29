@@ -43,8 +43,9 @@ extension CGPoint {
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max
-    static let Monster   : UInt32 = 0b1       // 1
-    static let Projectile: UInt32 = 0b10      // 2
+    static let Player    : UInt32 = 0b1      // 1
+    static let Monster   : UInt32 = 0b10     // 2
+    static let Projectile: UInt32 = 0b11     // 3
 }
 
 
@@ -60,6 +61,7 @@ extension Array {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = SKSpriteNode(imageNamed: "red")
+    
     var monstersDestroyed = 0
     var playerSize = 20
     
@@ -68,6 +70,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = SKColor.blackColor()
         player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         player.size = CGSize(width: playerSize, height: playerSize)
+        
+       updatePlayerPhysics()
         
         addChild(player)
         
@@ -83,6 +87,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ))
     }
     
+    func updatePlayerPhysics() {
+        player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size)
+        player.physicsBody?.dynamic = false
+        player.physicsBody?.categoryBitMask = PhysicsCategory.Player
+        player.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
+        player.physicsBody?.collisionBitMask = PhysicsCategory.None
+    }
+    
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
     }
@@ -96,6 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Create sprite
         let monster = SKSpriteNode(imageNamed: "blue")
         
+        
         // Position the monster
         
         // Determine where to spawn the monster along the Y axis, left or right
@@ -106,7 +119,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // left or right
         let positionLeftRight = CGPoint(x: actualSideLeftRight.sample(), y: actualY)
-        
         
         // Determine where to spawn the monster along the x axis, bottom or top
         let actualX = random(min: monster.size.width/2, max: size.width - monster.size.width/2)
@@ -121,7 +133,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let leftRightBottomTop = [positionLeftRight, positionBottomTop]
         monster.position = leftRightBottomTop.sample()
         
-        monster.size = CGSize(width: 20, height: 20)
+        
+        // Size of enemy
+        let sizeEnemy = random(min: CGFloat(7.0), max: CGFloat(20.0))
+        monster.size = CGSize(width: sizeEnemy, height: sizeEnemy)
+        
         
         // Add the monster to the scene
         addChild(monster)
@@ -133,33 +149,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Determine speed of the monster
-        let actualDuration = random(min: CGFloat(10.0), max: CGFloat(10.0))
+        let actualDuration = random(min: CGFloat(7.0), max: CGFloat(14.0))
         
         
         // Create the actions
         let actionMove = SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: NSTimeInterval(actualDuration))
         
-        let actionMoveDone = SKAction.removeFromParent()
-        
-        
-        
-        let loseAction = SKAction.runBlock() {
+//        let loseAction = SKAction.runBlock() {
 //            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
 //            let gameOverScene = GameOverScene(size: self.size, won: false)
 //            self.view?.presentScene(gameOverScene, transition: reveal)
-            self.growPlayer()
-        }
+//            
+//        }
         
-        
-        monster.runAction(SKAction.sequence([actionMove, actionMoveDone, loseAction]))
+        // Run entire enemy lifecycle
+        monster.runAction(SKAction.sequence([actionMove]))
         
     }
-    
-    func growPlayer() {
-        playerSize += 10
-        player.size = CGSize(width: playerSize, height: playerSize)
-    }
-    
     
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -205,7 +211,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func projectileDidCollideWithMonster(projectile:SKSpriteNode, monster:SKSpriteNode) {
-        print("Hit")
         // TODO: GameStats +1
         projectile.removeFromParent()
         monster.removeFromParent()
@@ -217,23 +222,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func enemyDidCollideWithPlayer(monster:SKSpriteNode, player:SKSpriteNode) {
+        
+        monster.removeFromParent()
+        updatePlayerPhysics()
+        playerSize += 5
+        player.size = CGSize(width: playerSize, height: playerSize)
+    }
+    
     
     func didBeginContact(contact: SKPhysicsContact) {
         
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
+        var hitBody: SKPhysicsBody
+        var destructingBody: SKPhysicsBody
         
-        if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-            projectileDidCollideWithMonster(firstBody.node as! SKSpriteNode, monster: secondBody.node as! SKSpriteNode)
+        // A: Grow goal because it gets hit by an enemy
+        if (contact.bodyA.categoryBitMask == 1 && contact.bodyB.categoryBitMask == 2) ||
+            (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 1) {
+            hitBody = contact.bodyA
+            destructingBody = contact.bodyB
+            
+            if ((destructingBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
+                (hitBody.categoryBitMask & PhysicsCategory.Player != 0)) {
+                enemyDidCollideWithPlayer(destructingBody.node as! SKSpriteNode, player: hitBody.node as! SKSpriteNode)
+            }
+            
+        // B: Delete enemy because it was hit by a missile
+        } else if (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 3) ||
+            (contact.bodyA.categoryBitMask == 3 && contact.bodyB.categoryBitMask == 2) {
+            hitBody = contact.bodyA
+            destructingBody = contact.bodyB
+            
+            if ((hitBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
+                (destructingBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
+                projectileDidCollideWithMonster(hitBody.node as! SKSpriteNode, monster: destructingBody.node as! SKSpriteNode)
+            }
+            
+        // Do nothing
+        } else {
+            // Nothing
         }
+    
+       
+        
+        
+        
+        
         
     }
     
