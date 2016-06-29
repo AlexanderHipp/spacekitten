@@ -81,6 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         runAction(SKAction.repeatActionForever(
             SKAction.sequence([
                 SKAction.runBlock(addMonster),
+                SKAction.runBlock(checkGameOver),
                 // Time after a new monster is displayed
                 SKAction.waitForDuration(1.0)
                 ])
@@ -101,6 +102,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func random(min min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
+    }
+    
+    func checkGameOver() {
+        if (player.size.height >= size.height/2) && (player.size.width >= size.width/2) {
+            print("Game over")
+            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+            let gameOverScene = GameOverScene(size: self.size, won: false)
+            self.view?.presentScene(gameOverScene, transition: reveal)
+        }
     }
     
     func addMonster() {
@@ -149,21 +159,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Determine speed of the monster
-        let actualDuration = random(min: CGFloat(7.0), max: CGFloat(14.0))
+        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(10.0))
         
         
         // Create the actions
-        let actionMove = SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: NSTimeInterval(actualDuration))
+        monster.runAction(SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: NSTimeInterval(actualDuration)))
         
-//        let loseAction = SKAction.runBlock() {
-//            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-//            let gameOverScene = GameOverScene(size: self.size, won: false)
-//            self.view?.presentScene(gameOverScene, transition: reveal)
-//            
-//        }
         
-        // Run entire enemy lifecycle
-        monster.runAction(SKAction.sequence([actionMove]))
+        
         
     }
     
@@ -262,13 +265,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             // Nothing
         }
-    
-       
-        
-        
-        
-        
-        
+   
     }
     
 }
