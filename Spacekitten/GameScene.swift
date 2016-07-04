@@ -72,9 +72,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         player.size = CGSize(width: playerSize, height: playerSize)
         player.zPosition = 13
-        print(player.zPosition)
         
-       updatePlayerPhysics()
+        updatePlayerPhysics()
         
         addChild(player)
         
@@ -86,7 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 SKAction.runBlock(addEnemy),
                 SKAction.runBlock(checkGameOver),
                 // Time after a new enemy is displayed
-                SKAction.waitForDuration(1.0)
+                SKAction.waitForDuration(0.5)
                 ])
             ))
         
@@ -121,10 +120,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    
+    let colorEnemy:[String] = ["blue", "yellow", "green", "orange", "purple"]
+    
     func addEnemy() {
         
+        let currentColor = colorEnemy.sample()
+        
         // Create sprite
-        let enemy = SKSpriteNode(imageNamed: "blue")
+        let enemy = SKSpriteNode(imageNamed: currentColor)
         
         
         // Position the enemy
@@ -167,14 +171,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Determine speed of the enemy
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(10.0))
+        let actualDuration = random(min: CGFloat(1.0), max: CGFloat(8.0))
         
         
         // Create the actions
         enemy.runAction(SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: NSTimeInterval(actualDuration)))
-        
-        
-        
         
     }
     
@@ -229,7 +230,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.removeFromParent()
         enemiesDestroyed += 1
         hud.setCoinCounDisplay(enemiesDestroyed)
-        if (enemiesDestroyed > 50) {
+        if (enemiesDestroyed > 5) {
             let reveal = SKTransition.flipHorizontalWithDuration(0.5)
             let gameOverScene = GameOverScene(size: self.size, won: true)
             self.view?.presentScene(gameOverScene, transition: reveal)
