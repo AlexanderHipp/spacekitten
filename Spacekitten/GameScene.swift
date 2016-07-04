@@ -61,6 +61,7 @@ extension Array {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = SKSpriteNode(imageNamed: "red")
+    let hud = HUD()
     
     var enemiesDestroyed = 0
     var playerSize = 20
@@ -88,6 +89,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 SKAction.waitForDuration(1.0)
                 ])
             ))
+        
+        // HUD
+        hud.createHudNodes(self.size)
+        self.addChild(hud)
+        hud.zPosition = 50
     }
     
     func updatePlayerPhysics() {
@@ -218,11 +224,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func projectileDidCollideWithEnemy(projectile:SKSpriteNode, enemy:SKSpriteNode) {
-        // TODO: GameStats +1
+    func projectileDidCollideWithEnemy(projectile:SKSpriteNode, enemy:SKSpriteNode) {        
         projectile.removeFromParent()
         enemy.removeFromParent()
         enemiesDestroyed += 1
+        hud.setCoinCounDisplay(enemiesDestroyed)
         if (enemiesDestroyed > 50) {
             let reveal = SKTransition.flipHorizontalWithDuration(0.5)
             let gameOverScene = GameOverScene(size: self.size, won: true)
