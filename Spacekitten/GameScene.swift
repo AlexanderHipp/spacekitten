@@ -225,6 +225,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    
+    func gameOver() {
+        print("test")
+        hud.showButtons()
+    }
+    
     func projectileDidCollideWithEnemy(projectile projectile:SKSpriteNode, enemy:SKSpriteNode) {
         projectile.removeFromParent()
         enemy.removeFromParent()
@@ -236,6 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.view?.presentScene(gameOverScene, transition: reveal)
         }
     }
+
     
     func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, player:SKSpriteNode) {
         
