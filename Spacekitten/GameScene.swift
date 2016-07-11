@@ -225,7 +225,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func projectileDidCollideWithEnemy(projectile:SKSpriteNode, enemy:SKSpriteNode) {        
+    func projectileDidCollideWithEnemy(projectile projectile:SKSpriteNode, enemy:SKSpriteNode) {
         projectile.removeFromParent()
         enemy.removeFromParent()
         enemiesDestroyed += 1
@@ -237,13 +237,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func enemyDidCollideWithPlayer(enemy:SKSpriteNode, player:SKSpriteNode) {
+    func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, player:SKSpriteNode) {
         
         enemy.removeFromParent()
         updatePlayerPhysics()
         playerSize += 5
         player.size = CGSize(width: playerSize, height: playerSize)
     }
+    
     
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -259,8 +260,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if ((destructingBody.categoryBitMask & PhysicsCategory.Enemy != 0) &&
                 (hitBody.categoryBitMask & PhysicsCategory.Player != 0)) {
-                // ERROR If two projectiles hit the player at the same time
-                enemyDidCollideWithPlayer(destructingBody.node as! SKSpriteNode, player: hitBody.node as! SKSpriteNode)
+                
+                // Check if both hit bodies are not null and than do the function
+                if let bodyAAC = destructingBody.node as? SKSpriteNode {
+                    if let bodyAAB = hitBody.node as? SKSpriteNode {
+                        enemyDidCollideWithPlayer(enemy: bodyAAC, player: bodyAAB)
+                    }
+                }
             }
             
             
@@ -272,7 +278,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if ((hitBody.categoryBitMask & PhysicsCategory.Enemy != 0) &&
                 (destructingBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-                projectileDidCollideWithEnemy(hitBody.node as! SKSpriteNode, enemy: destructingBody.node as! SKSpriteNode)
+                
+                if let bodyAAD = destructingBody.node as? SKSpriteNode {
+                    if let bodyAAE = hitBody.node as? SKSpriteNode {
+                        projectileDidCollideWithEnemy(projectile: bodyAAE, enemy: bodyAAD)
+                    }
+                }                        
             }
             
         // Do nothing
