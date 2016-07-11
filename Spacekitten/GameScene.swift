@@ -82,12 +82,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         runAction(SKAction.repeatActionForever(
             SKAction.sequence([
-                SKAction.runBlock(addEnemy),
                 SKAction.runBlock(checkGameOver),
+                SKAction.runBlock(addEnemy),
                 // Time after a new enemy is displayed
                 SKAction.waitForDuration(0.5)
                 ])
-            ))
+            ), withKey: "spawnEnemy")
         
         // HUD
         hud.createHudNodes(self.size)
@@ -113,6 +113,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func checkGameOver() {
         if (player.size.height >= size.height/2) && (player.size.width >= size.width/2) {
+            print("Game over")
+            
+            // todo Make player full size
+            playerSizeGameOver()
+            
+            // Stop adding new enemies
+            self.removeActionForKey("spawnEnemy")
+            
+            // todo Delete all existing enemies on the view
+            
+            
+            
+            
+            
+            
             if let gameScene = self.parent?.parent as? GameScene {
                 gameScene.gameOver()
             }
@@ -223,6 +238,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let actionMoveDone = SKAction.removeFromParent()
         projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         
+    }
+    
+    func playerSizeGameOver() {
+        player.size = CGSize(width: size.width, height: size.height)
     }
     
     
