@@ -283,7 +283,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if let bodyAAE = hitBody.node as? SKSpriteNode {
                         projectileDidCollideWithEnemy(projectile: bodyAAE, enemy: bodyAAD)
                     }
-                }                        
+                }
             }
             
         // Do nothing
