@@ -64,7 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let hud = HUD()
     
     var enemiesDestroyed = 0
-    var playerSize = 20
+    var playerSize = 120
     
     override func didMoveToView(view: SKView) {
         
@@ -113,10 +113,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func checkGameOver() {
         if (player.size.height >= size.height/2) && (player.size.width >= size.width/2) {
-            print("Game over")
-            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: false)
-            self.view?.presentScene(gameOverScene, transition: reveal)
+            if let gameScene = self.parent?.parent as? GameScene {
+                gameScene.gameOver()
+            }
+//            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+//            let gameOverScene = GameOverScene(size: self.size, won: false)
+//            self.view?.presentScene(gameOverScene, transition: reveal)
         }
     }
     
@@ -192,9 +194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let projectile = SKSpriteNode(imageNamed: "red")
         projectile.position = player.position
         projectile.size = CGSize(width: 10, height: 10)
-        projectile.zPosition = 1
-        print(projectile.zPosition)
-        
+        projectile.zPosition = 1        
         
         // 3 - Determine offset of location to projectile
         let offset = touchLocation - projectile.position
@@ -241,7 +241,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         enemy.removeFromParent()
         updatePlayerPhysics()
-        playerSize += 5
+        playerSize += 25
         player.size = CGSize(width: playerSize, height: playerSize)
     }
     

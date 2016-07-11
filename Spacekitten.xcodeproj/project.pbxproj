@@ -16,6 +16,8 @@
 		FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */; };
 		FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FAE5493A1D19D514009BAE8C /* sprites.atlas */; };
 		FAE5493D1D19D52A009BAE8C /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */; };
+		FAECE2C51D2D699D00075695 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAECE2C41D2D699D00075695 /* Images.xcassets */; };
+		FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAECE2C81D2D69FE00075695 /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		FAE549341D19D4AA009BAE8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAE5493A1D19D514009BAE8C /* sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sprites.atlas; sourceTree = "<group>"; };
 		FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		FAECE2C41D2D699D00075695 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		FAECE2C81D2D69FE00075695 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,10 +71,12 @@
 				FAE549281D19D4AA009BAE8C /* GameScene.swift */,
 				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
 				FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */,
+				FAECE2C81D2D69FE00075695 /* MenuScene.swift */,
 				FAE5492C1D19D4AA009BAE8C /* Main.storyboard */,
 				FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */,
 				FAE549341D19D4AA009BAE8C /* Info.plist */,
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
+				FAECE2C41D2D699D00075695 /* Images.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 			);
 			path = Spacekitten;
@@ -136,6 +142,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
+				FAECE2C51D2D699D00075695 /* Images.xcassets in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
 				FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */,
 				FAE5492E1D19D4AA009BAE8C /* Main.storyboard in Resources */,
@@ -152,6 +159,7 @@
 				FAE549291D19D4AA009BAE8C /* GameScene.swift in Sources */,
 				FA67B53D1D2AED3100ACC943 /* HUD.swift in Sources */,
 				FAE5492B1D19D4AA009BAE8C /* GameViewController.swift in Sources */,
+				FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */,
 				FAE5493D1D19D52A009BAE8C /* GameOverScene.swift in Sources */,
 				FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */,
 			);
