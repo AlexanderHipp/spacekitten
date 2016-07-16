@@ -11,12 +11,9 @@ import SpriteKit
 class Projectile: SKNode {
     
     let projectile = SKSpriteNode()
-    
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
 
     func createProjectile(touchLocation: CGPoint, playerPosition: CGPoint) {
-        
-        
         
         // Set up initial location of projectile
         projectile.texture = textureAtlas.textureNamed("blue")
@@ -31,8 +28,7 @@ class Projectile: SKNode {
         self.addChild(projectile)
         
         // Get the direction of where to shoot
-        let direction = offset.normalized()
-        print(offset)
+        let direction = offset.normalized()        
 
         // Make it shoot far enough to be guaranteed off screen
         let shootAmount = direction * 1000
@@ -52,9 +48,7 @@ class Projectile: SKNode {
         let actionMoveDone = SKAction.removeFromParent()
         projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
         
-        
     }
 
-    
 }
 

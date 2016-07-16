@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		04270E741D36990100E16250 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04270E731D36990100E16250 /* Projectile.swift */; };
+		04270E761D36A4CA00E16250 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04270E751D36A4CA00E16250 /* Enemy.swift */; };
+		044063A21D36BDD900CC6CE3 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044063A11D36BDD900CC6CE3 /* Random.swift */; };
 		FA67B53D1D2AED3100ACC943 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA67B53C1D2AED3100ACC943 /* HUD.swift */; };
 		FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE549241D19D4AA009BAE8C /* AppDelegate.swift */; };
 		FAE549291D19D4AA009BAE8C /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE549281D19D4AA009BAE8C /* GameScene.swift */; };
@@ -23,6 +25,8 @@
 
 /* Begin PBXFileReference section */
 		04270E731D36990100E16250 /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
+		04270E751D36A4CA00E16250 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
+		044063A11D36BDD900CC6CE3 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		FA67B53C1D2AED3100ACC943 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HUD.swift; path = ../HUD.swift; sourceTree = "<group>"; };
 		FAE549211D19D4AA009BAE8C /* Spacekitten.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spacekitten.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE549241D19D4AA009BAE8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +75,7 @@
 				FAE549241D19D4AA009BAE8C /* AppDelegate.swift */,
 				FA67B53C1D2AED3100ACC943 /* HUD.swift */,
 				FAE549281D19D4AA009BAE8C /* GameScene.swift */,
+				04270E751D36A4CA00E16250 /* Enemy.swift */,
 				04270E731D36990100E16250 /* Projectile.swift */,
 				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
 				FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */,
@@ -81,6 +86,7 @@
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAECE2C41D2D699D00075695 /* Images.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
+				044063A11D36BDD900CC6CE3 /* Random.swift */,
 			);
 			path = Spacekitten;
 			sourceTree = "<group>";
@@ -163,9 +169,11 @@
 				FA67B53D1D2AED3100ACC943 /* HUD.swift in Sources */,
 				FAE5492B1D19D4AA009BAE8C /* GameViewController.swift in Sources */,
 				FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */,
+				04270E761D36A4CA00E16250 /* Enemy.swift in Sources */,
 				04270E741D36990100E16250 /* Projectile.swift in Sources */,
 				FAE5493D1D19D52A009BAE8C /* GameOverScene.swift in Sources */,
 				FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */,
+				044063A21D36BDD900CC6CE3 /* Random.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

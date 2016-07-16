@@ -54,14 +54,14 @@ extension Array {
         let randomIndex = Int(rand()) % count
         return self[randomIndex]
     }
+    // double in code
 }
-
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = SKSpriteNode(imageNamed: "red")
-    let hud = HUD()
+    let hud = HUD()    
     
     
     var enemiesDestroyed = 0
@@ -83,7 +83,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         runAction(SKAction.repeatActionForever(
             SKAction.sequence([
-                SKAction.runBlock(addEnemy),
+                SKAction.runBlock(placeEnemy),
                 SKAction.runBlock(checkGameOver),
                 // Time after a new enemy is displayed
                 SKAction.waitForDuration(0.5)
@@ -96,20 +96,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.zPosition = 50
     }
     
+    func placeEnemy() {
+        
+        let enemy = Enemy()
+        let enemyRandomPosition = enemy.defineEnemyPosition(size)
+        enemy.addEnemy(enemyRandomPosition, sizeScreen: size)
+        self.addChild(enemy)                
+        
+    }
+    
     func updatePlayerPhysics() {
         player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size)
         player.physicsBody?.dynamic = false
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
         player.physicsBody?.collisionBitMask = PhysicsCategory.None
-    }
-    
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
     }
     
     func checkGameOver() {
@@ -121,65 +122,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            let gameOverScene = GameOverScene(size: self.size, won: false)
 //            self.view?.presentScene(gameOverScene, transition: reveal)
         }
-    }
-    
-    
-    let colorEnemy:[String] = ["blue", "yellow", "green", "orange", "purple"]
-    
-    func addEnemy() {
-        
-        let currentColor = colorEnemy.sample()
-        
-        // Create sprite
-        let enemy = SKSpriteNode(imageNamed: currentColor)
-        
-        
-        // Position the enemy
-        
-        // Determine where to spawn the enemy along the Y axis, left or right
-        let actualY = random(min: enemy.size.height/2, max: size.height - enemy.size.height/2)
-        let leftSide = -enemy.size.width/2
-        let rightSide = size.width + enemy.size.width/2
-        let actualSideLeftRight = [leftSide, rightSide]
-        
-        // left or right
-        let positionLeftRight = CGPoint(x: actualSideLeftRight.sample(), y: actualY)
-        
-        // Determine where to spawn the enemy along the x axis, bottom or top
-        let actualX = random(min: enemy.size.width/2, max: size.width - enemy.size.width/2)
-        let bottomSide = -enemy.size.height/2
-        let topSide = size.height + enemy.size.height/2
-        let actualSideBottomTop = [bottomSide, topSide]
-        
-        // bottom or top
-        let positionBottomTop = CGPoint(x: actualX, y: actualSideBottomTop.sample())
-        
-        // Choose random side
-        let leftRightBottomTop = [positionLeftRight, positionBottomTop]
-        enemy.position = leftRightBottomTop.sample()
-        
-        
-        // Size of enemy
-        let sizeEnemy = random(min: CGFloat(7.0), max: CGFloat(20.0))
-        enemy.size = CGSize(width: sizeEnemy, height: sizeEnemy)
-        
-        
-        // Add the enemy to the scene
-        addChild(enemy)
-        
-        enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
-        enemy.physicsBody?.dynamic = true
-        enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy
-        enemy.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
-        enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
-        
-        // Determine speed of the enemy
-        let actualDuration = random(min: CGFloat(1.0), max: CGFloat(8.0))
-        
-        
-        // Create the actions
-        enemy.runAction(SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: NSTimeInterval(actualDuration)))
-        
     }
     
     
