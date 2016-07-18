@@ -8,13 +8,7 @@
 
 import SpriteKit
 
-extension Array {
-    func sample() -> Element {
-        let randomIndex = Int(rand()) % count
-        return self[randomIndex]
-    }
-    // double in code
-}
+
 
 class Enemy: SKNode {
         
@@ -24,15 +18,19 @@ class Enemy: SKNode {
     let colorEnemy:[String] = ["blue", "yellow", "green", "orange", "purple"]
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
-    
-    func addEnemy(initPosition: CGSize, sizeScreen: CGSize) {
-        
-        let currentColor = colorEnemy.sample()
-        enemy.texture = textureAtlas.textureNamed(currentColor)
-        
+    func giveEnemySize() -> CGSize {
         // Size of enemy
         let sizeEnemy = calculationOfRandom.random(min: CGFloat(10.0), max: CGFloat(20.0))
         enemy.size = CGSize(width: sizeEnemy, height: sizeEnemy)
+        return enemy.size
+    }
+    
+    
+    func addEnemy(initPosition: CGPoint, sizeScreen: CGSize) {                
+        
+        let currentColor = colorEnemy.sample()
+        enemy.texture = textureAtlas.textureNamed(currentColor)
+        enemy.position = initPosition
         
         // Add the enemy to the scene
         addChild(enemy)
@@ -52,29 +50,30 @@ class Enemy: SKNode {
  
     }
     
-    func defineEnemyPosition(sizeScreen: CGSize) -> CGSize {
+    func defineEnemyPosition(sizeScreen: CGSize, enemySize: CGSize) -> CGPoint {
         
         // Determine where to spawn the enemy along the Y axis, left or right
         let actualY = calculationOfRandom.random(min: enemy.size.height/2, max: sizeScreen.height - enemy.size.height/2)
-        let leftSide = -enemy.size.width/2
-        let rightSide = sizeScreen.width + enemy.size.width/2
-        let actualSideLeftRight = [leftSide, rightSide]            
+        let leftSide = -enemySize.width/2
+        let rightSide = sizeScreen.width + enemySize.width/2
+        let actualSideLeftRight = [leftSide, rightSide]
         
         // left or right
         let positionLeftRight = CGPoint(x: actualSideLeftRight.sample(), y: actualY)
         
         // Determine where to spawn the enemy along the x axis, bottom or top
         let actualX = calculationOfRandom.random(min: enemy.size.width/2, max: sizeScreen.width - enemy.size.width/2)
-        let bottomSide = -enemy.size.height/2
-        let topSide = sizeScreen.height + enemy.size.height/2
+        let bottomSide = -enemySize.height/2
+        let topSide = sizeScreen.height + enemySize.height/2
         let actualSideBottomTop = [bottomSide, topSide]
         
         // bottom or top
         let positionBottomTop = CGPoint(x: actualX, y: actualSideBottomTop.sample())
         
-        
         // Choose random side
         let leftRightBottomTop = [positionLeftRight, positionBottomTop]
+        
+        
         return leftRightBottomTop.sample()
         
     }

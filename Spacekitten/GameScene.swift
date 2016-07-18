@@ -48,14 +48,13 @@ struct PhysicsCategory {
     static let Projectile: UInt32 = 0b11     // value 3
 }
 
-
 extension Array {
     func sample() -> Element {
         let randomIndex = Int(rand()) % count
         return self[randomIndex]
     }
-    // double in code
 }
+
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -99,8 +98,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func placeEnemy() {
         
         let enemy = Enemy()
-        let enemyRandomPosition = enemy.defineEnemyPosition(size)
-        enemy.addEnemy(enemyRandomPosition, sizeScreen: size)
+        let enemySize = enemy.giveEnemySize()
+        let enemyRandomPosition = enemy.defineEnemyPosition(size, enemySize: enemySize)
+        enemy.addEnemy(enemyRandomPosition, sizeScreen: size)        
         self.addChild(enemy)                
         
     }
