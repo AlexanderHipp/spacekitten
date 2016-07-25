@@ -59,23 +59,23 @@ extension Array {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    let player = SKSpriteNode(imageNamed: "red")
+    // Set up Player and HUD
+    let player = Player()
     let hud = HUD()    
     
-    
+    // Game Statistics
     var enemiesDestroyed = 0
-    var playerSize = 120
+    
     
     override func didMoveToView(view: SKView) {
         
+        // Background
         backgroundColor = SKColor.blackColor()
-        player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        player.size = CGSize(width: playerSize, height: playerSize)
-        player.zPosition = 13
         
-        updatePlayerPhysics()
-        
-        addChild(player)
+        //Define Player        
+        player.definePlayer(self.size)
+        player.updatePlayerPhysics()
+        self.addChild(player)
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -105,16 +105,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func updatePlayerPhysics() {
-        player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size)
-        player.physicsBody?.dynamic = false
-        player.physicsBody?.categoryBitMask = PhysicsCategory.Player
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
-        player.physicsBody?.collisionBitMask = PhysicsCategory.None
-    }
+    
     
     func checkGameOver() {
-        if (player.size.height >= size.height/2) && (player.size.width >= size.width/2) {
+        if (player.heightOfPlayer() >= size.height/2) && (player.widthOfPlayer() >= size.width/2) {
             if let gameScene = self.parent?.parent as? GameScene {
                 gameScene.gameOver()
             }
@@ -135,7 +129,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Init and add the projectile
         let projectile = Projectile()
-        projectile.createProjectile(touchLocation, playerPosition: player.position)
+        projectile.createProjectile(touchLocation, playerPosition: player.positionPlayer(size))
         self.addChild(projectile)
         
     }
@@ -158,12 +152,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     
-    func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, player:SKSpriteNode) {
+    func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, playerHit:SKSpriteNode) {
         
         enemy.removeFromParent()
-        updatePlayerPhysics()
-        playerSize += 25
-        player.size = CGSize(width: playerSize, height: playerSize)
+        player.updatePlayerPhysics()
+        player.growPlayerWhenHit()
+        
     }
     
     
@@ -185,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Check if both hit bodies are not null and than do the function
                 if let bodyAAC = destructingBody.node as? SKSpriteNode {
                     if let bodyAAB = hitBody.node as? SKSpriteNode {
-                        enemyDidCollideWithPlayer(enemy: bodyAAC, player: bodyAAB)
+                        enemyDidCollideWithPlayer(enemy: bodyAAC, playerHit: bodyAAB)
                     }
                 }
             }
