@@ -11,6 +11,7 @@ import SpriteKit
 
 class Player: SKNode {
     
+    // define player    
     
     let player = SKSpriteNode()
     var playerSize = 60
