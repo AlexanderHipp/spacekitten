@@ -48,7 +48,6 @@ struct PhysicsCategory {
     static let Projectile: UInt32 = 0b11     // value 3
 }
 
-
 extension Array {
     func sample() -> Element {
         let randomIndex = Int(rand()) % count
@@ -61,7 +60,8 @@ extension Array {
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     let player = SKSpriteNode(imageNamed: "red")
-    let hud = HUD()
+    let hud = HUD()    
+    
     
     var enemiesDestroyed = 0
     var playerSize = 120
@@ -82,6 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         runAction(SKAction.repeatActionForever(
             SKAction.sequence([
+                SKAction.runBlock(placeEnemy),
                 SKAction.runBlock(checkGameOver),
                 SKAction.runBlock(addEnemy),
                 // Time after a new enemy is displayed
@@ -95,20 +96,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.zPosition = 50
     }
     
+    func placeEnemy() {
+        
+        let enemy = Enemy()
+        let enemySize = enemy.giveEnemySize()
+        let enemyRandomPosition = enemy.defineEnemyPosition(size, enemySize: enemySize)
+        enemy.addEnemy(enemyRandomPosition, sizeScreen: size)        
+        self.addChild(enemy)                
+        
+    }
+    
     func updatePlayerPhysics() {
         player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size)
         player.physicsBody?.dynamic = false
         player.physicsBody?.categoryBitMask = PhysicsCategory.Player
         player.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
         player.physicsBody?.collisionBitMask = PhysicsCategory.None
-    }
-    
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
     }
     
     func checkGameOver() {
@@ -138,105 +141,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    let colorEnemy:[String] = ["blue", "yellow", "green", "orange", "purple"]
-    
-    func addEnemy() {
-        
-        let currentColor = colorEnemy.sample()
-        
-        // Create sprite
-        let enemy = SKSpriteNode(imageNamed: currentColor)
-        
-        
-        // Position the enemy
-        
-        // Determine where to spawn the enemy along the Y axis, left or right
-        let actualY = random(min: enemy.size.height/2, max: size.height - enemy.size.height/2)
-        let leftSide = -enemy.size.width/2
-        let rightSide = size.width + enemy.size.width/2
-        let actualSideLeftRight = [leftSide, rightSide]
-        
-        // left or right
-        let positionLeftRight = CGPoint(x: actualSideLeftRight.sample(), y: actualY)
-        
-        // Determine where to spawn the enemy along the x axis, bottom or top
-        let actualX = random(min: enemy.size.width/2, max: size.width - enemy.size.width/2)
-        let bottomSide = -enemy.size.height/2
-        let topSide = size.height + enemy.size.height/2
-        let actualSideBottomTop = [bottomSide, topSide]
-        
-        // bottom or top
-        let positionBottomTop = CGPoint(x: actualX, y: actualSideBottomTop.sample())
-        
-        // Choose random side
-        let leftRightBottomTop = [positionLeftRight, positionBottomTop]
-        enemy.position = leftRightBottomTop.sample()
-        
-        
-        // Size of enemy
-        let sizeEnemy = random(min: CGFloat(7.0), max: CGFloat(20.0))
-        enemy.size = CGSize(width: sizeEnemy, height: sizeEnemy)
-        
-        
-        // Add the enemy to the scene
-        addChild(enemy)
-        
-        enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
-        enemy.physicsBody?.dynamic = true
-        enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy
-        enemy.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
-        enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
-        
-        // Determine speed of the enemy
-        let actualDuration = random(min: CGFloat(1.0), max: CGFloat(8.0))
-        
-        
-        // Create the actions
-        enemy.runAction(SKAction.moveTo(CGPoint(x: size.width/2, y: size.height/2), duration: NSTimeInterval(actualDuration)))
-        
-    }
-    
-    
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
-        // 1 - Choose one of the touches to work with
+        // Choose one of the touches to work with
         guard let touch = touches.first else {
             return
         }
         let touchLocation = touch.locationInNode(self)
         
-        // 2 - Set up initial location of projectile
-        let projectile = SKSpriteNode(imageNamed: "red")
-        projectile.position = player.position
-        projectile.size = CGSize(width: 10, height: 10)
-        projectile.zPosition = 1        
-        
-        // 3 - Determine offset of location to projectile
-        let offset = touchLocation - projectile.position
-        
-        // 5 - OK to add now - you've double checked position
-        addChild(projectile)
-        
-        // 6 - Get the direction of where to shoot
-        let direction = offset.normalized()
-        
-        // 7 - Make it shoot far enough to be guaranteed off screen
-        let shootAmount = direction * 1000
-        
-        // 8 - Add the shoot amount to the current position
-        let realDest = shootAmount + projectile.position
-        
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
-        projectile.physicsBody?.dynamic = true
-        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
-        projectile.physicsBody?.usesPreciseCollisionDetection = true
-        
-        // 9 - Create the actions
-        let actionMove = SKAction.moveTo(realDest, duration: 2.0)
-        let actionMoveDone = SKAction.removeFromParent()
-        projectile.runAction(SKAction.sequence([actionMove, actionMoveDone]))
+        // Init and add the projectile
+        let projectile = Projectile()
+        projectile.createProjectile(touchLocation, playerPosition: player.position)
+        self.addChild(projectile)
         
     }
     
@@ -245,8 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func gameOver() {
-        print("test")
+    func gameOver() {        
         hud.showButtons()
     }
     
