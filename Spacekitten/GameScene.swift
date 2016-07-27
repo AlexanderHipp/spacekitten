@@ -61,7 +61,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Set up Player and HUD
     let player = Player()
-    let hud = HUD()    
+    let hud = HUD()
+    var gameOver = false
     
     // Game Statistics
     var enemiesDestroyed = 0
@@ -77,22 +78,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.updatePlayerPhysics()
         self.addChild(player)
         
-        physicsWorld.gravity = CGVectorMake(0, 0)
-        physicsWorld.contactDelegate = self
-        
-        runAction(SKAction.repeatActionForever(
-            SKAction.sequence([
-                SKAction.runBlock(placeEnemy),
-                SKAction.runBlock(checkGameOver),
-                // Time after a new enemy is displayed
-                SKAction.waitForDuration(0.5)
-                ])
-            ))
-        
         // HUD
         hud.createHudNodes(self.size)
         self.addChild(hud)
         hud.zPosition = 50
+        
+        physicsWorld.gravity = CGVectorMake(0, 0)
+        physicsWorld.contactDelegate = self
+        
+        runAction(
+            SKAction.repeatActionForever (
+                SKAction.sequence([
+                    SKAction.runBlock({
+                        if self.gameOver == true {
+                            self.removeActionForKey("GameOver")
+                        } else {
+                            self.checkGameOver()
+                        }
+                    }),
+                    SKAction.runBlock(placeEnemy),
+                    // Time after a new enemy is displayed
+                    SKAction.waitForDuration(0.5)
+                    
+                ])
+            ),
+            withKey: "GameOver"
+        )
+        
     }
     
     func placeEnemy() {
@@ -109,46 +121,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func checkGameOver() {
         if (player.heightOfPlayer() >= size.height/2) && (player.widthOfPlayer() >= size.width/2) {
-            if let gameScene = self.parent?.parent as? GameScene {
-                gameScene.gameOver()
-            }
-//            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-//            let gameOverScene = GameOverScene(size: self.size, won: false)
-//            self.view?.presentScene(gameOverScene, transition: reveal)
+                        
+            self.gameOver = true
+            player.removeFromParent()
+            player.die()
+            hud.showButtons()
+
         }
-    }
+    }    
     
-    
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
         // Choose one of the touches to work with
         guard let touch = touches.first else {
             return
         }
         let touchLocation = touch.locationInNode(self)
+        let nodeTouched = nodeAtPoint(touchLocation)
         
-        // Init and add the projectile
-        let projectile = Projectile()
-        projectile.createProjectile(touchLocation, playerPosition: player.positionPlayer(size))
-        self.addChild(projectile)
+        
+        // Check for HUD buttons:
+        if nodeTouched.name == "restartButton" {
+            self.view?.presentScene(
+                GameScene(size: self.size),
+                transition: .crossFadeWithDuration(0.6)
+            )
+        } else if nodeTouched.name == "returnToMenu" {
+            self.view?.presentScene(
+                MenuScene(size: self.size),
+                transition: .crossFadeWithDuration(0.6)
+            )
+        } else {
+            
+            // Init and add the projectile
+            let projectile = Projectile()
+            projectile.createProjectile(touchLocation, playerPosition: player.positionPlayer(size))
+            self.addChild(projectile)
+            
+        }
         
     }
     
+ 
     
-    func gameOver() {        
-        hud.showButtons()
-    }
-    
+
     func projectileDidCollideWithEnemy(projectile projectile:SKSpriteNode, enemy:SKSpriteNode) {
         projectile.removeFromParent()
         enemy.removeFromParent()
         enemiesDestroyed += 1
         hud.setCoinCounDisplay(enemiesDestroyed)
-        if (enemiesDestroyed > 5) {
-            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: true)
-            self.view?.presentScene(gameOverScene, transition: reveal)
-        }
     }
 
     
