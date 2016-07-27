@@ -27,7 +27,7 @@ class HUD: SKNode {
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.addChild(coinCountText)
         
-        // Restart Button
+        // Button
         restartButton.texture = textureAtlas.textureNamed("red")        
         menuButton.texture = textureAtlas.textureNamed("blue")
         
