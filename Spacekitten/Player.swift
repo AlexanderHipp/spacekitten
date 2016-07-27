@@ -41,13 +41,22 @@ class Player: SKNode {
         return player.size.height
     }
     
-    func growPlayerWhenHit() {        
+    func growPlayerWhenHit() {
+        // How much player grows when he gets hit
         playerSize += 20
         player.size = CGSize(width: playerSize, height: playerSize)
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
         return CGPoint(x: sizeScreen.width * 0.5, y: sizeScreen.height * 0.5)
+    }
+    
+    
+    func die() {
+        self.alpha = 1
+        self.removeAllActions()
+//        self.runAction(self.dieAnimation)
+        
     }
     
     

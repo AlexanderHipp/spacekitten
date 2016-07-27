@@ -19,7 +19,6 @@
 		FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */; };
 		FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */; };
 		FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FAE5493A1D19D514009BAE8C /* sprites.atlas */; };
-		FAE5493D1D19D52A009BAE8C /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */; };
 		FAECE2C51D2D699D00075695 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAECE2C41D2D699D00075695 /* Images.xcassets */; };
 		FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAECE2C81D2D69FE00075695 /* MenuScene.swift */; };
 /* End PBXBuildFile section */
@@ -39,7 +38,6 @@
 		FAE549321D19D4AA009BAE8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAE549341D19D4AA009BAE8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAE5493A1D19D514009BAE8C /* sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sprites.atlas; sourceTree = "<group>"; };
-		FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		FAECE2C41D2D699D00075695 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FAECE2C81D2D69FE00075695 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,7 +79,6 @@
 				FA81A7BE1D491B58000158B4 /* HUD.swift */,
 				FA3B9B6F1D4920000018FD87 /* Player.swift */,
 				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
-				FAE5493C1D19D52A009BAE8C /* GameOverScene.swift */,
 				FAECE2C81D2D69FE00075695 /* MenuScene.swift */,
 				044063A11D36BDD900CC6CE3 /* Random.swift */,
 				FAE5492C1D19D4AA009BAE8C /* Main.storyboard */,
@@ -174,7 +171,6 @@
 				FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */,
 				04270E761D36A4CA00E16250 /* Enemy.swift in Sources */,
 				04270E741D36990100E16250 /* Projectile.swift in Sources */,
-				FAE5493D1D19D52A009BAE8C /* GameOverScene.swift in Sources */,
 				FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */,
 				FA3B9B701D4920000018FD87 /* Player.swift in Sources */,
 				044063A21D36BDD900CC6CE3 /* Random.swift in Sources */,
