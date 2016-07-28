@@ -96,7 +96,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.checkGameOver()
                         }
                     }),
-                    SKAction.runBlock(placeEnemy),
+                    SKAction.runBlock({
+                        self.placeEnemy(self.size)
+                    }),
                     // Time after a new enemy is displayed
                     SKAction.waitForDuration(0.5)
                     
@@ -107,12 +109,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func placeEnemy() {
-        
+    func placeEnemy(sizeScreen: CGSize) {        
         let enemy = Enemy()
-        let enemySize = enemy.giveEnemySize()
-        let enemyRandomPosition = enemy.defineEnemyPosition(size, enemySize: enemySize)
-        enemy.addEnemy(enemyRandomPosition, sizeScreen: size)        
+        enemy.defineEnemySpec(.Pikachu, sizeScreen: sizeScreen)        
         self.addChild(enemy)                
         
     }
