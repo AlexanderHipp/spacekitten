@@ -15,40 +15,31 @@ class Enemy: SKNode {
     let enemy = SKSpriteNode()
     let calculationOfRandom = Calculation()
     
-    let colorEnemy:[String] = ["blue", "yellow", "green", "orange", "purple"]
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
-    func giveEnemySize() -> CGSize {
-        // Size of enemy
-        let sizeEnemy = calculationOfRandom.random(min: CGFloat(10.0), max: CGFloat(20.0))
-        enemy.size = CGSize(width: sizeEnemy, height: sizeEnemy)
-        return enemy.size
+    enum enemyType {
+        case Taubsi, Pikachu, Relaxo
+        var spec: (size: CGSize, color: String, speed: CGFloat, damage: Int) {
+            switch self {
+            case Taubsi: return (size: CGSize(width: 10, height: 10), color: "orange", speed: 1.0, damage: 1)
+            case Pikachu: return (size: CGSize(width: 20, height: 20), color: "yellow", speed: 4.0, damage: 5)
+            case Relaxo: return (size: CGSize(width: 50, height: 50), color: "blue", speed: 10.0, damage: 10)
+            // add name to the enum to check what hit the player
+            }
+        }
     }
     
     
-    func addEnemy(initPosition: CGPoint, sizeScreen: CGSize) {                
+    func defineEnemySpecFor(type: enemyType, sizeScreen: CGSize) {
+
+        let sizeOfEnemy = enemySize(type)
+        let textureOfEnemy = enemyTexture(type)
+        let enemyRandomPosition = defineEnemyPosition(sizeScreen, enemySize: sizeOfEnemy)
+        let speedOfEnemy = enemySpeed(type)
         
-        let currentColor = colorEnemy.sample()
-        enemy.texture = textureAtlas.textureNamed(currentColor)
-        enemy.position = initPosition
-        
-        // Add the enemy to the scene
-        addChild(enemy)
-        
-        // Apply physics
-        enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
-        enemy.physicsBody?.dynamic = true
-        enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy
-        enemy.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
-        enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
-        
-        // Determine speed of the enemy
-        let actualDuration = calculationOfRandom.random(min: CGFloat(1.0), max: CGFloat(8.0))
-        
-        // Create the actions
-        enemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(actualDuration)))
- 
+        self.addEnemy(sizeOfEnemy, initPosition: enemyRandomPosition, sizeScreen: sizeScreen, texture: textureOfEnemy, speed: speedOfEnemy)
     }
+    
     
     func defineEnemyPosition(sizeScreen: CGSize, enemySize: CGSize) -> CGPoint {
         
@@ -73,8 +64,82 @@ class Enemy: SKNode {
         // Choose random side
         let leftRightBottomTop = [positionLeftRight, positionBottomTop]
         
-        
         return leftRightBottomTop.sample()
+        
+    }
+    
+    
+    func addEnemy(size: CGSize, initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat) {
+                
+        enemy.texture = textureAtlas.textureNamed(texture)
+        enemy.position = initPosition
+        enemy.size = size
+        
+        
+        // Add the enemy to the scene
+        self.addChild(enemy)
+        
+        
+        // Apply physics
+        enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
+        enemy.physicsBody?.dynamic = true
+        enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy
+        enemy.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
+        enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
+        
+        // Create the actions
+        enemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)))
+ 
+    }
+    
+    func enemySize(type: enemyType) -> CGSize {
+        
+        var sizeEnemy: CGSize
+        
+        switch type {
+        case .Taubsi:
+            sizeEnemy = enemyType.Taubsi.spec.size
+        case .Pikachu:
+            sizeEnemy = enemyType.Pikachu.spec.size
+        case .Relaxo:
+            sizeEnemy = enemyType.Relaxo.spec.size
+        }
+        return sizeEnemy
+    }
+    
+    
+    
+    func enemyTexture(type: enemyType) -> String {
+        
+        var textureEnemy: String
+        
+        switch type {
+        case .Taubsi:
+            textureEnemy = enemyType.Taubsi.spec.color
+        case .Pikachu:
+            textureEnemy = enemyType.Pikachu.spec.color
+        case .Relaxo:
+            textureEnemy = enemyType.Relaxo.spec.color
+        }
+        
+        return textureEnemy
+        
+    }
+    
+    
+    func enemySpeed(type: enemyType) -> CGFloat {
+        
+        var speedEnemy: CGFloat
+        
+        switch type {
+        case .Taubsi:
+            speedEnemy = enemyType.Taubsi.spec.speed
+        case .Pikachu:
+            speedEnemy = enemyType.Pikachu.spec.speed
+        case .Relaxo:
+            speedEnemy = enemyType.Relaxo.spec.speed
+        }
+        return speedEnemy
         
     }
     
