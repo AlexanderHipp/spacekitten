@@ -12,7 +12,9 @@ import SpriteKit
 class MenuScene: SKScene {
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
+    let logoText = SKLabelNode()
     let startButton = SKSpriteNode()
+    
     
     override func didMoveToView(view: SKView) {
         
@@ -25,34 +27,24 @@ class MenuScene: SKScene {
         self.addChild(backgroundImage)
         
         // Headline
-        let logoText = SKLabelNode(fontNamed: "AvenirNext-Heavy")
+        logoText.fontName = "AvenirNext-Heavy"
         logoText.text = "Spacekitten"
         logoText.position = CGPoint(x: 0, y: 100)
+        logoText.zPosition = 14        
         logoText.fontSize = 30
         self.addChild(logoText)
         
-        // Subline
-        let logoTextBottom = SKLabelNode(fontNamed: "AvenirNext-Heavy")
-        logoTextBottom.text = "Rescue the circle"
-        logoTextBottom.position = CGPoint(x: 0, y: 50)
-        logoTextBottom.fontSize = 20
-        
-        // Start Game button
-        startButton.self.color = UIColor.blackColor()
-        startButton.size = CGSize(width: 300, height: 100)
+        // Restart Button
+        startButton.texture = textureAtlas.textureNamed("red")
         startButton.name = "StartBtn"
-        startButton.position = CGPoint(x: 0, y: -20)
+        startButton.position = CGPoint(x: 0, y: 0)
+        startButton.size = CGSize(width: 60, height: 60)
+        startButton.zPosition = 14
         self.addChild(startButton)
         
-        // Text for the start button
-        let startText = SKLabelNode(fontNamed: "AvenirNext-HeavyItalic")
-        startText.text = "START GAME"
-        startText.verticalAlignmentMode = .Center
-        startText.position = CGPoint(x: 0, y: 2)
-        startText.fontSize = 20
-        startText.name = "StartBtn"
-        startButton.addChild(startText)
+        
     }
+    
     
     
     override func touchesBegan(touches: Set<UITouch>?, withEvent event: UIEvent?) {

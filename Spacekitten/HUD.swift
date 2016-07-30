@@ -16,6 +16,7 @@ class HUD: SKNode {
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
+    
     func createHudNodes(screenSize: CGSize) {
         
         // Game Stats
@@ -26,19 +27,19 @@ class HUD: SKNode {
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.addChild(coinCountText)
         
-        // Restart Button
-//        restartButton.texture = textureAtlas.textureNamed("red")
-//        menuButton.texture = textureAtlas.textureNamed("blue")
+        // Button
+        restartButton.texture = textureAtlas.textureNamed("red")        
+        menuButton.texture = textureAtlas.textureNamed("blue")
         
         restartButton.name = "restartButton"
         menuButton.name = "returnToMenu"
         
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
         restartButton.position = centerOfHud
-        menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 100 )
+        menuButton.position = CGPoint(x: centerOfHud.x - 140, y: centerOfHud.y )
         
-        restartButton.size = CGSize(width: 140, height: 140)
-        menuButton.size = CGSize(width: 70, height: 70)
+        restartButton.size = CGSize(width: 60, height: 60)
+        menuButton.size = CGSize(width: 35, height: 35)
     }
     
     
@@ -51,6 +52,7 @@ class HUD: SKNode {
     }
     
     func showButtons() {
+        
         restartButton.alpha = 0
         menuButton.alpha = 0
         self.addChild(restartButton)
