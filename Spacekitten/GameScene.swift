@@ -109,14 +109,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if self.gameOver == true {
                             self.removeAllEnemyNodes()
                         } else {
+                            
                             // Init and add the projectile
-                            enemy.defineEnemySpecFor(.Relaxo, sizeScreen: self.size)
+                            enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
                             self.addChild(enemy)
                             
+                            // Add enemy
                             self.enemyArray.append(enemy)
-                            
-                            
-                            
                             
                         }
                         
