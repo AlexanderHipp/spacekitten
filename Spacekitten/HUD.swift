@@ -11,6 +11,7 @@ import SpriteKit
 class HUD: SKNode {
     
     let coinCountText = SKLabelNode(text: "000000")
+    let levelText = SKLabelNode(text: "00")
     let restartButton = SKSpriteNode()
     let menuButton = SKSpriteNode()
     
@@ -26,6 +27,13 @@ class HUD: SKNode {
         coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.addChild(coinCountText)
+        
+        // Level
+        levelText.fontName = "AvenirNext-HeavyItalic"
+        levelText.position = CGPoint(x: screenSize.width - 60, y: coinYPos)
+        levelText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        levelText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        self.addChild(levelText)
         
         // Button
         restartButton.texture = textureAtlas.textureNamed("red")        
@@ -43,11 +51,19 @@ class HUD: SKNode {
     }
     
     
-    func setCoinCounDisplay(newCoinCount: Int) {
+    func setCoinCountDisplay(newCoinCount: Int) {
         let formatter = NSNumberFormatter()
         formatter.minimumIntegerDigits = 6
         if let coinStr = formatter.stringFromNumber(newCoinCount) {
             coinCountText.text = coinStr
+        }
+    }
+    
+    func setLevelDisplay(newLevel: Int) {
+        let formatter = NSNumberFormatter()
+        formatter.minimumIntegerDigits = 2
+        if let levelStr = formatter.stringFromNumber(newLevel) {
+            levelText.text = levelStr
         }
     }
     
