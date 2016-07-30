@@ -64,6 +64,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let hud = HUD()
     var gameOver = false
     
+    var enemyArray = [Enemy]()
+    
     // Game Statistics
     var enemiesDestroyed = 0
     
@@ -91,6 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 SKAction.sequence([
                     SKAction.runBlock({
                         
+                        // Check if game over
                         if self.gameOver == true {
                             self.removeActionForKey("GameOver")
                         } else {
@@ -100,10 +103,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     SKAction.runBlock({
                         
-                        // Init and add the projectile
                         let enemy = Enemy()
-                        enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
-                        self.addChild(enemy)
+                        
+                        // Check if game over
+                        if self.gameOver == true {
+                            self.removeAllEnemyNodes()
+                        } else {
+                            // Init and add the projectile
+                            enemy.defineEnemySpecFor(.Relaxo, sizeScreen: self.size)
+                            self.addChild(enemy)
+                            
+                            self.enemyArray.append(enemy)
+                            
+                            
+                            
+                            
+                        }
                         
                     }),
                     
@@ -123,10 +138,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOver = true
             player.removeFromParent()
             player.die()
+            
             hud.showButtons()
 
         }
-    }    
+    }
+    
+    
+    func removeAllEnemyNodes()  {
+        // Go through the enemyArray and delete all enemy nodes from the game
+        for i in 0 ..< self.enemyArray.count  {
+            self.enemyArray[i].removeFromParent()
+        }
+    }
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
@@ -159,8 +184,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
- 
     
 
     func projectileDidCollideWithEnemy(projectile projectile:SKSpriteNode, enemy:SKSpriteNode) {
