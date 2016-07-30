@@ -13,7 +13,7 @@ import SpriteKit
 class Enemy: SKNode {
         
     let enemy = SKSpriteNode()
-    let calculationOfRandom = Calculation()
+    let calculationOfRandom = Random()
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     enum enemyType {
