@@ -112,9 +112,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             
                             // Init and add the projectile
                             enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
+                            
                             self.addChild(enemy)
                             
-                            // Add enemy
+                            // Add enemy to array
                             self.enemyArray.append(enemy)
                             
                         }
@@ -196,8 +197,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, playerHit:SKSpriteNode) {
         
         enemy.removeFromParent()
+        
+        // Get enemy type to check damage
+        let damagePotential = self.enemyDamage(enemy.name!)
+        
         player.updatePlayerPhysics()
-        player.growPlayerWhenHit()
+        player.growPlayerWhenHit(damagePotential)
         
     }
     
@@ -247,6 +252,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Nothing
         }
    
+    }
+    
+    
+    func enemyDamage(type: String) -> Int {
+        
+        var damageEnemy: Int
+        
+        switch type {
+        case "Taubsi":
+            damageEnemy = 1
+        case "Pikachu":
+            damageEnemy = 5
+        case "Relaxo":
+            damageEnemy = 10
+        default:
+            damageEnemy = 0
+        }
+        return damageEnemy
+        
     }
     
 }

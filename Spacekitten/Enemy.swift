@@ -14,16 +14,15 @@ class Enemy: SKNode {
         
     let enemy = SKSpriteNode()
     let calculationOfRandom = Calculation()
-    
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     enum enemyType {
         case Taubsi, Pikachu, Relaxo
-        var spec: (size: CGSize, color: String, speed: CGFloat, damage: Int) {
+        var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Taubsi: return (size: CGSize(width: 10, height: 10), color: "orange", speed: 1.0, damage: 1)
-            case Pikachu: return (size: CGSize(width: 20, height: 20), color: "yellow", speed: 4.0, damage: 5)
-            case Relaxo: return (size: CGSize(width: 50, height: 50), color: "blue", speed: 10.0, damage: 10)
+            case Taubsi: return (size: CGSize(width: 10, height: 10), color: "orange", speed: 1.0, name: "Taubsi")
+            case Pikachu: return (size: CGSize(width: 20, height: 20), color: "yellow", speed: 4.0, name: "Pikachu")
+            case Relaxo: return (size: CGSize(width: 50, height: 50), color: "blue", speed: 10.0, name: "Relaxo")
             // add name to the enum to check what hit the player
             }
         }
@@ -33,11 +32,16 @@ class Enemy: SKNode {
     func defineEnemySpecFor(type: enemyType, sizeScreen: CGSize) {
 
         let sizeOfEnemy = enemySize(type)
-        let textureOfEnemy = enemyTexture(type)
         let enemyRandomPosition = defineEnemyPosition(sizeScreen, enemySize: sizeOfEnemy)
-        let speedOfEnemy = enemySpeed(type)
         
-        self.addEnemy(sizeOfEnemy, initPosition: enemyRandomPosition, sizeScreen: sizeScreen, texture: textureOfEnemy, speed: speedOfEnemy)
+        self.addEnemy(
+            sizeOfEnemy,
+            initPosition: enemyRandomPosition,
+            sizeScreen: sizeScreen,
+            texture: enemyTexture(type),
+            speed: enemySpeed(type),
+            typeName: enemyName(type)            
+        )
     }
     
     
@@ -69,12 +73,12 @@ class Enemy: SKNode {
     }
     
     
-    func addEnemy(size: CGSize, initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat) {
-                
+    func addEnemy(size: CGSize, initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat, typeName: String) {
+        
         enemy.texture = textureAtlas.textureNamed(texture)
         enemy.position = initPosition
         enemy.size = size
-        
+        enemy.name = typeName
         
         // Add the enemy to the scene
         self.addChild(enemy)
@@ -144,10 +148,26 @@ class Enemy: SKNode {
     }
     
     
+    func enemyName(type: enemyType) -> String {
+        
+        var nameEnemy: String
+        
+        switch type {
+        case .Taubsi:
+            nameEnemy = enemyType.Taubsi.spec.name
+        case .Pikachu:
+            nameEnemy = enemyType.Pikachu.spec.name
+        case .Relaxo:
+            nameEnemy = enemyType.Relaxo.spec.name
+        }
+        return nameEnemy
+        
+    }
+    
+    
     func removeAllEnemies() {
         self.enemy.removeFromParent()
     }
-    
     
 }
 

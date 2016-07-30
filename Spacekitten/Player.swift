@@ -41,10 +41,10 @@ class Player: SKNode {
         return player.size.height
     }
     
-    func growPlayerWhenHit() {
+    func growPlayerWhenHit(damage: Int) {
         // How much player grows when he gets hit
-        playerSize += 20
-        player.size = CGSize(width: playerSize, height: playerSize)
+        playerSize += damage
+        player.size = CGSize(width: playerSize, height: playerSize)        
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
