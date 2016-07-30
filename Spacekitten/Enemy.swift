@@ -30,17 +30,16 @@ class Enemy: SKNode {
     }
     
     
-    func defineEnemySpec(type: enemyType, sizeScreen: CGSize) {
-        
+    func defineEnemySpecFor(type: enemyType, sizeScreen: CGSize) {
+
         let sizeOfEnemy = enemySize(type)
         let textureOfEnemy = enemyTexture(type)
         let enemyRandomPosition = defineEnemyPosition(sizeScreen, enemySize: sizeOfEnemy)
         let speedOfEnemy = enemySpeed(type)
         
-        
-        self.addEnemy(enemyRandomPosition, sizeScreen: sizeScreen, texture: textureOfEnemy, speed: speedOfEnemy)
-        
+        self.addEnemy(sizeOfEnemy, initPosition: enemyRandomPosition, sizeScreen: sizeScreen, texture: textureOfEnemy, speed: speedOfEnemy)
     }
+    
     
     func defineEnemyPosition(sizeScreen: CGSize, enemySize: CGSize) -> CGPoint {
         
@@ -70,16 +69,16 @@ class Enemy: SKNode {
     }
     
     
-    func addEnemy(initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat) {
+    func addEnemy(size: CGSize, initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat) {
                 
         enemy.texture = textureAtlas.textureNamed(texture)
         enemy.position = initPosition
-        
-        print(enemy.position)
+        enemy.size = size
         
         
         // Add the enemy to the scene
         self.addChild(enemy)
+        
         
         // Apply physics
         enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
@@ -95,7 +94,7 @@ class Enemy: SKNode {
     
     func enemySize(type: enemyType) -> CGSize {
         
-        var sizeEnemy = enemyType.Pikachu.spec.size
+        var sizeEnemy: CGSize
         
         switch type {
         case .Taubsi:
@@ -112,7 +111,7 @@ class Enemy: SKNode {
     
     func enemyTexture(type: enemyType) -> String {
         
-        var textureEnemy = enemyType.Pikachu.spec.color
+        var textureEnemy: String
         
         switch type {
         case .Taubsi:
@@ -122,6 +121,7 @@ class Enemy: SKNode {
         case .Relaxo:
             textureEnemy = enemyType.Relaxo.spec.color
         }
+        
         return textureEnemy
         
     }
@@ -129,7 +129,7 @@ class Enemy: SKNode {
     
     func enemySpeed(type: enemyType) -> CGFloat {
         
-        var speedEnemy = enemyType.Pikachu.spec.speed
+        var speedEnemy: CGFloat
         
         switch type {
         case .Taubsi:

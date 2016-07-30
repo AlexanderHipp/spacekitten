@@ -90,15 +90,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             SKAction.repeatActionForever (
                 SKAction.sequence([
                     SKAction.runBlock({
+                        
                         if self.gameOver == true {
                             self.removeActionForKey("GameOver")
                         } else {
                             self.checkGameOver()
                         }
+                        
                     }),
                     SKAction.runBlock({
-                        self.placeEnemy(self.size)
+                        
+                        // Init and add the projectile
+                        let enemy = Enemy()
+                        enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
+                        self.addChild(enemy)
+                        
                     }),
+                    
                     // Time after a new enemy is displayed
                     SKAction.waitForDuration(0.5)
                     
@@ -108,15 +116,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         )
         
     }
-    
-    func placeEnemy(sizeScreen: CGSize) {        
-        let enemy = Enemy()
-        enemy.defineEnemySpec(.Pikachu, sizeScreen: sizeScreen)        
-        self.addChild(enemy)                
-        
-    }
-    
-    
     
     func checkGameOver() {
         if (player.heightOfPlayer() >= size.height/2) && (player.widthOfPlayer() >= size.width/2) {
