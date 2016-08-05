@@ -12,8 +12,10 @@ import SpriteKit
 class MenuScene: SKScene {
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
+    
     let logo = SKSpriteNode()
-    let ralph = SKSpriteNode()
+    let ralphHead = SKSpriteNode()
+    let ralphFace = SKSpriteNode()
     let donut = SKSpriteNode()
     
     
@@ -33,12 +35,19 @@ class MenuScene: SKScene {
         self.addChild(logo)
 
         
-        // Ralph
-        ralph.texture = textureAtlas.textureNamed("Ralph")
-        ralph.position = CGPoint(x: 0, y: 0)
-        ralph.size = CGSize(width: 145, height: 145)
-        ralph.zPosition = 14
-        self.addChild(ralph)
+        // Ralph Head
+        ralphHead.texture = textureAtlas.textureNamed("Ralph-head")
+        ralphHead.position = CGPoint(x: 0, y: 0)
+        ralphHead.size = CGSize(width: 145, height: 145)
+        ralphHead.zPosition = 12
+        self.addChild(ralphHead)
+        
+        // Ralph Face
+        ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
+        ralphFace.position = CGPoint(x: 0, y: 0)
+        ralphFace.size = CGSize(width: 145, height: 145)
+        ralphFace.zPosition = 13
+        self.addChild(ralphFace)
         
         
         // Donut to start the game

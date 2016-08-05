@@ -11,7 +11,8 @@ import SpriteKit
 class HUD: SKNode {
     
     let coinCountText = SKLabelNode(text: "0")
-    let ralph = SKSpriteNode()
+    let ralphFace = SKSpriteNode()
+    let ralphHead = SKSpriteNode()
     let menuButton = SKSpriteNode()
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
@@ -29,19 +30,29 @@ class HUD: SKNode {
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.addChild(coinCountText)
         
-        // Button
-        ralph.texture = textureAtlas.textureNamed("Ralph")
-        menuButton.texture = textureAtlas.textureNamed("blue")
-        
-        ralph.name = "restartButton"
-        menuButton.name = "returnToMenu"
-        
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
-        ralph.position = centerOfHud
-        menuButton.position = CGPoint(x: centerOfHud.x - 140, y: centerOfHud.y )
         
-        ralph.size = CGSize(width: 145, height: 145)
+        
+        // Ralph Head
+        ralphHead.texture = textureAtlas.textureNamed("Ralph-head")
+        ralphHead.name = "restartButton"
+        ralphHead.position = centerOfHud
+        ralphHead.size = CGSize(width: 145, height: 145)
+        ralphHead.zPosition = 12
+        
+        // Ralph Face
+        ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
+        ralphFace.position = centerOfHud
+        ralphFace.size = CGSize(width: 145, height: 145)
+        ralphFace.zPosition = 12
+        
+        
+        // Button
+        menuButton.texture = textureAtlas.textureNamed("blue")
+        menuButton.name = "returnToMenu"
+        menuButton.position = CGPoint(x: centerOfHud.x - 140, y: centerOfHud.y )
         menuButton.size = CGSize(width: 35, height: 35)
+        
     }
     
     
@@ -55,13 +66,16 @@ class HUD: SKNode {
     
     func showButtons() {
         
-        ralph.alpha = 0
+        ralphHead.alpha = 0
+        ralphFace.alpha = 0
         menuButton.alpha = 0
-        self.addChild(ralph)
+        self.addChild(ralphHead)
+        self.addChild(ralphFace)
         self.addChild(menuButton)
         
         let fadeAnimation = SKAction.fadeAlphaTo(1, duration: 0.4)
-        ralph.runAction(fadeAnimation)
+        ralphHead.runAction(fadeAnimation)
+        ralphFace.runAction(fadeAnimation)
         menuButton.runAction(fadeAnimation)
     }
     
