@@ -135,13 +135,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func checkGameOver() {
-        if (player.heightOfPlayer() >= size.height/2) && (player.widthOfPlayer() >= size.width/2) {
+        if (player.heightOfPlayer() >= size.height / 2) && (player.widthOfPlayer() >= size.width / 2) {
                         
             self.gameOver = true
             player.removeFromParent()
             player.die()
             
-            hud.showButtons()
+            hud.showButtons(self.size)
+            
+            // Background
+            backgroundColor = UIColor(red:0.19, green:0.21, blue:0.24, alpha:1.0)
+            
 
         }
     }
