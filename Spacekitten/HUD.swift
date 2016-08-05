@@ -20,6 +20,7 @@ class HUD: SKNode {
     
     func createHudNodes(screenSize: CGSize) {
         
+        
         // Game Stats
         let coinXPos = screenSize.width / 2
         let coinYPos = screenSize.height - 50
@@ -47,11 +48,13 @@ class HUD: SKNode {
         ralphFace.zPosition = 12
         
         
-        // Button
-        menuButton.texture = textureAtlas.textureNamed("blue")
+        // Donut to restart the game
+        menuButton.texture = textureAtlas.textureNamed("Donut")
         menuButton.name = "returnToMenu"
-        menuButton.position = CGPoint(x: centerOfHud.x - 140, y: centerOfHud.y )
-        menuButton.size = CGSize(width: 35, height: 35)
+        menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
+        menuButton.size = CGSize(width: 60, height: 60)        
+        
+        
         
     }
     
