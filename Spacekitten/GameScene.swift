@@ -166,9 +166,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Check for HUD buttons:
-        if nodeTouched.name == "HUDdonut" {
+        if nodeTouched.name == "restartButton" {
             self.view?.presentScene(
                 GameScene(size: self.size),
+                transition: .crossFadeWithDuration(0.6)
+            )
+        } else if nodeTouched.name == "returnToMenu" {
+            self.view?.presentScene(
+                MenuScene(size: self.size),
                 transition: .crossFadeWithDuration(0.6)
             )
         } else {
