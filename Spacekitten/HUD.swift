@@ -10,8 +10,8 @@ import SpriteKit
 
 class HUD: SKNode {
     
-    let coinCountText = SKLabelNode(text: "000000")
-    let restartButton = SKSpriteNode()
+    let coinCountText = SKLabelNode(text: "0")
+    let ralph = SKSpriteNode()
     let menuButton = SKSpriteNode()
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
@@ -20,32 +20,34 @@ class HUD: SKNode {
     func createHudNodes(screenSize: CGSize) {
         
         // Game Stats
-        let coinYPos = screenSize.height - 23
-        coinCountText.fontName = "AvenirNext-HeavyItalic"
-        coinCountText.position = CGPoint(x: 10, y: coinYPos)
-        coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        let coinXPos = screenSize.width / 2
+        let coinYPos = screenSize.height - 50
+        coinCountText.fontName = "CooperHewitt-Heavy"
+        coinCountText.position = CGPoint(x: coinXPos, y: coinYPos)
+        coinCountText.fontSize = 40.0
+        coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.addChild(coinCountText)
         
         // Button
-        restartButton.texture = textureAtlas.textureNamed("red")        
+        ralph.texture = textureAtlas.textureNamed("Ralph")
         menuButton.texture = textureAtlas.textureNamed("blue")
         
-        restartButton.name = "restartButton"
+        ralph.name = "restartButton"
         menuButton.name = "returnToMenu"
         
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
-        restartButton.position = centerOfHud
+        ralph.position = centerOfHud
         menuButton.position = CGPoint(x: centerOfHud.x - 140, y: centerOfHud.y )
         
-        restartButton.size = CGSize(width: 60, height: 60)
+        ralph.size = CGSize(width: 145, height: 145)
         menuButton.size = CGSize(width: 35, height: 35)
     }
     
     
     func setCoinCounDisplay(newCoinCount: Int) {
         let formatter = NSNumberFormatter()
-        formatter.minimumIntegerDigits = 6
+        formatter.minimumIntegerDigits = 1
         if let coinStr = formatter.stringFromNumber(newCoinCount) {
             coinCountText.text = coinStr
         }
@@ -53,13 +55,13 @@ class HUD: SKNode {
     
     func showButtons() {
         
-        restartButton.alpha = 0
+        ralph.alpha = 0
         menuButton.alpha = 0
-        self.addChild(restartButton)
+        self.addChild(ralph)
         self.addChild(menuButton)
         
         let fadeAnimation = SKAction.fadeAlphaTo(1, duration: 0.4)
-        restartButton.runAction(fadeAnimation)
+        ralph.runAction(fadeAnimation)
         menuButton.runAction(fadeAnimation)
     }
     

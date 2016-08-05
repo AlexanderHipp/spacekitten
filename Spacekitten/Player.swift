@@ -14,11 +14,11 @@ class Player: SKNode {
     // define player    
     
     let player = SKSpriteNode()
-    var playerSize = 60
+    var playerSize = 145
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     func definePlayer(sizeScreen: CGSize) {
-        player.texture = textureAtlas.textureNamed("blue")
+        player.texture = textureAtlas.textureNamed("Ralph")
         player.size = CGSize(width: playerSize, height: playerSize)
         player.zPosition = 13
         player.position = positionPlayer(sizeScreen)
@@ -53,7 +53,7 @@ class Player: SKNode {
     
     
     func die() {
-        self.alpha = 1
+        self.alpha = 0
         self.removeAllActions()
 //        self.runAction(self.dieAnimation)
         

@@ -12,8 +12,9 @@ import SpriteKit
 class MenuScene: SKScene {
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
-    let logoText = SKLabelNode()
-    let startButton = SKSpriteNode()
+    let logo = SKSpriteNode()
+    let ralph = SKSpriteNode()
+    let donut = SKSpriteNode()
     
     
     override func didMoveToView(view: SKView) {
@@ -22,25 +23,31 @@ class MenuScene: SKScene {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         // Background color and image
-        let backgroundImage = SKSpriteNode(imageNamed: "Background-menu")
-        backgroundImage.size = CGSize(width: 750, height: 1075)
-        self.addChild(backgroundImage)
+        backgroundColor = SKColor.blackColor()
         
-        // Headline
-        logoText.fontName = "AvenirNext-Heavy"
-        logoText.text = "Spacekitten"
-        logoText.position = CGPoint(x: 0, y: 100)
-        logoText.zPosition = 14        
-        logoText.fontSize = 30
-        self.addChild(logoText)
+        // Logo
+        logo.texture = textureAtlas.textureNamed("DontFeedRalph")
+        logo.position = CGPoint(x: 0, y: 200)
+        logo.size = CGSize(width: 190, height: 90)
+        logo.zPosition = 14
+        self.addChild(logo)
+
         
-        // Restart Button
-        startButton.texture = textureAtlas.textureNamed("red")
-        startButton.name = "StartBtn"
-        startButton.position = CGPoint(x: 0, y: 0)
-        startButton.size = CGSize(width: 60, height: 60)
-        startButton.zPosition = 14
-        self.addChild(startButton)
+        // Ralph
+        ralph.texture = textureAtlas.textureNamed("Ralph")
+        ralph.position = CGPoint(x: 0, y: 0)
+        ralph.size = CGSize(width: 145, height: 145)
+        ralph.zPosition = 14
+        self.addChild(ralph)
+        
+        
+        // Donut to start the game
+        donut.texture = textureAtlas.textureNamed("Donut")
+        donut.name = "Donut"
+        donut.position = CGPoint(x: 0, y: -200)
+        donut.size = CGSize(width: 60, height: 60)
+        donut.zPosition = 14
+        self.addChild(donut)
         
         
     }
@@ -54,7 +61,7 @@ class MenuScene: SKScene {
             
             
             
-            if nodeTouched.name == "StartBtn" {
+            if nodeTouched.name == "Donut" {
                 self.view?.presentScene(GameScene(size: self.size))
             }
         }

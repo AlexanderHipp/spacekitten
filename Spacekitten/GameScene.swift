@@ -72,6 +72,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
+    
+        
         // Background
         backgroundColor = SKColor.blackColor()
         
@@ -164,14 +166,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Check for HUD buttons:
-        if nodeTouched.name == "restartButton" {
+        if nodeTouched.name == "HUDdonut" {
             self.view?.presentScene(
                 GameScene(size: self.size),
-                transition: .crossFadeWithDuration(0.6)
-            )
-        } else if nodeTouched.name == "returnToMenu" {
-            self.view?.presentScene(
-                MenuScene(size: self.size),
                 transition: .crossFadeWithDuration(0.6)
             )
         } else {
@@ -261,7 +258,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Taubsi":
-            damageEnemy = 1
+            damageEnemy = 25
         case "Pikachu":
             damageEnemy = 5
         case "Relaxo":

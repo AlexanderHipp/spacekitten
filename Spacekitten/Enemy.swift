@@ -20,7 +20,7 @@ class Enemy: SKNode {
         case Taubsi, Pikachu, Relaxo
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Taubsi: return (size: CGSize(width: 10, height: 10), color: "orange", speed: 1.0, name: "Taubsi")
+            case Taubsi: return (size: CGSize(width: 30, height: 30), color: "donut", speed: 3.0, name: "Taubsi")
             case Pikachu: return (size: CGSize(width: 20, height: 20), color: "yellow", speed: 4.0, name: "Pikachu")
             case Relaxo: return (size: CGSize(width: 50, height: 50), color: "blue", speed: 10.0, name: "Relaxo")
             // add name to the enum to check what hit the player
