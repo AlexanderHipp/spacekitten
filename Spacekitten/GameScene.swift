@@ -63,11 +63,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = Player()
     let hud = HUD()
     let currentGame = CurrentGame()
+    var enemiesDestroyed = 0
     
     var gameOver = false     
     var enemyArray = [Enemy]()
     
     override func didMoveToView(view: SKView) {
+        
+    
         
         // Background
         backgroundColor = SKColor.blackColor()
@@ -155,13 +158,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     
     func checkGameOver() {
-        if (player.heightOfPlayer() >= size.height/2) && (player.widthOfPlayer() >= size.width/2) {
+        if (player.heightOfPlayer() >= size.height / 2) && (player.widthOfPlayer() >= size.width / 2) {
                         
             self.gameOver = true
             player.removeFromParent()
             player.die()
             
-            hud.showButtons()
+            hud.showButtons(self.size)
+            
+            // Background
+            backgroundColor = UIColor(red:0.19, green:0.21, blue:0.24, alpha:1.0)
+            
 
         }
     }
@@ -185,34 +192,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let nodeTouched = nodeAtPoint(touchLocation)
         
         
-        // Check for HUD buttons:
+        // Check for HUD donut:
         if nodeTouched.name == "restartButton" {
-            self.view?.presentScene(
-                GameScene(size: self.size),
-                transition: .crossFadeWithDuration(0.6)
-            )
-        } else if nodeTouched.name == "returnToMenu" {
-            self.view?.presentScene(
-                MenuScene(size: self.size),
-                transition: .crossFadeWithDuration(0.6)
-            )
-        } else {
             
-            // Init and add the projectile
-            let projectile = Projectile()
-            projectile.createProjectile(touchLocation, playerPosition: player.positionPlayer(size))
-            self.addChild(projectile)
+            runAction(
+                SKAction.sequence([
+                    SKAction.runBlock({
+                        self.hud.squishHUDDonut()
+                    }),
+                    SKAction.runBlock({
+                        self.hud.fadeOutHUDelements()
+                    }),
+                    SKAction.waitForDuration(0.9),
+                    SKAction.runBlock({
+                        self.view?.presentScene(GameScene(size: self.size), transition: .crossFadeWithDuration(0.9))
+                    })
+                ])
+            )                                
             
+        } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
+            
+            if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
+                self.enemyDie(nodeTouchedAsSKSpriteNode)
+                enemiesDestroyed += 1
+                hud.setCoinCountDisplay(enemiesDestroyed)
+            }
         }
-        
-    }
-    
-
-    func projectileDidCollideWithEnemy(projectile projectile:SKSpriteNode, enemy:SKSpriteNode) {
-        projectile.removeFromParent()
-        enemy.removeFromParent()
-        currentGame.enemiesDestroyed += 1
-        hud.setCoinCountDisplay(currentGame.enemiesDestroyed)
     }
 
     
@@ -251,25 +256,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }
                 }
             }
-            
-            
-        // B: Delete enemy because it was hit by a projectile
-        } else if (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 3) ||
-            (contact.bodyA.categoryBitMask == 3 && contact.bodyB.categoryBitMask == 2) {
-            hitBody = contact.bodyA
-            destructingBody = contact.bodyB
-            
-            if ((hitBody.categoryBitMask & PhysicsCategory.Enemy != 0) &&
-                (destructingBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-                
-                if let bodyAAD = destructingBody.node as? SKSpriteNode {
-                    if let bodyAAE = hitBody.node as? SKSpriteNode {
-                        projectileDidCollideWithEnemy(projectile: bodyAAE, enemy: bodyAAD)
-                    }
-                }
-            }
-            
-        // Do nothing
+        
         } else {
             // Nothing
         }
@@ -283,7 +270,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Taubsi":
-            damageEnemy = 1
+            damageEnemy = 25
         case "Pikachu":
             damageEnemy = 5
         case "Relaxo":
@@ -295,17 +282,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func enemyDie(enemy: SKSpriteNode) {
+        
+        var actions = Array<SKAction>();
+        
+        actions.append(SKAction.scaleTo(1.4, duration: 0.5))
+        actions.append(SKAction.runBlock({enemy.texture = SKTexture(imageNamed: "Donut-squished")}))
+        
+        enemy.removeAllActions()
+        enemy.runAction(SKAction.sequence([
+            SKAction.group(actions),
+            SKAction.waitForDuration(1.2),
+            SKAction.fadeAlphaTo(0, duration: 0.9)
+            
+        ]))
+        
+    }
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
