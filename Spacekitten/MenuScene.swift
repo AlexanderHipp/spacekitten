@@ -12,8 +12,11 @@ import SpriteKit
 class MenuScene: SKScene {
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
-    let logoText = SKLabelNode()
-    let startButton = SKSpriteNode()
+    
+    let logo = SKSpriteNode()
+    let ralphHead = SKSpriteNode()
+    let ralphFace = SKSpriteNode()
+    let donut = SKSpriteNode()
     
     
     override func didMoveToView(view: SKView) {
@@ -22,25 +25,38 @@ class MenuScene: SKScene {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         
         // Background color and image
-        let backgroundImage = SKSpriteNode(imageNamed: "Background-menu")
-        backgroundImage.size = CGSize(width: 750, height: 1075)
-        self.addChild(backgroundImage)
+        backgroundColor = SKColor.blackColor()
         
-        // Headline
-        logoText.fontName = "AvenirNext-Heavy"
-        logoText.text = "Spacekitten"
-        logoText.position = CGPoint(x: 0, y: 100)
-        logoText.zPosition = 14        
-        logoText.fontSize = 30
-        self.addChild(logoText)
+        // Logo
+        logo.texture = textureAtlas.textureNamed("DontFeedRalph")
+        logo.position = CGPoint(x: 0, y: 200)
+        logo.size = CGSize(width: 190, height: 90)
+        logo.zPosition = 14
+        self.addChild(logo)
+
         
-        // Restart Button
-        startButton.texture = textureAtlas.textureNamed("red")
-        startButton.name = "StartBtn"
-        startButton.position = CGPoint(x: 0, y: 0)
-        startButton.size = CGSize(width: 60, height: 60)
-        startButton.zPosition = 14
-        self.addChild(startButton)
+        // Ralph Head
+        ralphHead.texture = textureAtlas.textureNamed("Ralph-head")
+        ralphHead.position = CGPoint(x: 0, y: 0)
+        ralphHead.size = CGSize(width: 145, height: 145)
+        ralphHead.zPosition = 12
+        self.addChild(ralphHead)
+        
+        // Ralph Face
+        ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
+        ralphFace.position = CGPoint(x: 0, y: 0)
+        ralphFace.size = CGSize(width: 145, height: 145)
+        ralphFace.zPosition = 13
+        self.addChild(ralphFace)
+        
+        
+        // Donut to start the game
+        donut.texture = textureAtlas.textureNamed("Donut")
+        donut.name = "Donut"
+        donut.position = CGPoint(x: 0, y: -200)
+        donut.size = CGSize(width: 60, height: 60)
+        donut.zPosition = 14
+        self.addChild(donut)
         
         
     }
@@ -52,10 +68,25 @@ class MenuScene: SKScene {
             let location = touch.locationInNode(self)
             let nodeTouched = nodeAtPoint(location)
             
+            let fadeAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
             
-            
-            if nodeTouched.name == "StartBtn" {
-                self.view?.presentScene(GameScene(size: self.size))
+            if nodeTouched.name == "Donut" {
+                
+                runAction(
+                    SKAction.sequence([
+                        SKAction.runBlock({
+                            self.donut.texture = SKTexture(imageNamed: "Donut-squished")
+                            self.donut.size = CGSize(width: 74, height: 74)
+                        }),
+                        SKAction.runBlock({
+                            self.donut.runAction(fadeAnimation)
+                            self.logo.runAction(fadeAnimation)
+                        }),
+                        SKAction.runBlock({
+                            self.view?.presentScene(GameScene(size: self.size), transition: .crossFadeWithDuration(0.9))
+                        })
+                    ])
+                )
             }
         }
     }

@@ -13,38 +13,50 @@ class Player: SKNode {
     
     // define player    
     
-    let player = SKSpriteNode()
-    var playerSize = 60
+    let playerFace = SKSpriteNode()
+    let playerHead = SKSpriteNode()
+    
+    var playerSize = 145
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     func definePlayer(sizeScreen: CGSize) {
-        player.texture = textureAtlas.textureNamed("blue")
-        player.size = CGSize(width: playerSize, height: playerSize)
-        player.zPosition = 13
-        player.position = positionPlayer(sizeScreen)
-        addChild(player)
+        
+        // Head
+        playerHead.texture = textureAtlas.textureNamed("Ralph-head")
+        playerHead.size = CGSize(width: playerSize, height: playerSize)
+        playerHead.zPosition = 12
+        playerHead.position = positionPlayer(sizeScreen)
+        
+        // Face
+        playerFace.texture = textureAtlas.textureNamed("Ralph-face")
+        playerFace.size = CGSize(width: playerSize, height: playerSize)
+        playerFace.zPosition = 13
+        playerFace.position = positionPlayer(sizeScreen)
+        
+        addChild(playerHead)
+        addChild(playerFace)
     }
     
     func updatePlayerPhysics() {
-        player.physicsBody = SKPhysicsBody(rectangleOfSize: player.size)
-        player.physicsBody?.dynamic = false
-        player.physicsBody?.categoryBitMask = PhysicsCategory.Player
-        player.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
-        player.physicsBody?.collisionBitMask = PhysicsCategory.None
+        playerHead.physicsBody = SKPhysicsBody(rectangleOfSize: playerHead.size)
+        playerHead.physicsBody?.dynamic = false
+        playerHead.physicsBody?.categoryBitMask = PhysicsCategory.Player
+        playerHead.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
+        playerHead.physicsBody?.collisionBitMask = PhysicsCategory.None
     }
     
     func widthOfPlayer() -> CGFloat {
-        return player.size.width
+        return playerHead.size.width
     }
     
     func heightOfPlayer() -> CGFloat {
-        return player.size.height
+        return playerHead.size.height
     }
     
-    func growPlayerWhenHit() {
+    func growPlayerWhenHit(damage: Int) {
         // How much player grows when he gets hit
-        playerSize += 20
-        player.size = CGSize(width: playerSize, height: playerSize)
+        playerSize += damage
+        playerHead.size = CGSize(width: playerSize, height: playerSize)
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
@@ -53,7 +65,7 @@ class Player: SKNode {
     
     
     func die() {
-        self.alpha = 1
+        self.alpha = 0
         self.removeAllActions()
 //        self.runAction(self.dieAnimation)
         
