@@ -173,12 +173,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if nodeTouched.name == "restartButton" {
             self.view?.presentScene(
                 GameScene(size: self.size),
-                transition: .crossFadeWithDuration(0.6)
-            )
-        } else if nodeTouched.name == "returnToMenu" {
-            self.view?.presentScene(
-                MenuScene(size: self.size),
-                transition: .crossFadeWithDuration(0.6)
+                transition: .crossFadeWithDuration(0.9)
             )
         } else {
             

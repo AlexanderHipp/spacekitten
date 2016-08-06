@@ -49,7 +49,7 @@ class HUD: SKNode {
         
         // Donut to restart the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
-        menuButton.name = "returnToMenu"
+        menuButton.name = "restartButton"
         menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
         menuButton.size = CGSize(width: 60, height: 60)
         
