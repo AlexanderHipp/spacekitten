@@ -169,12 +169,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let nodeTouched = nodeAtPoint(touchLocation)
         
         
-        // Check for HUD buttons:
+        // Check for HUD donut:
         if nodeTouched.name == "restartButton" {
-            self.view?.presentScene(
-                GameScene(size: self.size),
-                transition: .crossFadeWithDuration(0.9)
+            
+            
+            
+            
+            runAction(
+                SKAction.sequence([
+                    SKAction.runBlock({
+                        self.hud.squishHUDDonut()
+                    }),
+                    SKAction.runBlock({
+                        self.hud.fadeOutHUDelements()
+                    }),
+                    SKAction.waitForDuration(0.9),
+                    SKAction.runBlock({
+                        self.view?.presentScene(GameScene(size: self.size), transition: .crossFadeWithDuration(0.9))
+                    })
+                ])
             )
+            
+            
+            
+            
         } else {
             
             // Init and add the projectile

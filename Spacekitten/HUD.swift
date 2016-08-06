@@ -90,8 +90,26 @@ class HUD: SKNode {
         }
     }
     
+    
+    func squishHUDDonut() {
+        menuButton.texture = SKTexture(imageNamed: "Donut-squished")
+        menuButton.size = CGSize(width: 74, height: 74)
+    }
+    
+    func fadeOutHUDelements() {
+        let fadeAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
+        menuButton.runAction(fadeAnimation)
+        coinCountBest.runAction(fadeAnimation)
+        labelBest.runAction(fadeAnimation)
+        ralphFace.runAction(fadeAnimation)
+        labelScore.runAction(fadeAnimation)
+        coinCountText.runAction(fadeAnimation)
+    }
+    
     func showButtons(screenSize: CGSize) {
         
+        
+        // TODO make func for alpha add child and fade animation
         ralphFace.alpha = 0
         menuButton.alpha = 0
         labelScore.alpha = 0

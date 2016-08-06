@@ -82,9 +82,8 @@ class MenuScene: SKScene {
                             self.donut.runAction(fadeAnimation)
                             self.logo.runAction(fadeAnimation)
                         }),
-                        SKAction.waitForDuration(0.9),
                         SKAction.runBlock({
-                            self.view?.presentScene(GameScene(size: self.size))
+                            self.view?.presentScene(GameScene(size: self.size), transition: .crossFadeWithDuration(0.9))
                         })
                     ])
                 )
