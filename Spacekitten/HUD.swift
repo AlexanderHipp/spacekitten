@@ -104,7 +104,7 @@ class HUD: SKNode {
         self.addChild(labelBest)
         self.addChild(coinCountBest)
         
-        let fadeAnimation = SKAction.fadeAlphaTo(1, duration: 0.7)
+        let fadeAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
         ralphFace.runAction(fadeAnimation)
         menuButton.runAction(fadeAnimation)
         labelScore.runAction(fadeAnimation)

@@ -68,10 +68,26 @@ class MenuScene: SKScene {
             let location = touch.locationInNode(self)
             let nodeTouched = nodeAtPoint(location)
             
-            
+            let fadeAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
             
             if nodeTouched.name == "Donut" {
-                self.view?.presentScene(GameScene(size: self.size))
+                
+                runAction(
+                    SKAction.sequence([
+                        SKAction.runBlock({
+                            self.donut.texture = SKTexture(imageNamed: "Donut-squished")
+                            self.donut.size = CGSize(width: 74, height: 74)
+                        }),
+                        SKAction.runBlock({
+                            self.donut.runAction(fadeAnimation)
+                            self.logo.runAction(fadeAnimation)
+                        }),
+                        SKAction.waitForDuration(0.9),
+                        SKAction.runBlock({
+                            self.view?.presentScene(GameScene(size: self.size))
+                        })
+                    ])
+                )
             }
         }
     }
