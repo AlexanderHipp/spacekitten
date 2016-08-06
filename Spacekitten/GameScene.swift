@@ -62,13 +62,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Set up Player and HUD
     let player = Player()
     let hud = HUD()
-    var gameOver = false
-    
-    var enemyArray = [Enemy]()
-    
-    // Game Statistics
+    let currentGame = CurrentGame()
     var enemiesDestroyed = 0
     
+    var gameOver = false     
+    var enemyArray = [Enemy]()
     
     override func didMoveToView(view: SKView) {
         
@@ -86,6 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.createHudNodes(self.size)
         self.addChild(hud)
         hud.zPosition = 50
+        hud.setLevelDisplay(currentGame.currentLevel)
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -105,6 +104,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     SKAction.runBlock({
                         
+                        // Check if next level
+                        
+                        if (self.currentGame.enemiesDestroyed == 5) && (self.currentGame.currentLevel != 2) {
+                            self.newLevel()
+                        } else if (self.currentGame.enemiesDestroyed == 10) && (self.currentGame.currentLevel != 3) {
+                            self.newLevel()
+                        }
+                        
+                    }),
+                    SKAction.runBlock({
+                        
                         let enemy = Enemy()
                         
                         // Check if game over
@@ -112,8 +122,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.removeAllEnemyNodes()
                         } else {
                             
-                            // Init and add the projectile
-                            enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
+                            // Init and add the enemy
+                            if (self.currentGame.currentLevel == 2) {
+                                enemy.defineEnemySpecFor(.Pikachu, sizeScreen: self.size)
+                            } else if (self.currentGame.currentLevel == 3) {
+                                enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
+                            } else {
+                                enemy.defineEnemySpecFor(.Relaxo, sizeScreen: self.size)
+                            }
                             
                             self.addChild(enemy)
                             
@@ -133,6 +149,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         )
         
     }
+
+    
+    func newLevel() {
+        self.currentGame.levelUp()
+        self.hud.setLevelDisplay(self.currentGame.currentLevel)
+    }
+
     
     func checkGameOver() {
         if (player.heightOfPlayer() >= size.height / 2) && (player.widthOfPlayer() >= size.width / 2) {
@@ -192,7 +215,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 self.enemyDie(nodeTouchedAsSKSpriteNode)
                 enemiesDestroyed += 1
-                hud.setCoinCounDisplay(enemiesDestroyed)
+                hud.setCoinCountDisplay(enemiesDestroyed)
             }
         }
     }

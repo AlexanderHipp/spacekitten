@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Calculation {
+class Random {
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
