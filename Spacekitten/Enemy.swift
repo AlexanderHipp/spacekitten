@@ -167,7 +167,7 @@ class Enemy: SKNode {
     
     func removeAllEnemies() {
         self.enemy.removeFromParent()
-    }
+    }            
     
 }
 

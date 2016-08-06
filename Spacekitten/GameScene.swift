@@ -207,7 +207,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     func projectileDidCollideWithEnemy(projectile projectile:SKSpriteNode, enemy:SKSpriteNode) {
         projectile.removeFromParent()
-        enemy.removeFromParent()
+        self.enemyDie(enemy)
         enemiesDestroyed += 1
         hud.setCoinCounDisplay(enemiesDestroyed)
     }
@@ -289,6 +289,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             damageEnemy = 0
         }
         return damageEnemy
+        
+    }
+    
+    func enemyDie(enemy: SKSpriteNode) {
+        enemy.removeAllActions()
+        enemy.texture = SKTexture(imageNamed: "Donut-squished")
+        enemy.runAction(SKAction.sequence([
+            SKAction.scaleTo(3, duration: 0.5),
+            SKAction.fadeAlphaTo(0, duration: 3.0)
+            
+        ]))
         
     }
     
