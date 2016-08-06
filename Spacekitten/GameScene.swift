@@ -135,7 +135,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func checkGameOver() {
-        if (player.heightOfPlayer() >= size.height / 2) && (player.widthOfPlayer() >= size.width / 2) {
+        if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
                         
             self.gameOver = true
             player.removeFromParent()
