@@ -18,7 +18,13 @@ class HUD: SKNode {
     let labelBest = SKLabelNode(text: "Best")
     let coinCountBest = SKLabelNode(text: "167")
     
+    let levelLabel = SKLabelNode(text: "Level 0")
+    
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
+    
+    let font = "CooperHewitt-Heavy"
+    let fadeAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
+    let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
     
     
     func createHudNodes(screenSize: CGSize) {
@@ -27,7 +33,7 @@ class HUD: SKNode {
         // Game Stats
         let coinXPos = screenSize.width / 2
         let coinYPos = screenSize.height - 50
-        coinCountText.fontName = "CooperHewitt-Heavy"
+        coinCountText.fontName = font
         coinCountText.position = CGPoint(x: coinXPos, y: coinYPos)
         coinCountText.fontSize = 40.0
         coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -49,14 +55,14 @@ class HUD: SKNode {
         
         // Donut to restart the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
-        menuButton.name = "restartButton"
+        menuButton.name = "DonutRestart"
         menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
         menuButton.size = CGSize(width: 60, height: 60)
         
         
         // Score Label
         labelScore.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 200))
-        labelScore.fontName = "CooperHewitt-Heavy"
+        labelScore.fontName = font
         labelScore.fontSize = 25.0
         labelScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -64,7 +70,7 @@ class HUD: SKNode {
         
         // Best Label
         labelBest.position = CGPoint(x: ((screenSize.width / 2) + 80), y: ((screenSize.height / 2) + 200))
-        labelBest.fontName = "CooperHewitt-Heavy"
+        labelBest.fontName = font
         labelBest.fontSize = 25.0
         labelBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -72,12 +78,21 @@ class HUD: SKNode {
         
         // Count Best
         coinCountBest.position = CGPoint(x: ((screenSize.width / 2) + 80), y: ((screenSize.height / 2) + 150))
-        coinCountBest.fontName = "CooperHewitt-Heavy"
+        coinCountBest.fontName = font
         coinCountBest.fontSize = 40.0
         coinCountBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         coinCountBest.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
         
+        
+        // Level Label 
+        levelLabel.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 250 )
+        levelLabel.fontName = font
+        levelLabel.fontSize = 40.0
+        levelLabel.zPosition = 40
+        levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        levelLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
         
     }
     
@@ -108,7 +123,6 @@ class HUD: SKNode {
     
     func showButtons(screenSize: CGSize) {
         
-        
         // TODO make func for alpha add child and fade animation
         ralphFace.alpha = 0
         menuButton.alpha = 0
@@ -122,7 +136,6 @@ class HUD: SKNode {
         self.addChild(labelBest)
         self.addChild(coinCountBest)
         
-        let fadeAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
         ralphFace.runAction(fadeAnimation)
         menuButton.runAction(fadeAnimation)
         labelScore.runAction(fadeAnimation)
@@ -134,4 +147,39 @@ class HUD: SKNode {
         
     }
     
+    
+    func showLevel(currentLevel: Int) {
+        levelLabel.text = "Level \(currentLevel)"
+        levelLabel.alpha = 0
+        
+        runAction(
+            SKAction.sequence([
+                SKAction.runBlock({
+                    self.levelLabel.runAction(self.fadeAnimation)
+                    self.addChild(self.levelLabel)
+                }),
+                SKAction.waitForDuration(1.0),
+                SKAction.runBlock({
+                    self.levelLabel.runAction(self.fadeOutAnimation)
+                    SKAction.waitForDuration(0.5)
+                    self.levelLabel.removeFromParent()
+                })
+            ])
+        )
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
