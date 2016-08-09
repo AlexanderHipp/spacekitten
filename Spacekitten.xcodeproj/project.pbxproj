@@ -10,6 +10,8 @@
 		04270E761D36A4CA00E16250 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04270E751D36A4CA00E16250 /* Enemy.swift */; };
 		044063A21D36BDD900CC6CE3 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044063A11D36BDD900CC6CE3 /* Random.swift */; };
 		FA3B9B701D4920000018FD87 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B9B6F1D4920000018FD87 /* Player.swift */; };
+		FA781D681D5A71D100A51D18 /* MyData.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA781D661D5A71D100A51D18 /* MyData.plist */; };
+		FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D671D5A71D100A51D18 /* PlistManager.swift */; };
 		FA81A7BF1D491B58000158B4 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81A7BE1D491B58000158B4 /* HUD.swift */; };
 		FA9B84391D54F32100A9B37F /* CooperHewitt-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */; };
 		FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE549241D19D4AA009BAE8C /* AppDelegate.swift */; };
@@ -26,6 +28,8 @@
 		04270E751D36A4CA00E16250 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		044063A11D36BDD900CC6CE3 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		FA3B9B6F1D4920000018FD87 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		FA781D661D5A71D100A51D18 /* MyData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyData.plist; sourceTree = "<group>"; };
+		FA781D671D5A71D100A51D18 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		FA81A7BE1D491B58000158B4 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CooperHewitt-Heavy.otf"; sourceTree = "<group>"; };
 		FAE549211D19D4AA009BAE8C /* Spacekitten.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spacekitten.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,9 +91,11 @@
 				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
 				FAECE2C81D2D69FE00075695 /* MenuScene.swift */,
 				044063A11D36BDD900CC6CE3 /* Random.swift */,
+				FA781D671D5A71D100A51D18 /* PlistManager.swift */,
 				FAE5492C1D19D4AA009BAE8C /* Main.storyboard */,
 				FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */,
 				FAE549341D19D4AA009BAE8C /* Info.plist */,
+				FA781D661D5A71D100A51D18 /* MyData.plist */,
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 			);
@@ -157,6 +163,7 @@
 			files = (
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
+				FA781D681D5A71D100A51D18 /* MyData.plist in Resources */,
 				FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */,
 				FA9B84391D54F32100A9B37F /* CooperHewitt-Heavy.otf in Resources */,
 				FAE5492E1D19D4AA009BAE8C /* Main.storyboard in Resources */,
@@ -173,6 +180,7 @@
 				FAE549291D19D4AA009BAE8C /* GameScene.swift in Sources */,
 				FA81A7BF1D491B58000158B4 /* HUD.swift in Sources */,
 				FAE5492B1D19D4AA009BAE8C /* GameViewController.swift in Sources */,
+				FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */,
 				FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */,
 				04270E761D36A4CA00E16250 /* Enemy.swift in Sources */,
 				FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */,

@@ -67,13 +67,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var enemyArray = [Enemy]()
     var level = 1
     
+    
     // Game Statistics
     var enemiesDestroyed = 0
     
     
-    override func didMoveToView(view: SKView) {
-        
-    
+    override func didMoveToView(view: SKView) {            
         
         // Background
         backgroundColor = SKColor.blackColor()
@@ -87,6 +86,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.createHudNodes(self.size)
         self.addChild(hud)
         hud.zPosition = 50
+        
+        // Get highscore
+        hud.updateHighScore()
+        
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -142,6 +145,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
                         
             self.gameOver = true
+            
+            // Check if new highScore, if yes write it in the plist
+            hud.checkIfNewHighScore(enemiesDestroyed)
+            
             player.removeFromParent()
             player.die()
             
@@ -284,7 +291,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             SKAction.group(actions),
             SKAction.waitForDuration(1.2),
             SKAction.fadeAlphaTo(0, duration: 0.9)
-            
         ]))
         
     }
@@ -309,6 +315,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
+    
+  
     
 }
 
