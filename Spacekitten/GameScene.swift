@@ -91,6 +91,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
+        // Game starts
+        self.hud.showLevel(level)        
+        
         runAction(
             SKAction.repeatActionForever (
                 SKAction.sequence([
@@ -298,6 +301,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return 3
         case 11 ... 15:
             return 4
+        case 16 ... 18:
+            return 5
         default:
             return currentLevel
         }

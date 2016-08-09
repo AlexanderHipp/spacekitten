@@ -23,7 +23,7 @@ class HUD: SKNode {
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     let font = "CooperHewitt-Heavy"
-    let fadeAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
+    let fadeInAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
     let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
     
     
@@ -93,6 +93,8 @@ class HUD: SKNode {
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         levelLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        self.addChild(self.levelLabel)
+        
         
     }
     
@@ -111,15 +113,6 @@ class HUD: SKNode {
         menuButton.size = CGSize(width: 74, height: 74)
     }
     
-    func fadeOutHUDelements() {
-        let fadeAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
-        menuButton.runAction(fadeAnimation)
-        coinCountBest.runAction(fadeAnimation)
-        labelBest.runAction(fadeAnimation)
-        ralphFace.runAction(fadeAnimation)
-        labelScore.runAction(fadeAnimation)
-        coinCountText.runAction(fadeAnimation)
-    }
     
     func showButtons(screenSize: CGSize) {
         
@@ -136,11 +129,11 @@ class HUD: SKNode {
         self.addChild(labelBest)
         self.addChild(coinCountBest)
         
-        ralphFace.runAction(fadeAnimation)
-        menuButton.runAction(fadeAnimation)
-        labelScore.runAction(fadeAnimation)
-        labelBest.runAction(fadeAnimation)
-        coinCountBest.runAction(fadeAnimation)
+        ralphFace.runAction(fadeInAnimation)
+        menuButton.runAction(fadeInAnimation)
+        labelScore.runAction(fadeInAnimation)
+        labelBest.runAction(fadeInAnimation)
+        coinCountBest.runAction(fadeInAnimation)
         
         coinCountText.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 150))
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
@@ -148,25 +141,43 @@ class HUD: SKNode {
     }
     
     
+    func fadeOutHUDelements() {
+        menuButton.runAction(fadeInAnimation)
+        coinCountBest.runAction(fadeInAnimation)
+        labelBest.runAction(fadeInAnimation)
+        ralphFace.runAction(fadeInAnimation)
+        labelScore.runAction(fadeInAnimation)
+        coinCountText.runAction(fadeInAnimation)
+    }
+    
+    
     func showLevel(currentLevel: Int) {
         levelLabel.text = "Level \(currentLevel)"
         levelLabel.alpha = 0
+        levelLabel.fontColor = colorLevelLabel[currentLevel]
         
         runAction(
             SKAction.sequence([
                 SKAction.runBlock({
-                    self.levelLabel.runAction(self.fadeAnimation)
-                    self.addChild(self.levelLabel)
+                    self.levelLabel.runAction(self.fadeInAnimation)
                 }),
                 SKAction.waitForDuration(1.0),
                 SKAction.runBlock({
-                    self.levelLabel.runAction(self.fadeOutAnimation)
-                    SKAction.waitForDuration(0.5)
-                    self.levelLabel.removeFromParent()
+                    self.levelLabel.runAction(self.fadeOutAnimation)                    
                 })
             ])
         )
     }
+    
+    
+    let colorLevelLabel: [Int: UIColor] = [
+        1: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* red #00beaf */
+        2: UIColor(red: 0.9294, green: 0.8784, blue: 0.0588, alpha: 1.0), /* yellow #ede00f */
+        3: UIColor(red: 0.2902, green: 0.5412, blue: 0.7843, alpha: 1.0), /* blue #4a8ac8 */
+        4: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* green #00beaf */
+        5: UIColor(red: 0.949, green: 0.3608, blue: 0.2627, alpha: 1.0) /* orange #f25c43 */
+    ]
+    
     
 }
 
