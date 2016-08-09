@@ -16,7 +16,7 @@ class HUD: SKNode {
     
     let labelScore = SKLabelNode(text: "Score")
     let labelBest = SKLabelNode(text: "Best")
-    let coinCountBest = SKLabelNode(text: "167")
+    var coinCountBest = SKLabelNode(text: "0")
     
     let levelLabel = SKLabelNode(text: "Level 0")
     

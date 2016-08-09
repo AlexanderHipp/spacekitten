@@ -66,14 +66,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var enemyArray = [Enemy]()
     var level = 1
+    let highScore = "highScore"
     
     // Game Statistics
     var enemiesDestroyed = 0
     
     
-    override func didMoveToView(view: SKView) {
-        
-    
+    override func didMoveToView(view: SKView) {            
         
         // Background
         backgroundColor = SKColor.blackColor()
@@ -87,6 +86,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.createHudNodes(self.size)
         self.addChild(hud)
         hud.zPosition = 50
+        
+        // Get highscore
+        updateHighScore()
+        
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -142,6 +145,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
                         
             self.gameOver = true
+            
+            // Check if new highScore, if yes write it in the plist
+            checkIfNewHighScore(enemiesDestroyed)
+            
             player.removeFromParent()
             player.die()
             
@@ -284,7 +291,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             SKAction.group(actions),
             SKAction.waitForDuration(1.2),
             SKAction.fadeAlphaTo(0, duration: 0.9)
-            
         ]))
         
     }
@@ -307,6 +313,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return currentLevel
         }
         
+        
+    }
+    
+    func updateHighScore() {
+        
+        if let highScoreValue = PlistManager.sharedInstance.getValueForKey(highScore) {
+            self.hud.coinCountBest.text = "\(highScoreValue)"
+        } else {
+            self.hud.coinCountBest.text = "0"
+        }
+        
+    }
+    
+    func checkIfNewHighScore(newHighScore: Int) {
+        
+        let oldHighScoreValue: Int = PlistManager.sharedInstance.getValueForKey(highScore) as! Int
+        
+        if newHighScore > oldHighScoreValue {
+            PlistManager.sharedInstance.saveValue(newHighScore, forKey: highScore)
+            updateHighScore()
+        }
         
     }
     
