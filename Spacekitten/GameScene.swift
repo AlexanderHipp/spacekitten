@@ -65,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver = false
     
     var enemyArray = [Enemy]()
+    var level = 1
     
     // Game Statistics
     var enemiesDestroyed = 0
@@ -89,6 +90,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
+        
+        // Game starts
+        self.hud.showLevel(level)        
         
         runAction(
             SKAction.repeatActionForever (
@@ -125,7 +129,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     
                     // Time after a new enemy is displayed
-                    SKAction.waitForDuration(0.5)
+                    SKAction.waitForDuration(1.0)
                     
                 ])
             ),
@@ -170,7 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Check for HUD donut:
-        if nodeTouched.name == "restartButton" {
+        if nodeTouched.name == "DonutRestart" {
             
             runAction(
                 SKAction.sequence([
@@ -192,6 +196,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 self.enemyDie(nodeTouchedAsSKSpriteNode)
                 enemiesDestroyed += 1
+                
+                
+                let levelNew = checkLevel(enemiesDestroyed, currentLevel: level)
+                
+                if levelNew != level {
+                    self.hud.showLevel(levelNew)
+                    level = levelNew
+                }
+                
                 hud.setCoinCounDisplay(enemiesDestroyed)
             }
         }
@@ -276,4 +289,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    
+    func checkLevel(destroyedEnemies: Int, currentLevel: Int) -> Int {
+    
+        switch destroyedEnemies {
+        case 0 ... 4: 
+            return 1
+        case 5 ... 7:
+            return 2
+        case 8 ... 10:
+            return 3
+        case 11 ... 15:
+            return 4
+        case 16 ... 18:
+            return 5
+        default:
+            return currentLevel
+        }
+        
+        
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
