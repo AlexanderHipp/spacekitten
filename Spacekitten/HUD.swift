@@ -26,6 +26,8 @@ class HUD: SKNode {
     let fadeInAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
     let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
     
+    let highScore = "highScore"
+    
     
     func createHudNodes(screenSize: CGSize) {
         
@@ -167,6 +169,27 @@ class HUD: SKNode {
                 })
             ])
         )
+    }
+    
+    func updateHighScore() {
+        
+        if let highScoreValue = PlistManager.sharedInstance.getValueForKey(highScore) {
+            coinCountBest.text = "\(highScoreValue)"
+        } else {
+            coinCountBest.text = "0"
+        }
+        
+    }
+    
+    func checkIfNewHighScore(newHighScore: Int) {
+        
+        let oldHighScoreValue: Int = PlistManager.sharedInstance.getValueForKey(highScore) as! Int
+        
+        if newHighScore > oldHighScoreValue {
+            PlistManager.sharedInstance.saveValue(newHighScore, forKey: highScore)
+            updateHighScore()
+        }
+        
     }
     
     

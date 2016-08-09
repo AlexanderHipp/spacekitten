@@ -66,7 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var enemyArray = [Enemy]()
     var level = 1
-    let highScore = "highScore"
+    
     
     // Game Statistics
     var enemiesDestroyed = 0
@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.zPosition = 50
         
         // Get highscore
-        updateHighScore()
+        hud.updateHighScore()
         
         
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -147,7 +147,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOver = true
             
             // Check if new highScore, if yes write it in the plist
-            checkIfNewHighScore(enemiesDestroyed)
+            hud.checkIfNewHighScore(enemiesDestroyed)
             
             player.removeFromParent()
             player.die()
@@ -316,26 +316,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func updateHighScore() {
-        
-        if let highScoreValue = PlistManager.sharedInstance.getValueForKey(highScore) {
-            self.hud.coinCountBest.text = "\(highScoreValue)"
-        } else {
-            self.hud.coinCountBest.text = "0"
-        }
-        
-    }
-    
-    func checkIfNewHighScore(newHighScore: Int) {
-        
-        let oldHighScoreValue: Int = PlistManager.sharedInstance.getValueForKey(highScore) as! Int
-        
-        if newHighScore > oldHighScoreValue {
-            PlistManager.sharedInstance.saveValue(newHighScore, forKey: highScore)
-            updateHighScore()
-        }
-        
-    }
+  
     
 }
 
