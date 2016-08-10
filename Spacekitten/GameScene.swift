@@ -265,33 +265,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func enemyDamage(type: String) -> Int {
         
-        var damageEnemy: Int
-        
         switch type {
-        case "Taubsi":
-            damageEnemy = 25
-        case "Pikachu":
-            damageEnemy = 5
-        case "Relaxo":
-            damageEnemy = 10
+        case "Donut":
+            return 10
+        case "Scoop":
+            return 20
         default:
-            damageEnemy = 0
+            return 0
         }
-        return damageEnemy
         
     }
     
+    
+    func enemySquish(type: String) -> String {
+        
+        switch type {
+        case "Donut":
+            return "Donut-squished"
+        case "Scoop":
+            return "Scoop-squished"
+        default:
+            return "Donut-squished"
+        }
+        
+    }
+    
+    
     func enemyDie(enemy: SKSpriteNode) {
+        
+        let whichEnemyShouldBeSquished = enemySquish(enemy.name!)
         
         var actions = Array<SKAction>();
         
-        actions.append(SKAction.scaleTo(1.4, duration: 0.5))
-        actions.append(SKAction.runBlock({enemy.texture = SKTexture(imageNamed: "Donut-squished")}))
+        actions.append(SKAction.scaleTo(1.1, duration: 0.2))
+        actions.append(SKAction.runBlock({enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)}))
         
         enemy.removeAllActions()
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),
-            SKAction.waitForDuration(1.2),
+            SKAction.waitForDuration(0.5),
             SKAction.fadeAlphaTo(0, duration: 0.9)
         ]))
         

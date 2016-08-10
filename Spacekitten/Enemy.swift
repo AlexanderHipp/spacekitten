@@ -17,13 +17,11 @@ class Enemy: SKNode {
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     enum EnemyType {
-        case Taubsi, Pikachu, Relaxo
+        case Donut, Scoop
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Taubsi: return (size: CGSize(width: 30, height: 30), color: "donut", speed: 2.5, name: "Taubsi")
-            case Pikachu: return (size: CGSize(width: 20, height: 20), color: "yellow", speed: 4.0, name: "Pikachu")
-            case Relaxo: return (size: CGSize(width: 50, height: 50), color: "blue", speed: 10.0, name: "Relaxo")
-            // add name to the enum to check what hit the player
+            case Donut: return (size: CGSize(width: 30, height: 30), color: "Donut", speed: 4.0, name: "Donut")
+            case Scoop: return (size: CGSize(width: 30, height: 30), color: "Scoop", speed: 2.5, name: "Scoop")
             }
         }
     }
@@ -103,12 +101,10 @@ class Enemy: SKNode {
         var sizeEnemy: CGSize
         
         switch type {
-        case .Taubsi:
-            sizeEnemy = EnemyType.Taubsi.spec.size
-        case .Pikachu:
-            sizeEnemy = EnemyType.Pikachu.spec.size
-        case .Relaxo:
-            sizeEnemy = EnemyType.Relaxo.spec.size
+        case .Donut:
+            sizeEnemy = EnemyType.Donut.spec.size
+        case .Scoop:
+            sizeEnemy = EnemyType.Scoop.spec.size
         }
         return sizeEnemy
     }
@@ -120,12 +116,10 @@ class Enemy: SKNode {
         var textureEnemy: String
         
         switch type {
-        case .Taubsi:
-            textureEnemy = EnemyType.Taubsi.spec.color
-        case .Pikachu:
-            textureEnemy = EnemyType.Pikachu.spec.color
-        case .Relaxo:
-            textureEnemy = EnemyType.Relaxo.spec.color
+        case .Donut:
+            textureEnemy = EnemyType.Donut.spec.color
+        case .Scoop:
+            textureEnemy = EnemyType.Scoop.spec.color
         }
         
         return textureEnemy
@@ -138,12 +132,10 @@ class Enemy: SKNode {
         var speedEnemy: CGFloat
         
         switch type {
-        case .Taubsi:
-            speedEnemy = EnemyType.Taubsi.spec.speed
-        case .Pikachu:
-            speedEnemy = EnemyType.Pikachu.spec.speed
-        case .Relaxo:
-            speedEnemy = EnemyType.Relaxo.spec.speed
+        case .Donut:
+            speedEnemy = EnemyType.Donut.spec.speed
+        case .Scoop:
+            speedEnemy = EnemyType.Scoop.spec.speed
         }
         return speedEnemy
         
@@ -155,12 +147,10 @@ class Enemy: SKNode {
         var nameEnemy: String
         
         switch type {
-        case .Taubsi:
-            nameEnemy = EnemyType.Taubsi.spec.name
-        case .Pikachu:
-            nameEnemy = EnemyType.Pikachu.spec.name
-        case .Relaxo:
-            nameEnemy = EnemyType.Relaxo.spec.name
+        case .Donut:
+            nameEnemy = EnemyType.Donut.spec.name
+        case .Scoop:
+            nameEnemy = EnemyType.Scoop.spec.name
         }
         return nameEnemy
         
@@ -176,9 +166,9 @@ class Enemy: SKNode {
         
         switch currentLevel {
         case 1:
-            return getPossibleEnemies([.Pikachu, .Taubsi])
+            return getPossibleEnemies([.Donut])
         default:
-            return getPossibleEnemies([.Relaxo, .Taubsi])
+            return getPossibleEnemies([.Scoop, .Donut])
         }
         
     }
