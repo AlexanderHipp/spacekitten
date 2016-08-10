@@ -202,10 +202,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             
+            // If the user touches an enemy
+            
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 self.enemyDie(nodeTouchedAsSKSpriteNode)
-                enemiesDestroyed += 1
                 
+                
+                let damagePotential = self.enemyDamage(nodeTouched.name!)
+                enemiesDestroyed += (damagePotential / 10)
                 
                 let levelNew = level.checkLevel(enemiesDestroyed, currentLevel: level.levelValue)
                 
