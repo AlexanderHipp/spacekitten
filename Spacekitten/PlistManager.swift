@@ -91,7 +91,7 @@ class PlistManager {
   
   func startPlistManager() {
     if let _ = Plist(name: plistFileName) {
-      print("[PlistManager] PlistManager started")
+//      print("[PlistManager] PlistManager started")
     }
   }
   
@@ -108,8 +108,8 @@ class PlistManager {
         } catch {
           print(error)
         }
-        print("[PlistManager] An Action has been performed. You can check if it went ok by taking a look at the current content of the plist file: ")
-        print("[PlistManager] \(plist.getValuesInPlistFile())")
+//        print("[PlistManager] An Action has been performed. You can check if it went ok by taking a look at the current content of the plist file: ")
+//        print("[PlistManager] \(plist.getValuesInPlistFile())")
       } else {
         print("[PlistManager] Unable to get Plist")
       }
@@ -214,7 +214,7 @@ class PlistManager {
         for (_,element) in keys.enumerate() {
           //print("[PlistManager] Key Index - \(index) = \(element)")
           if element as! String == key {
-            print("[PlistManager] Found the Item that we were looking for for key: [\(key)]")
+//            print("[PlistManager] Found the Item that we were looking for for key: [\(key)]")
             value = dict[key]!
           } else {
             //print("[PlistManager] This is Item with key '\(element)' and not the Item that we are looking for with key: \(key)")
