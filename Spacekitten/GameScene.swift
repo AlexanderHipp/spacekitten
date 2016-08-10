@@ -226,7 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let damagePotential = self.enemyDamage(enemy.name!)
         
         player.updatePlayerPhysics()
-        player.growPlayerWhenHit(damagePotential)
+        player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
     }
     

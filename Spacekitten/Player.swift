@@ -53,10 +53,13 @@ class Player: SKNode {
         return playerHead.size.height
     }
     
-    func growPlayerWhenHit(damage: Int) {
+    func growPlayerWhenHit(damage: Int, sizeScreen: CGSize) {
         // How much player grows when he gets hit
-        playerSize += damage
-        playerHead.size = CGSize(width: playerSize, height: playerSize)
+        
+        if playerSize <= Int(sizeScreen.width) {
+            playerSize += damage
+            playerHead.size = CGSize(width: playerSize, height: playerSize)
+        }
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
