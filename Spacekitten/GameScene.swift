@@ -117,10 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Check if game over
                         if self.gameOver == true {
                             self.removeAllEnemyNodes()
-                        } else {
-                            
-                            
-                            
+                        } else {                                                    
                             
                             // Init and add the projectile
                             enemy.defineEnemySpecFor(self.level, sizeScreen: self.size)

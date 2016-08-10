@@ -176,11 +176,16 @@ class Enemy: SKNode {
         
         switch currentLevel {
         case 1:
-            return EnemyType.Pikachu
+            return getPossibleEnemies([.Pikachu, .Taubsi])
         default:
-            return EnemyType.Taubsi
+            return getPossibleEnemies([.Relaxo, .Taubsi])
         }
         
+    }
+    
+    func getPossibleEnemies(enemyArray: [EnemyType]) -> EnemyType {
+        let enemyToDisplay: EnemyType = enemyArray.sample()
+        return enemyToDisplay
     }
     
 }
