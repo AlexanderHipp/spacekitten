@@ -119,8 +119,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             self.removeAllEnemyNodes()
                         } else {
                             
+                            
+                            
+                            
                             // Init and add the projectile
-                            enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
+                            enemy.defineEnemySpecFor(self.level, sizeScreen: self.size)
                             
                             self.addChild(enemy)
                             
@@ -313,8 +316,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return currentLevel
         }
         
-        
     }
+    
+    
     
   
     
