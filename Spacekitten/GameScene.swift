@@ -62,17 +62,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Set up Player and HUD
     let player = Player()
     let hud = HUD()
+    let level = Level()
     var gameOver = false
     
     var enemyArray = [Enemy]()
-    var level = 1
-    
     
     // Game Statistics
     var enemiesDestroyed = 0
     
     
-    override func didMoveToView(view: SKView) {            
+    override func didMoveToView(view: SKView) {
+        
+        // Set level to 1 
+        level.levelValue = 1
         
         // Background
         backgroundColor = SKColor.blackColor()
@@ -95,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         // Game starts
-        self.hud.showLevel(level)        
+        self.hud.showLevel(level.levelValue)
         
         runAction(
             SKAction.repeatActionForever (
@@ -117,10 +119,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Check if game over
                         if self.gameOver == true {
                             self.removeAllEnemyNodes()
-                        } else {
+                        } else {                                                    
                             
                             // Init and add the projectile
-                            enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
+                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
                             
                             self.addChild(enemy)
                             
@@ -205,11 +207,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 enemiesDestroyed += 1
                 
                 
-                let levelNew = checkLevel(enemiesDestroyed, currentLevel: level)
+                let levelNew = level.checkLevel(enemiesDestroyed, currentLevel: level.levelValue)
                 
-                if levelNew != level {
+                if levelNew != level.levelValue {
                     self.hud.showLevel(levelNew)
-                    level = levelNew
+                    level.levelValue = levelNew
                 }
                 
                 hud.setCoinCounDisplay(enemiesDestroyed)
@@ -294,29 +296,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ]))
         
     }
-    
-    
-    func checkLevel(destroyedEnemies: Int, currentLevel: Int) -> Int {
-    
-        switch destroyedEnemies {
-        case 0 ... 4: 
-            return 1
-        case 5 ... 7:
-            return 2
-        case 8 ... 10:
-            return 3
-        case 11 ... 15:
-            return 4
-        case 16 ... 18:
-            return 5
-        default:
-            return currentLevel
-        }
-        
-        
-    }
-    
-  
     
 }
 
