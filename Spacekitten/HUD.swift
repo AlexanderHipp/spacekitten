@@ -51,7 +51,7 @@ class HUD: SKNode {
         // Ralph Face
         ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
         ralphFace.position = centerOfHud
-        ralphFace.size = CGSize(width: 145, height: 145)
+        ralphFace.size = CGSize(width: 100, height: 100)
         ralphFace.zPosition = 12
         
         
