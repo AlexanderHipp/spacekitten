@@ -16,31 +16,31 @@ class Enemy: SKNode {
     let calculationOfRandom = Calculation()
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
-    enum enemyType {
-        case Taubsi, Pikachu, Relaxo
+    enum EnemyType {
+        case Donut, Scoop
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Taubsi: return (size: CGSize(width: 30, height: 30), color: "donut", speed: 3.0, name: "Taubsi")
-            case Pikachu: return (size: CGSize(width: 20, height: 20), color: "yellow", speed: 4.0, name: "Pikachu")
-            case Relaxo: return (size: CGSize(width: 50, height: 50), color: "blue", speed: 10.0, name: "Relaxo")
-            // add name to the enum to check what hit the player
+            case Donut: return (size: CGSize(width: 30, height: 30), color: "Donut", speed: 4.0, name: "Donut")
+            case Scoop: return (size: CGSize(width: 30, height: 30), color: "Scoop", speed: 2.5, name: "Scoop")
             }
         }
     }
     
     
-    func defineEnemySpecFor(type: enemyType, sizeScreen: CGSize) {
+    func defineEnemySpecFor(currentLevel: Int, sizeScreen: CGSize) {
+        
+        let enemyTypeValue = whichEnemyTypeWillBeDisplayed(currentLevel)
 
-        let sizeOfEnemy = enemySize(type)
+        let sizeOfEnemy = enemySize(enemyTypeValue)
         let enemyRandomPosition = defineEnemyPosition(sizeScreen, enemySize: sizeOfEnemy)
         
         self.addEnemy(
             sizeOfEnemy,
             initPosition: enemyRandomPosition,
             sizeScreen: sizeScreen,
-            texture: enemyTexture(type),
-            speed: enemySpeed(type),
-            typeName: enemyName(type)            
+            texture: enemyTexture(enemyTypeValue),
+            speed: enemySpeed(enemyTypeValue),
+            typeName: enemyName(enemyTypeValue)
         )
     }
     
@@ -75,20 +75,20 @@ class Enemy: SKNode {
     
     func addEnemy(size: CGSize, initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat, typeName: String) {
         
-        enemy.texture = textureAtlas.textureNamed(texture)
+        enemy.texture = textureAtlas.textureNamed(texture)        
         enemy.position = initPosition
         enemy.size = size
         enemy.name = typeName
+        enemy.zPosition = 50
         
         // Add the enemy to the scene
         self.addChild(enemy)
         
         
         // Apply physics
-        enemy.physicsBody = SKPhysicsBody(rectangleOfSize: enemy.size)
+        enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
         enemy.physicsBody?.dynamic = true
-        enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy
-        enemy.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
+        enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy        
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Create the actions
@@ -96,34 +96,30 @@ class Enemy: SKNode {
  
     }
     
-    func enemySize(type: enemyType) -> CGSize {
+    func enemySize(type: EnemyType) -> CGSize {
         
         var sizeEnemy: CGSize
         
         switch type {
-        case .Taubsi:
-            sizeEnemy = enemyType.Taubsi.spec.size
-        case .Pikachu:
-            sizeEnemy = enemyType.Pikachu.spec.size
-        case .Relaxo:
-            sizeEnemy = enemyType.Relaxo.spec.size
+        case .Donut:
+            sizeEnemy = EnemyType.Donut.spec.size
+        case .Scoop:
+            sizeEnemy = EnemyType.Scoop.spec.size
         }
         return sizeEnemy
     }
     
     
     
-    func enemyTexture(type: enemyType) -> String {
+    func enemyTexture(type: EnemyType) -> String {
         
         var textureEnemy: String
         
         switch type {
-        case .Taubsi:
-            textureEnemy = enemyType.Taubsi.spec.color
-        case .Pikachu:
-            textureEnemy = enemyType.Pikachu.spec.color
-        case .Relaxo:
-            textureEnemy = enemyType.Relaxo.spec.color
+        case .Donut:
+            textureEnemy = EnemyType.Donut.spec.color
+        case .Scoop:
+            textureEnemy = EnemyType.Scoop.spec.color
         }
         
         return textureEnemy
@@ -131,34 +127,30 @@ class Enemy: SKNode {
     }
     
     
-    func enemySpeed(type: enemyType) -> CGFloat {
+    func enemySpeed(type: EnemyType) -> CGFloat {
         
         var speedEnemy: CGFloat
         
         switch type {
-        case .Taubsi:
-            speedEnemy = enemyType.Taubsi.spec.speed
-        case .Pikachu:
-            speedEnemy = enemyType.Pikachu.spec.speed
-        case .Relaxo:
-            speedEnemy = enemyType.Relaxo.spec.speed
+        case .Donut:
+            speedEnemy = EnemyType.Donut.spec.speed
+        case .Scoop:
+            speedEnemy = EnemyType.Scoop.spec.speed
         }
         return speedEnemy
         
     }
     
     
-    func enemyName(type: enemyType) -> String {
+    func enemyName(type: EnemyType) -> String {
         
         var nameEnemy: String
         
         switch type {
-        case .Taubsi:
-            nameEnemy = enemyType.Taubsi.spec.name
-        case .Pikachu:
-            nameEnemy = enemyType.Pikachu.spec.name
-        case .Relaxo:
-            nameEnemy = enemyType.Relaxo.spec.name
+        case .Donut:
+            nameEnemy = EnemyType.Donut.spec.name
+        case .Scoop:
+            nameEnemy = EnemyType.Scoop.spec.name
         }
         return nameEnemy
         
@@ -167,8 +159,40 @@ class Enemy: SKNode {
     
     func removeAllEnemies() {
         self.enemy.removeFromParent()
-    }            
+    }
+    
+    
+    func whichEnemyTypeWillBeDisplayed(currentLevel: Int) -> EnemyType {
+        
+        switch currentLevel {
+        case 1:
+            return getPossibleEnemies([.Donut])
+        default:
+            return getPossibleEnemies([.Scoop, .Donut])
+        }
+        
+    }
+    
+    func getPossibleEnemies(enemyArray: [EnemyType]) -> EnemyType {
+        let enemyToDisplay: EnemyType = enemyArray.sample()
+        return enemyToDisplay
+    }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

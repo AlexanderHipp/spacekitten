@@ -38,14 +38,14 @@ class MenuScene: SKScene {
         // Ralph Head
         ralphHead.texture = textureAtlas.textureNamed("Ralph-head")
         ralphHead.position = CGPoint(x: 0, y: 0)
-        ralphHead.size = CGSize(width: 145, height: 145)
+        ralphHead.size = CGSize(width: 100, height: 100)
         ralphHead.zPosition = 12
         self.addChild(ralphHead)
         
         // Ralph Face
         ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
         ralphFace.position = CGPoint(x: 0, y: 0)
-        ralphFace.size = CGSize(width: 145, height: 145)
+        ralphFace.size = CGSize(width: 100, height: 100)
         ralphFace.zPosition = 13
         self.addChild(ralphFace)
         

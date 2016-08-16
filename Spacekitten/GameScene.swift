@@ -45,7 +45,6 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let Player    : UInt32 = 0b1      // value 1
     static let Enemy     : UInt32 = 0b10     // value 2
-    static let Projectile: UInt32 = 0b11     // value 3
 }
 
 extension Array {
@@ -62,6 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Set up Player and HUD
     let player = Player()
     let hud = HUD()
+    let level = Level()
     var gameOver = false
     
     var enemyArray = [Enemy]()
@@ -72,7 +72,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
-    
+        // Set level to 1 
+        level.levelValue = 1
         
         // Background
         backgroundColor = SKColor.blackColor()
@@ -87,8 +88,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(hud)
         hud.zPosition = 50
         
+        // Get highscore
+        hud.updateHighScore()
+        
+        
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
+        
+        // Game starts
+        self.hud.showLevel(level.levelValue)
         
         runAction(
             SKAction.repeatActionForever (
@@ -110,10 +118,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Check if game over
                         if self.gameOver == true {
                             self.removeAllEnemyNodes()
-                        } else {
-                            
-                            // Init and add the projectile
-                            enemy.defineEnemySpecFor(.Taubsi, sizeScreen: self.size)
+                        } else {                                                    
+                                                        
+                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
                             
                             self.addChild(enemy)
                             
@@ -125,7 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     
                     // Time after a new enemy is displayed
-                    SKAction.waitForDuration(0.5)
+                    SKAction.waitForDuration(1.0)
                     
                 ])
             ),
@@ -135,9 +142,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func checkGameOver() {
-        if (player.heightOfPlayer() >= size.height / 2) && (player.widthOfPlayer() >= size.width / 2) {
+        if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
                         
             self.gameOver = true
+            
+            // Check if new highScore, if yes write it in the plist
+            hud.checkIfNewHighScore(enemiesDestroyed)
+            
             player.removeFromParent()
             player.die()
             
@@ -170,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // Check for HUD donut:
-        if nodeTouched.name == "restartButton" {
+        if nodeTouched.name == "DonutRestart" {
             
             runAction(
                 SKAction.sequence([
@@ -189,9 +200,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             
+            // If the user touches an enemy
+            
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 self.enemyDie(nodeTouchedAsSKSpriteNode)
-                enemiesDestroyed += 1
+                
+                
+                let damagePotential = self.enemyDamage(nodeTouched.name!)
+                enemiesDestroyed += (damagePotential / 10)
+                
+                let levelNew = level.checkLevel(enemiesDestroyed, currentLevel: level.levelValue)
+                
+                if levelNew != level.levelValue {
+                    self.hud.showLevel(levelNew)
+                    level.levelValue = levelNew
+                }
+                
                 hud.setCoinCounDisplay(enemiesDestroyed)
             }
         }
@@ -206,7 +230,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let damagePotential = self.enemyDamage(enemy.name!)
         
         player.updatePlayerPhysics()
-        player.growPlayerWhenHit(damagePotential)
+        player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
     }
     
@@ -243,37 +267,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func enemyDamage(type: String) -> Int {
         
-        var damageEnemy: Int
-        
         switch type {
-        case "Taubsi":
-            damageEnemy = 25
-        case "Pikachu":
-            damageEnemy = 5
-        case "Relaxo":
-            damageEnemy = 10
+        case "Donut":
+            return 10
+        case "Scoop":
+            return 20
         default:
-            damageEnemy = 0
+            return 0
         }
-        return damageEnemy
         
     }
     
+    
+    func enemySquish(type: String) -> String {
+        
+        switch type {
+        case "Donut":
+            return "Donut-squished"
+        case "Scoop":
+            return "Scoop-squished"
+        default:
+            return "Donut-squished"
+        }
+        
+    }
+    
+    
     func enemyDie(enemy: SKSpriteNode) {
+        
+        let whichEnemyShouldBeSquished = enemySquish(enemy.name!)
         
         var actions = Array<SKAction>();
         
-        actions.append(SKAction.scaleTo(1.4, duration: 0.5))
-        actions.append(SKAction.runBlock({enemy.texture = SKTexture(imageNamed: "Donut-squished")}))
+        actions.append(SKAction.scaleTo(1.1, duration: 0.2))
+        actions.append(SKAction.runBlock({enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)}))
         
         enemy.removeAllActions()
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),
-            SKAction.waitForDuration(1.2),
+            SKAction.waitForDuration(0.5),
             SKAction.fadeAlphaTo(0, duration: 0.9)
-            
         ]))
         
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
