@@ -51,7 +51,7 @@ class HUD: SKNode {
         // Ralph Face
         ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
         ralphFace.position = centerOfHud
-        ralphFace.size = CGSize(width: 145, height: 145)
+        ralphFace.size = CGSize(width: 100, height: 100)
         ralphFace.zPosition = 12
         
         
@@ -66,6 +66,7 @@ class HUD: SKNode {
         labelScore.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 200))
         labelScore.fontName = font
         labelScore.fontSize = 25.0
+        labelScore.userInteractionEnabled = false
         labelScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         
@@ -74,6 +75,7 @@ class HUD: SKNode {
         labelBest.position = CGPoint(x: ((screenSize.width / 2) + 80), y: ((screenSize.height / 2) + 200))
         labelBest.fontName = font
         labelBest.fontSize = 25.0
+        labelBest.userInteractionEnabled = false
         labelBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         
@@ -82,6 +84,7 @@ class HUD: SKNode {
         coinCountBest.position = CGPoint(x: ((screenSize.width / 2) + 80), y: ((screenSize.height / 2) + 150))
         coinCountBest.fontName = font
         coinCountBest.fontSize = 40.0
+        coinCountBest.userInteractionEnabled = false
         coinCountBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         coinCountBest.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
@@ -92,6 +95,7 @@ class HUD: SKNode {
         levelLabel.fontName = font
         levelLabel.fontSize = 40.0
         levelLabel.zPosition = 40
+        levelLabel.userInteractionEnabled = false
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         levelLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)

@@ -16,29 +16,32 @@ class Player: SKNode {
     let playerFace = SKSpriteNode()
     let playerHead = SKSpriteNode()
     
-    var playerSize = 145
+    var playerSize = 100
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
+    
+    let imageRalphHead = "Ralph-head"
+    let imageRalphFace = "Ralph-face"
     
     func definePlayer(sizeScreen: CGSize) {
         
         // Head
-        playerHead.texture = textureAtlas.textureNamed("Ralph-head")
+        playerHead.texture = textureAtlas.textureNamed(imageRalphHead)        
         playerHead.size = CGSize(width: playerSize, height: playerSize)
         playerHead.zPosition = 12
         playerHead.position = positionPlayer(sizeScreen)
         
         // Face
-        playerFace.texture = textureAtlas.textureNamed("Ralph-face")
+        playerFace.texture = textureAtlas.textureNamed(imageRalphFace)
         playerFace.size = CGSize(width: playerSize, height: playerSize)
         playerFace.zPosition = 13
         playerFace.position = positionPlayer(sizeScreen)
         
-        addChild(playerHead)
         addChild(playerFace)
+        addChild(playerHead)
     }
     
-    func updatePlayerPhysics() {
-        playerHead.physicsBody = SKPhysicsBody(rectangleOfSize: playerHead.size)
+    func updatePlayerPhysics() {        
+        playerHead.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: self.imageRalphHead), size: playerHead.size)
         playerHead.physicsBody?.dynamic = false
         playerHead.physicsBody?.categoryBitMask = PhysicsCategory.Player
         playerHead.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy

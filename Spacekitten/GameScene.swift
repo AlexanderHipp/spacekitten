@@ -45,7 +45,6 @@ struct PhysicsCategory {
     static let All       : UInt32 = UInt32.max
     static let Player    : UInt32 = 0b1      // value 1
     static let Enemy     : UInt32 = 0b10     // value 2
-    static let Projectile: UInt32 = 0b11     // value 3
 }
 
 extension Array {
@@ -120,8 +119,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         if self.gameOver == true {
                             self.removeAllEnemyNodes()
                         } else {                                                    
-                            
-                            // Init and add the projectile
+                                                        
                             enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
                             
                             self.addChild(enemy)
