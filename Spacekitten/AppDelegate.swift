@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import HockeySDK
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,6 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         // Start plist
         PlistManager.sharedInstance.startPlistManager()
+        BITHockeyManager.sharedHockeyManager().configureWithIdentifier("ae4f0ec5bee042fe9b71daadbbb57cb9")
+        // Do some additional configuration if needed here
+        BITHockeyManager.sharedHockeyManager().startManager()
+        BITHockeyManager.sharedHockeyManager().authenticator.authenticateInstallation()
+
+
         return true
     }
     
