@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FAE549201D19D4AA009BAE8C"
-               BuildableName = "Spacekitten.app"
-               BlueprintName = "Spacekitten"
-               ReferencedContainer = "container:Spacekitten.xcodeproj">
+               BuildableName = "Ralph.app"
+               BlueprintName = "Ralph"
+               ReferencedContainer = "container:Ralph.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FAE549201D19D4AA009BAE8C"
-            BuildableName = "Spacekitten.app"
-            BlueprintName = "Spacekitten"
-            ReferencedContainer = "container:Spacekitten.xcodeproj">
+            BuildableName = "Ralph.app"
+            BlueprintName = "Ralph"
+            ReferencedContainer = "container:Ralph.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FAE549201D19D4AA009BAE8C"
-            BuildableName = "Spacekitten.app"
-            BlueprintName = "Spacekitten"
-            ReferencedContainer = "container:Spacekitten.xcodeproj">
+            BuildableName = "Ralph.app"
+            BlueprintName = "Ralph"
+            ReferencedContainer = "container:Ralph.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FAE549201D19D4AA009BAE8C"
-            BuildableName = "Spacekitten.app"
-            BlueprintName = "Spacekitten"
-            ReferencedContainer = "container:Spacekitten.xcodeproj">
+            BuildableName = "Ralph.app"
+            BlueprintName = "Ralph"
+            ReferencedContainer = "container:Ralph.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
