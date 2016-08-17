@@ -38,7 +38,7 @@
 		FA781D6A1D5BBE7700A51D18 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		FA81A7BE1D491B58000158B4 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
 		FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CooperHewitt-Heavy.otf"; sourceTree = "<group>"; };
-		FAE549211D19D4AA009BAE8C /* Spacekitten.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spacekitten.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAE549211D19D4AA009BAE8C /* Ralph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ralph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAE549241D19D4AA009BAE8C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FAE549281D19D4AA009BAE8C /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -72,7 +72,7 @@
 		FAE549181D19D4AA009BAE8C = {
 			isa = PBXGroup;
 			children = (
-				FAE549231D19D4AA009BAE8C /* Spacekitten */,
+				FAE549231D19D4AA009BAE8C /* Ralph */,
 				FAE549221D19D4AA009BAE8C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -80,12 +80,12 @@
 		FAE549221D19D4AA009BAE8C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FAE549211D19D4AA009BAE8C /* Spacekitten.app */,
+				FAE549211D19D4AA009BAE8C /* Ralph.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FAE549231D19D4AA009BAE8C /* Spacekitten */ = {
+		FAE549231D19D4AA009BAE8C /* Ralph */ = {
 			isa = PBXGroup;
 			children = (
 				FA9B84371D54F2E400A9B37F /* Ressources */,
@@ -108,15 +108,16 @@
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 			);
+			name = Ralph;
 			path = Spacekitten;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FAE549201D19D4AA009BAE8C /* Spacekitten */ = {
+		FAE549201D19D4AA009BAE8C /* Ralph */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FAE549371D19D4AA009BAE8C /* Build configuration list for PBXNativeTarget "Spacekitten" */;
+			buildConfigurationList = FAE549371D19D4AA009BAE8C /* Build configuration list for PBXNativeTarget "Ralph" */;
 			buildPhases = (
 				FAE5491D1D19D4AA009BAE8C /* Sources */,
 				FAE5491E1D19D4AA009BAE8C /* Frameworks */,
@@ -126,9 +127,9 @@
 			);
 			dependencies = (
 			);
-			name = Spacekitten;
+			name = Ralph;
 			productName = Spacekitten;
-			productReference = FAE549211D19D4AA009BAE8C /* Spacekitten.app */;
+			productReference = FAE549211D19D4AA009BAE8C /* Ralph.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -147,7 +148,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FAE5491C1D19D4AA009BAE8C /* Build configuration list for PBXProject "Spacekitten" */;
+			buildConfigurationList = FAE5491C1D19D4AA009BAE8C /* Build configuration list for PBXProject "Ralph" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -160,7 +161,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FAE549201D19D4AA009BAE8C /* Spacekitten */,
+				FAE549201D19D4AA009BAE8C /* Ralph */,
 			);
 		};
 /* End PBXProject section */
@@ -317,7 +318,7 @@
 				INFOPLIST_FILE = Spacekitten/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lonelygoldfish.Spacekitten;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Ralph;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -331,7 +332,7 @@
 				INFOPLIST_FILE = Spacekitten/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lonelygoldfish.Spacekitten;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Ralph;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -339,7 +340,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FAE5491C1D19D4AA009BAE8C /* Build configuration list for PBXProject "Spacekitten" */ = {
+		FAE5491C1D19D4AA009BAE8C /* Build configuration list for PBXProject "Ralph" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAE549351D19D4AA009BAE8C /* Debug */,
@@ -348,7 +349,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FAE549371D19D4AA009BAE8C /* Build configuration list for PBXNativeTarget "Spacekitten" */ = {
+		FAE549371D19D4AA009BAE8C /* Build configuration list for PBXNativeTarget "Ralph" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FAE549381D19D4AA009BAE8C /* Debug */,
