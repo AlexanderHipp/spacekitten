@@ -58,9 +58,9 @@ class Enemy: SKNode {
         
         // Determine where to spawn the enemy along the x axis, bottom or top
         let actualX = calculationOfRandom.random(min: enemy.size.width/2, max: sizeScreen.width - enemy.size.width/2)
-        let bottomSide = -enemySize.height/2
+//        let bottomSide = -enemySize.height/2
         let topSide = sizeScreen.height + enemySize.height/2
-        let actualSideBottomTop = [bottomSide, topSide]
+        let actualSideBottomTop = [topSide]
         
         // bottom or top
         let positionBottomTop = CGPoint(x: actualX, y: actualSideBottomTop.sample())
@@ -86,13 +86,14 @@ class Enemy: SKNode {
         
         
         // Apply physics
+        // Eventuell radius größer machen
         enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
         enemy.physicsBody?.dynamic = true
         enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy        
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Create the actions
-        enemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)))
+        enemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width / 2, y: (sizeScreen.height / 2) - 190), duration: NSTimeInterval(speed)))
  
     }
     
