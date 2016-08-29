@@ -16,27 +16,27 @@ class Player: SKNode {
     let playerFace = SKSpriteNode()
     let playerHead = SKSpriteNode()
     
-    var playerSize = 100
+    var playerSize = 240
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
-    let imageRalphHead = "Ralph-head"
-    let imageRalphFace = "Ralph-face"
+    let imageRalphHead = "Ralph"
+//    let imageRalphFace = "Ralph-face"
     
     func definePlayer(sizeScreen: CGSize) {
         
         // Head
         playerHead.texture = textureAtlas.textureNamed(imageRalphHead)        
-        playerHead.size = CGSize(width: playerSize, height: playerSize)
+        playerHead.size = CGSize(width: 170, height: playerSize)
         playerHead.zPosition = 12
-        playerHead.position = positionPlayer(sizeScreen)
+        playerHead.position = CGPoint(x: sizeScreen.width / 2, y: (sizeScreen.height / 2) - 250)
         
         // Face
-        playerFace.texture = textureAtlas.textureNamed(imageRalphFace)
-        playerFace.size = CGSize(width: playerSize, height: playerSize)
-        playerFace.zPosition = 13
-        playerFace.position = positionPlayer(sizeScreen)
+//        playerFace.texture = textureAtlas.textureNamed(imageRalphFace)
+//        playerFace.size = CGSize(width: playerSize, height: playerSize)
+//        playerFace.zPosition = 13
+//        playerFace.position = positionPlayer(sizeScreen)
         
-        addChild(playerFace)
+//        addChild(playerFace)
         addChild(playerHead)
     }
     

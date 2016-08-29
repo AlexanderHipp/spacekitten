@@ -36,24 +36,24 @@ class MenuScene: SKScene {
 
         
         // Ralph Head
-        ralphHead.texture = textureAtlas.textureNamed("Ralph-head")
-        ralphHead.position = CGPoint(x: 0, y: 0)
-        ralphHead.size = CGSize(width: 100, height: 100)
+        ralphHead.texture = textureAtlas.textureNamed("Ralph")
+        ralphHead.position = CGPoint(x: 0, y: -250)
+        ralphHead.size = CGSize(width: 180, height: 247)
         ralphHead.zPosition = 12
         self.addChild(ralphHead)
         
-        // Ralph Face
-        ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
-        ralphFace.position = CGPoint(x: 0, y: 0)
-        ralphFace.size = CGSize(width: 100, height: 100)
-        ralphFace.zPosition = 13
-        self.addChild(ralphFace)
+//        // Ralph Face
+//        ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
+//        ralphFace.position = CGPoint(x: 0, y: 0)
+//        ralphFace.size = CGSize(width: 100, height: 100)
+//        ralphFace.zPosition = 13
+//        self.addChild(ralphFace)
         
         
         // Donut to start the game
         donut.texture = textureAtlas.textureNamed("Donut")
         donut.name = "Donut"
-        donut.position = CGPoint(x: 0, y: -200)
+        donut.position = CGPoint(x: 0, y: 0)
         donut.size = CGSize(width: 60, height: 60)
         donut.zPosition = 14
         self.addChild(donut)
