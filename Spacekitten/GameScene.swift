@@ -72,6 +72,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
+        print(self)
+        
         // Set level to 1 
         level.levelValue = 1
         
@@ -149,8 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Check if new highScore, if yes write it in the plist
             hud.checkIfNewHighScore(enemiesDestroyed)
             
-//            player.removeFromParent()
-            player.die()
+            player.die(self.size)
             
             hud.showButtons(self.size)
             

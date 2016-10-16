@@ -33,6 +33,14 @@ class MenuScene: SKScene {
         logo.zPosition = 14
         self.addChild(logo)
         
+        
+        //Define Player
+        
+        //HIER WEITER MACHEN
+        print("self", self.size)
+        
+        player.definePlayer(self.size)
+        player.position = CGPoint(x: 0, y: 0)
         self.addChild(player)
         
         

@@ -11,8 +11,6 @@ import SpriteKit
 
 class Player: SKNode {
     
-    // define player    
-    
     let playerFace = SKSpriteNode()
     let playerHead = SKSpriteNode()
     let playerMouth = SKSpriteNode()
@@ -29,7 +27,7 @@ class Player: SKNode {
     
     func definePlayer(sizeScreen: CGSize) {
         
-        playerSize = Int(sizeScreen.width) / 3
+        playerSize = setSizeForPlayer(sizeScreen)
         playerInnerSize = playerSize
         
         // Head
@@ -91,13 +89,20 @@ class Player: SKNode {
         return CGPoint(x: sizeScreen.width * 0.5, y: sizeScreen.height * 0.5)
     }
     
+    func setSizeForPlayer(sizeScreen: CGSize) -> Int {
+        print(sizeScreen)
+        return Int(sizeScreen.width) / 3
+    }
     
-    func die() {
-//        self.alpha = 0
+    
+    func die(sizeScreen: CGSize) {
         self.removeAllActions()
         
-        playerSize = 150
-        playerInnerSize = 150
+        playerSize = setSizeForPlayer(sizeScreen)
+        
+        playerHead.size = CGSize(width: playerSize, height: playerSize)
+        playerFace.size = CGSize(width: playerSize, height: playerSize)
+        playerMouth.size = CGSize(width: playerSize, height: playerSize)
         
         
     }
