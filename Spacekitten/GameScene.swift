@@ -149,7 +149,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Check if new highScore, if yes write it in the plist
             hud.checkIfNewHighScore(enemiesDestroyed)
             
-            player.removeFromParent()
+//            player.removeFromParent()
             player.die()
             
             hud.showButtons(self.size)

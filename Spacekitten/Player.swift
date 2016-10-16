@@ -93,9 +93,12 @@ class Player: SKNode {
     
     
     func die() {
-        self.alpha = 0
+//        self.alpha = 0
         self.removeAllActions()
-//        self.runAction(self.dieAnimation)
+        
+        playerSize = 150
+        playerInnerSize = 150
+        
         
     }
     
