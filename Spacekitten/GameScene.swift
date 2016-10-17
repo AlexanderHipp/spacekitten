@@ -79,7 +79,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = SKColor.blackColor()
         
         //Define Player        
-        player.definePlayer(self.size)
+        player.definePlayer(sizeScreen: self.size)
         player.updatePlayerPhysics()
         self.addChild(player)
         

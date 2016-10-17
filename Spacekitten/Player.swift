@@ -25,7 +25,7 @@ class Player: SKNode {
     let imageFace = "face"
     let imageMouth = "mouth"
     
-    func definePlayer(sizeScreen: CGSize) {
+    func definePlayer(sizeScreen sizeScreen: CGSize) {
         
         playerSize = setSizeForPlayer(sizeScreen)
         playerInnerSize = playerSize
