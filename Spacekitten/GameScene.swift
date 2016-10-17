@@ -233,6 +233,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.updatePlayerPhysics()
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
+        let bubbles = Bubble()
+        
+        
+        bubbles.addBubbles(self.size)
+        self.addChild(bubbles)
+        
     }
     
     
