@@ -72,8 +72,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
-        print(self)
-        
         // Set level to 1 
         level.levelValue = 1
         
@@ -91,8 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.zPosition = 50
         
         // Get highscore
-        hud.updateHighScore()
-        
+        hud.updateHighScore()        
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -233,15 +230,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.updatePlayerPhysics()
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
-        let bubbles = Bubble()
         
+        // Add 3 bubbles to the eating action
         
-        bubbles.addBubbles(self.size)
-        self.addChild(bubbles)
+        addBubbles()    
         
     }
     
-    
+    func addBubbles() {
+        
+        var index = 0
+        while index <= 2 {
+            
+            let bubbles = Bubble()
+            bubbles.addBubbles(self.size)
+            self.addChild(bubbles)
+            
+            index += 1
+        }
+        
+    }
     
     func didBeginContact(contact: SKPhysicsContact) {
         

@@ -20,11 +20,10 @@ class Bubble: SKNode {
     
     func addBubbles(sizeScreen: CGSize) {
         
-        bubble.size = CGSize(width: 20, height: 20)
-        
+        bubble.size = CGSize(width: 15, height: 15)
         let bubbleRandomPosition = defineBubbleGoalPosition(sizeScreen, bubbleSize: bubble.size)
         defineBubble(bubbleRandomPosition, sizeScreen: sizeScreen)
-        
+
     }
     
     func defineBubbleGoalPosition(sizeScreen: CGSize, bubbleSize: CGSize) -> CGPoint {
@@ -64,13 +63,17 @@ class Bubble: SKNode {
         
         // Add the enemy to the scene
         self.addChild(bubble)        
-        
-        
-        
+                
         // Create the actions
-        bubble.runAction(SKAction.moveTo(endPosition, duration: 0.5))
+        
+        bubble.runAction(SKAction.group([
+            SKAction.moveTo(endPosition, duration: 6),
+            SKAction.fadeOutWithDuration(1.0),
+            SKAction.waitForDuration(6)
+        ]))
         
     }
+    
     
     
     
