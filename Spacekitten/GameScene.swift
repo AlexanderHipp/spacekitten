@@ -222,28 +222,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, playerHit:SKSpriteNode) {
         
+        // TODO: enemy animation fade out or similar
+        
+        // Remove enemy from view
         enemy.removeFromParent()
         
         // Get enemy type to check damage
         let damagePotential = self.enemyDamage(enemy.name!)
         
+        // Update player
         player.updatePlayerPhysics()
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
+        // Get enemy type to check bubble color
+        let bubbleColor = self.bubbleColor(enemy.name!)
         
         // Add 3 bubbles to the eating action
-        
-        addBubbles()    
+        addBubbles(bubbleColor)
         
     }
     
-    func addBubbles() {
+    func addBubbles(color: String) {
         
         var index = 0
         while index <= 2 {
             
             let bubbles = Bubble()
-            bubbles.addBubbles(self.size)
+            bubbles.addBubbles(self.size, texture: color)
             self.addChild(bubbles)
             
             index += 1
@@ -290,9 +295,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             return 0
         }
-        
     }
     
+    func bubbleColor(type: String) -> String {
+        
+        switch type {
+        case "Donut":
+            return "bubblePink"
+        case "Scoop":
+            return "bubbleYellow"
+        default:
+            return "bubblePink"
+        }
+    }
     
     func enemySquish(type: String) -> String {
         
@@ -304,7 +319,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             return "Donut-squished"
         }
-        
     }
     
     

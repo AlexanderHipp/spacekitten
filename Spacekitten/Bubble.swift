@@ -18,11 +18,11 @@ class Bubble: SKNode {
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     
-    func addBubbles(sizeScreen: CGSize) {
+    func addBubbles(sizeScreen: CGSize, texture: String) {
         
-        bubble.size = CGSize(width: 15, height: 15)
+        bubble.size = CGSize(width: 12, height: 12)
         let bubbleRandomPosition = defineBubbleGoalPosition(sizeScreen, bubbleSize: bubble.size)
-        defineBubble(bubbleRandomPosition, sizeScreen: sizeScreen)
+        defineBubble(bubbleRandomPosition, sizeScreen: sizeScreen, texture: texture)
 
     }
     
@@ -53,9 +53,9 @@ class Bubble: SKNode {
         
     }
     
-    func defineBubble(endPosition: CGPoint, sizeScreen: CGSize) {
+    func defineBubble(endPosition: CGPoint, sizeScreen: CGSize, texture: String) {
         
-        bubble.texture = textureAtlas.textureNamed("bubblePink")
+        bubble.texture = textureAtlas.textureNamed(texture)
         print(bubble.texture)
         bubble.position = CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2)
         print(bubble.position)

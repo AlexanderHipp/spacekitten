@@ -37,7 +37,7 @@ class MenuScene: SKScene {
         //Define Player
         
         //HIER WEITER MACHEN
-        print("self", self.size)
+//        print("self", self.size)
         
         player.definePlayer(self.size)
         player.position = CGPoint(x: 0, y: 0)
