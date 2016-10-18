@@ -92,7 +92,11 @@ class Enemy: SKNode {
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Create the actions
-        enemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)))
+        enemy.runAction(SKAction.group([
+            SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)),
+            SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 5.0))
+        ]))
+        
  
     }
     
