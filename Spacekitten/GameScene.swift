@@ -164,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Go through the enemyArray and delete all enemy nodes from the game
         for i in 0 ..< self.enemyArray.count  {
             self.enemyArray[i].removeFromParent()
-        }
+        }                
     }
     
     
@@ -297,6 +297,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    // Merge with other bubbleColor in Enemy.swift
     func bubbleColor(type: String) -> String {
         
         switch type {
@@ -308,6 +309,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return "bubblePink"
         }
     }
+    //
     
     func enemySquish(type: String) -> String {
         
@@ -335,8 +337,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),
             SKAction.waitForDuration(0.5),
-            SKAction.fadeAlphaTo(0, duration: 0.9)
+            SKAction.fadeAlphaTo(0, duration: 1.0)
         ]))
+        enemy.removeAllChildren()
         
     }
     
