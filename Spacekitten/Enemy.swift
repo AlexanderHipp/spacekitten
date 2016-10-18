@@ -92,9 +92,42 @@ class Enemy: SKNode {
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Create the actions
-        enemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)))
+        enemy.runAction(SKAction.group([
+            SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)),
+            SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 5.0))
+        ]))
+        
+        
+        // Add dots after the enemy with the correct colour
+        addEmitter(texture)
+        
+        
  
     }
+    
+    func addEmitter(texture: String) {
+        
+        let textureColor = self.bubbleColor(texture)
+        let dotEmitter = SKEmitterNode(fileNamed: "FoodPath.sks")
+        dotEmitter!.particleTexture = SKTexture(imageNamed: textureColor)
+        dotEmitter!.targetNode = self
+        enemy.addChild(dotEmitter!)
+    }
+    
+    
+    // TODO: Merge with other BubbleColor in own class
+    func bubbleColor(type: String) -> String {
+        
+        switch type {
+        case "Donut":
+            return "bubblePink"
+        case "Scoop":
+            return "bubbleYellow"
+        default:
+            return "bubblePink"
+        }
+    }
+    //
     
     func enemySize(type: EnemyType) -> CGSize {
         

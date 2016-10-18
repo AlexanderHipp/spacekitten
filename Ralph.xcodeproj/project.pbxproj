@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		04270E761D36A4CA00E16250 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04270E751D36A4CA00E16250 /* Enemy.swift */; };
 		044063A21D36BDD900CC6CE3 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044063A11D36BDD900CC6CE3 /* Random.swift */; };
+		FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */; };
 		FA3B9B701D4920000018FD87 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B9B6F1D4920000018FD87 /* Player.swift */; };
 		FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40516A1DB533ED00CD8F22 /* Bubble.swift */; };
 		FA781D681D5A71D100A51D18 /* MyData.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA781D661D5A71D100A51D18 /* MyData.plist */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		04270E751D36A4CA00E16250 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		044063A11D36BDD900CC6CE3 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FoodPath.sks; sourceTree = "<group>"; };
 		FA3B9B6F1D4920000018FD87 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FA40516A1DB533ED00CD8F22 /* Bubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
 		FA781D661D5A71D100A51D18 /* MyData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyData.plist; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				FA781D661D5A71D100A51D18 /* MyData.plist */,
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
+				FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */,
 			);
 			name = Ralph;
 			path = Spacekitten;
@@ -201,6 +204,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */,
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
 				FA781D681D5A71D100A51D18 /* MyData.plist in Resources */,
