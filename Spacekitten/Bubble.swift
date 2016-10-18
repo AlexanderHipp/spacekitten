@@ -56,9 +56,7 @@ class Bubble: SKNode {
     func defineBubble(endPosition: CGPoint, sizeScreen: CGSize, texture: String) {
         
         bubble.texture = textureAtlas.textureNamed(texture)
-        print(bubble.texture)
-        bubble.position = CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2)
-        print(bubble.position)
+        bubble.position = CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2)        
         bubble.zPosition = 50
         
         // Add the enemy to the scene

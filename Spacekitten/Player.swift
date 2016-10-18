@@ -89,8 +89,7 @@ class Player: SKNode {
         return CGPoint(x: sizeScreen.width * 0.5, y: sizeScreen.height * 0.5)
     }
     
-    func setSizeForPlayer(sizeScreen: CGSize) -> Int {
-        print(sizeScreen)
+    func setSizeForPlayer(sizeScreen: CGSize) -> Int { 
         return Int(sizeScreen.width) / 3
     }
     
