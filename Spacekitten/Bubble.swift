@@ -62,14 +62,17 @@ class Bubble: SKNode {
         // Add the enemy to the scene
         self.addChild(bubble)        
                 
-        // Create the actions
+        self.growAndHideBubbles(endPosition)
         
+    }
+    
+    func growAndHideBubbles(target: CGPoint) {
+        // Create the actions
         bubble.runAction(SKAction.group([
-            SKAction.moveTo(endPosition, duration: 6),
+            SKAction.moveTo(target, duration: 6),
             SKAction.fadeOutWithDuration(1.0),
             SKAction.waitForDuration(6)
         ]))
-        
     }
     
     
