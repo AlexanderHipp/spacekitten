@@ -70,26 +70,23 @@ class Player: SKNode {
     }
     
     func growPlayerWhenHit(damage: Int, sizeScreen: CGSize) {
-        // How much player grows when he gets hit
-        
-        let fullDamage = damage
-        let smallDamage = damage / 2
-        
+                        
         if playerSize <= Int(sizeScreen.width) {
-            
-            playerSize += fullDamage
-            playerInnerSize += smallDamage
-            playerHead.size = CGSize(width: playerSize, height: playerSize)
-            playerFace.size = CGSize(width: playerInnerSize, height: playerInnerSize)
-            playerMouth.size = CGSize(width: playerInnerSize, height: playerInnerSize)
+            self.resizePlayer(damage, smallDamage: damage / 2)
         }
+    }
+    
+    func resizePlayer(damage: Int, smallDamage: Int) {
+        playerHead.runAction(SKAction.resizeByWidth(CGFloat(damage), height: CGFloat(damage), duration: 1.0))
+        playerFace.runAction(SKAction.resizeByWidth(CGFloat(smallDamage), height: CGFloat(smallDamage), duration: 1.0))
+        playerMouth.runAction(SKAction.resizeByWidth(CGFloat(smallDamage), height: CGFloat(smallDamage), duration: 1.0))
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
         return CGPoint(x: sizeScreen.width * 0.5, y: sizeScreen.height * 0.5)
     }
     
-    func setSizeForPlayer(sizeScreen: CGSize) -> Int { 
+    func setSizeForPlayer(sizeScreen: CGSize) -> Int {
         return Int(sizeScreen.width) / 3
     }
     
