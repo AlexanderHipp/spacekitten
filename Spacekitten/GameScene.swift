@@ -49,7 +49,7 @@ struct PhysicsCategory {
 
 extension Array {
     func sample() -> Element {
-        let randomIndex = Int(rand()) % count
+        let randomIndex = Int(arc4random()) % count
         return self[randomIndex]
     }
 }
@@ -79,7 +79,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor = SKColor.blackColor()
         
         //Define Player        
-        player.definePlayer(self.size)
+        player.definePlayer(sizeScreen: self.size)
         player.updatePlayerPhysics()
         self.addChild(player)
         
@@ -89,8 +89,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.zPosition = 50
         
         // Get highscore
-        hud.updateHighScore()
-        
+        hud.updateHighScore()        
         
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
@@ -149,8 +148,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Check if new highScore, if yes write it in the plist
             hud.checkIfNewHighScore(enemiesDestroyed)
             
-            player.removeFromParent()
-            player.die()
+            player.die(self.size)
             
             hud.showButtons(self.size)
             
@@ -166,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Go through the enemyArray and delete all enemy nodes from the game
         for i in 0 ..< self.enemyArray.count  {
             self.enemyArray[i].removeFromParent()
-        }
+        }                
     }
     
     
@@ -224,17 +222,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, playerHit:SKSpriteNode) {
         
+        // TODO: enemy animation fade out or similar
+        
+        // Remove enemy from view
         enemy.removeFromParent()
         
         // Get enemy type to check damage
         let damagePotential = self.enemyDamage(enemy.name!)
         
+        // Update player
         player.updatePlayerPhysics()
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
+        // Get enemy type to check bubble color
+        let bubbleColor = self.bubbleColor(enemy.name!)
+        
+        // Add 3 bubbles to the eating action
+        addBubbles(bubbleColor)
+        
     }
     
-    
+    func addBubbles(color: String) {
+        
+        var index = 0
+        while index <= 2 {
+            
+            let bubbles = Bubble()
+            bubbles.addBubbles(self.size, texture: color)
+            self.addChild(bubbles)
+            
+            index += 1
+        }
+        
+    }
     
     func didBeginContact(contact: SKPhysicsContact) {
         
@@ -275,9 +295,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             return 0
         }
-        
     }
     
+    // Merge with other bubbleColor in Enemy.swift
+    func bubbleColor(type: String) -> String {
+        
+        switch type {
+        case "Donut":
+            return "bubblePink"
+        case "Scoop":
+            return "bubbleYellow"
+        default:
+            return "bubblePink"
+        }
+    }
+    //
     
     func enemySquish(type: String) -> String {
         
@@ -289,7 +321,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         default:
             return "Donut-squished"
         }
-        
     }
     
     
@@ -306,8 +337,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),
             SKAction.waitForDuration(0.5),
-            SKAction.fadeAlphaTo(0, duration: 0.9)
+            SKAction.fadeAlphaTo(0, duration: 1.0)
         ]))
+        enemy.removeAllChildren()
         
     }
     

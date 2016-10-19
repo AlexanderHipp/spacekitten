@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		04270E761D36A4CA00E16250 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04270E751D36A4CA00E16250 /* Enemy.swift */; };
 		044063A21D36BDD900CC6CE3 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044063A11D36BDD900CC6CE3 /* Random.swift */; };
+		FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */; };
 		FA3B9B701D4920000018FD87 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B9B6F1D4920000018FD87 /* Player.swift */; };
-		FA7103311D60E93D0031B49E /* Ralph-head.png in Resources */ = {isa = PBXBuildFile; fileRef = FA71032F1D60E93D0031B49E /* Ralph-head.png */; };
-		FA7103321D60E93D0031B49E /* Ralph-head@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA7103301D60E93D0031B49E /* Ralph-head@2x.png */; };
+		FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40516A1DB533ED00CD8F22 /* Bubble.swift */; };
 		FA781D681D5A71D100A51D18 /* MyData.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA781D661D5A71D100A51D18 /* MyData.plist */; };
 		FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D671D5A71D100A51D18 /* PlistManager.swift */; };
 		FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D6A1D5BBE7700A51D18 /* Level.swift */; };
@@ -32,9 +32,9 @@
 /* Begin PBXFileReference section */
 		04270E751D36A4CA00E16250 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		044063A11D36BDD900CC6CE3 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FoodPath.sks; sourceTree = "<group>"; };
 		FA3B9B6F1D4920000018FD87 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
-		FA71032F1D60E93D0031B49E /* Ralph-head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Ralph-head.png"; path = "sprites.atlas/Ralph-head.png"; sourceTree = "<group>"; };
-		FA7103301D60E93D0031B49E /* Ralph-head@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Ralph-head@2x.png"; path = "sprites.atlas/Ralph-head@2x.png"; sourceTree = "<group>"; };
+		FA40516A1DB533ED00CD8F22 /* Bubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
 		FA781D661D5A71D100A51D18 /* MyData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyData.plist; sourceTree = "<group>"; };
 		FA781D671D5A71D100A51D18 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		FA781D6A1D5BBE7700A51D18 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
@@ -124,6 +124,7 @@
 				FAE549241D19D4AA009BAE8C /* AppDelegate.swift */,
 				FAE549281D19D4AA009BAE8C /* GameScene.swift */,
 				04270E751D36A4CA00E16250 /* Enemy.swift */,
+				FA40516A1DB533ED00CD8F22 /* Bubble.swift */,
 				FA81A7BE1D491B58000158B4 /* HUD.swift */,
 				FA3B9B6F1D4920000018FD87 /* Player.swift */,
 				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
@@ -134,11 +135,10 @@
 				FAE5492C1D19D4AA009BAE8C /* Main.storyboard */,
 				FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */,
 				FAE549341D19D4AA009BAE8C /* Info.plist */,
-				FA71032F1D60E93D0031B49E /* Ralph-head.png */,
-				FA7103301D60E93D0031B49E /* Ralph-head@2x.png */,
 				FA781D661D5A71D100A51D18 /* MyData.plist */,
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
+				FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */,
 			);
 			name = Ralph;
 			path = Spacekitten;
@@ -172,7 +172,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = LonelyGoldfish;
 				TargetAttributes = {
 					FAE549201D19D4AA009BAE8C = {
@@ -204,13 +204,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */,
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
 				FA781D681D5A71D100A51D18 /* MyData.plist in Resources */,
 				FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */,
-				FA7103321D60E93D0031B49E /* Ralph-head@2x.png in Resources */,
 				FA9B84391D54F32100A9B37F /* CooperHewitt-Heavy.otf in Resources */,
-				FA7103311D60E93D0031B49E /* Ralph-head.png in Resources */,
 				FAE5492E1D19D4AA009BAE8C /* Main.storyboard in Resources */,
 				FAAC8CBE1D64FF46007124BD /* HockeySDKResources.bundle in Resources */,
 			);
@@ -245,6 +244,7 @@
 				FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */,
 				FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */,
 				04270E761D36A4CA00E16250 /* Enemy.swift in Sources */,
+				FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */,
 				FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */,
 				FA3B9B701D4920000018FD87 /* Player.swift in Sources */,
 				FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */,
@@ -288,8 +288,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -312,12 +314,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -336,8 +339,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -354,10 +359,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

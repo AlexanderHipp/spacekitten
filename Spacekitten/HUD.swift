@@ -46,14 +46,7 @@ class HUD: SKNode {
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
         
         
-        // After Game over
-        
-        // Ralph Face
-        ralphFace.texture = textureAtlas.textureNamed("Ralph-face")
-        ralphFace.position = centerOfHud
-        ralphFace.size = CGSize(width: 100, height: 100)
-        ralphFace.zPosition = 12
-        
+        // After Game over               
         
         // Donut to restart the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
