@@ -195,6 +195,9 @@ class Enemy: SKNode {
     }
     
     
+    
+    
+    
     func whichEnemyTypeWillBeDisplayed(currentLevel: Int) -> EnemyType {
         
         switch currentLevel {

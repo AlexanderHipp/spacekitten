@@ -37,11 +37,11 @@ class Player: SKNode {
         playerHead.position = positionPlayer(sizeScreen)
         
         
-//        // Mouth
-//        playerMouth.texture = textureAtlas.textureNamed(imageMouth)
-//        playerMouth.size = CGSize(width: playerSize, height: playerSize)
-//        playerMouth.zPosition = 14
-//        playerMouth.position = positionPlayer(sizeScreen)
+        // Mouth
+        playerMouth.texture = textureAtlas.textureNamed("black")
+        playerMouth.size = CGSize(width: 3, height: 3)
+        playerMouth.zPosition = 13
+        playerMouth.position = positionPlayer(sizeScreen)
         
         
         addChild(playerHead)
@@ -71,13 +71,12 @@ class Player: SKNode {
     func growPlayerWhenHit(damage: Int, sizeScreen: CGSize) {
                         
         if playerSize <= Int(sizeScreen.width) {
-            self.resizePlayer(damage, smallDamage: damage / 2)
+            self.resizePlayer(damage)
         }
     }
     
-    func resizePlayer(damage: Int, smallDamage: Int) {
+    func resizePlayer(damage: Int) {
         playerHead.runAction(SKAction.resizeByWidth(CGFloat(damage), height: CGFloat(damage), duration: 1.0))
-        playerMouth.runAction(SKAction.resizeByWidth(CGFloat(smallDamage), height: CGFloat(smallDamage), duration: 1.0))
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
@@ -96,8 +95,7 @@ class Player: SKNode {
         
         // TODO: Schöner schrumpfen lassen
         
-        playerHead.size = CGSize(width: playerSize, height: playerSize)        
-        playerMouth.size = CGSize(width: playerSize, height: playerSize)
+        playerHead.size = CGSize(width: playerSize, height: playerSize)
         
     }
     
@@ -113,12 +111,12 @@ class Player: SKNode {
             textureAtlas.textureNamed("waiting-2")
         ]
         
-        let waitingAction = SKAction.animateWithTextures(waitingFrames, timePerFrame: 1.0)
+        let waitingAction = SKAction.animateWithTextures(waitingFrames, timePerFrame: 0.6)
         
         waitingAnimation = SKAction.repeatActionForever(
             SKAction.sequence([
-                SKAction.repeatAction(waitingAction, count: 1),
-                SKAction.waitForDuration(10)
+                SKAction.repeatAction(waitingAction, count: 2),
+                SKAction.waitForDuration(3)
             ])
         )
         
