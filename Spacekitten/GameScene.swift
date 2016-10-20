@@ -69,6 +69,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Game Statistics
     var enemiesDestroyed = 0
     
+    var background = SKSpriteNode(imageNamed: "background")
+    
     
     override func didMoveToView(view: SKView) {
         
@@ -76,7 +78,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level.levelValue = 1
         
         // Background
-        backgroundColor = SKColor.blackColor()
+        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        addChild(background)
         
         //Define Player        
         player.definePlayer(sizeScreen: self.size)
@@ -136,7 +139,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ])
             ),
             withKey: "GameOver"
-        )
+        )            
         
     }
     

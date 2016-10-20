@@ -17,11 +17,14 @@ class MenuScene: SKScene {
     let donut = SKSpriteNode()
     let player = Player()
     
+    var background = SKSpriteNode(imageNamed: "background")
+    
     
     override func didMoveToView(view: SKView) {
         
-        // Background color and image
-        backgroundColor = SKColor.blackColor()
+        // Background
+        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)        
+        addChild(background)
         
         // Logo
         logo.texture = textureAtlas.textureNamed("DontFeedRalph")
@@ -43,7 +46,7 @@ class MenuScene: SKScene {
         donut.position = CGPoint(x: (self.size.width / 2), y: (self.size.height / 2) - 200)
         donut.size = CGSize(width: 60, height: 60)
         donut.zPosition = 14
-        donut.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 5)))
+        donut.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 15)))
         self.addChild(donut)
         
         

@@ -11,18 +11,18 @@ import SpriteKit
 
 class Player: SKNode {
     
-    let playerFace = SKSpriteNode()
     let playerHead = SKSpriteNode()
     let playerMouth = SKSpriteNode()
     
-    var playerSize = 150
-    var playerInnerSize = 150
+    var waitingAnimation = SKAction()
+    
+    var playerSize = 180
+    var playerInnerSize = 180
     
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
-    let imageHead = "head"
-    let imageFace = "face"
+    let imageHead = "waiting-1"
     let imageMouth = "mouth"
     
     func definePlayer(sizeScreen sizeScreen: CGSize) {
@@ -36,21 +36,20 @@ class Player: SKNode {
         playerHead.zPosition = 12
         playerHead.position = positionPlayer(sizeScreen)
         
-        // Face
-        playerFace.texture = textureAtlas.textureNamed(imageFace)
-        playerFace.size = CGSize(width: playerSize, height: playerSize)
-        playerFace.zPosition = 13
-        playerFace.position = positionPlayer(sizeScreen)
         
         // Mouth
-        playerMouth.texture = textureAtlas.textureNamed(imageMouth)
-        playerMouth.size = CGSize(width: playerSize, height: playerSize)
-        playerMouth.zPosition = 14
+        playerMouth.texture = textureAtlas.textureNamed("black")
+        playerMouth.size = CGSize(width: 3, height: 3)
+        playerMouth.zPosition = 13
         playerMouth.position = positionPlayer(sizeScreen)
         
-        addChild(playerFace)
+        
         addChild(playerHead)
         addChild(playerMouth)
+        
+        waiting()
+        self.playerHead.runAction(waitingAnimation, withKey: "waitingAnimation")
+        
     }
     
     func updatePlayerPhysics() {        
@@ -72,14 +71,12 @@ class Player: SKNode {
     func growPlayerWhenHit(damage: Int, sizeScreen: CGSize) {
                         
         if playerSize <= Int(sizeScreen.width) {
-            self.resizePlayer(damage, smallDamage: damage / 2)
+            self.resizePlayer(damage)
         }
     }
     
-    func resizePlayer(damage: Int, smallDamage: Int) {
+    func resizePlayer(damage: Int) {
         playerHead.runAction(SKAction.resizeByWidth(CGFloat(damage), height: CGFloat(damage), duration: 1.0))
-        playerFace.runAction(SKAction.resizeByWidth(CGFloat(smallDamage), height: CGFloat(smallDamage), duration: 1.0))
-        playerMouth.runAction(SKAction.resizeByWidth(CGFloat(smallDamage), height: CGFloat(smallDamage), duration: 1.0))
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
@@ -96,10 +93,32 @@ class Player: SKNode {
         
         playerSize = setSizeForPlayer(sizeScreen)
         
-        playerHead.size = CGSize(width: playerSize, height: playerSize)
-        playerFace.size = CGSize(width: playerSize, height: playerSize)
-        playerMouth.size = CGSize(width: playerSize, height: playerSize)
+        // TODO: Schöner schrumpfen lassen
         
+        playerHead.size = CGSize(width: playerSize, height: playerSize)
+        
+    }
+    
+    
+    func waiting() {
+        
+        print("waiting")
+        
+        let waitingFrames: [SKTexture] = [
+            textureAtlas.textureNamed("waiting-1"),
+            textureAtlas.textureNamed("waiting-2"),
+            textureAtlas.textureNamed("waiting-3"),
+            textureAtlas.textureNamed("waiting-2")
+        ]
+        
+        let waitingAction = SKAction.animateWithTextures(waitingFrames, timePerFrame: 0.6)
+        
+        waitingAnimation = SKAction.repeatActionForever(
+            SKAction.sequence([
+                SKAction.repeatAction(waitingAction, count: 2),
+                SKAction.waitForDuration(3)
+            ])
+        )
         
     }
     

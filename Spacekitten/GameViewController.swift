@@ -20,6 +20,7 @@ class GameViewController: UIViewController {
 //        skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .ResizeFill
+        
         skView.presentScene(scene)
     }
     
