@@ -74,7 +74,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         // SHow outlines
-        view.showsPhysics = true
+//        view.showsPhysics = true
         
         // Set level to 1 
         level.levelValue = 1

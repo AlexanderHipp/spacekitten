@@ -44,9 +44,9 @@ class MenuScene: SKScene {
         donut.texture = textureAtlas.textureNamed("Donut")
         donut.name = "Donut"
         donut.position = CGPoint(x: (self.size.width / 2), y: (self.size.height / 2) - 200)
-        donut.size = CGSize(width: 60, height: 60)
+        donut.size = CGSize(width: 100, height: 100)
         donut.zPosition = 14
-        donut.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 15)))
+        donut.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
         self.addChild(donut)
         
         
