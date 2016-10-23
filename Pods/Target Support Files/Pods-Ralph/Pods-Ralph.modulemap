@@ -1,0 +1,6 @@
+framework module Pods_Ralph {
+  umbrella header "Pods-Ralph-umbrella.h"
+
+  export *
+  module * { export * }
+}

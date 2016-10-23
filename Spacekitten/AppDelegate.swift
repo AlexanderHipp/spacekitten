@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 import HockeySDK
 
 
@@ -24,6 +25,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Do some additional configuration if needed here
         BITHockeyManager.sharedHockeyManager().startManager()
         BITHockeyManager.sharedHockeyManager().authenticator.authenticateInstallation()
+        
+        // Firebase
+        FIRApp.configure()
 
         return true
     }
