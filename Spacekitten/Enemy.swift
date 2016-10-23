@@ -75,7 +75,7 @@ class Enemy: SKNode {
     
     func addEnemy(size: CGSize, initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat, typeName: String) {
         
-        enemy.texture = textureAtlas.textureNamed(texture)        
+        enemy.texture = textureAtlas.textureNamed(texture)
         enemy.position = initPosition
         enemy.size = size
         enemy.name = typeName
@@ -86,7 +86,8 @@ class Enemy: SKNode {
         
         
         // Apply physics
-        enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
+//        enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
+        enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width + 40)
         enemy.physicsBody?.dynamic = true
         enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy        
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
