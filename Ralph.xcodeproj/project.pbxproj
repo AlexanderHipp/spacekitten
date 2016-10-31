@@ -14,6 +14,7 @@
 		FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */; };
 		FA3B9B701D4920000018FD87 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B9B6F1D4920000018FD87 /* Player.swift */; };
 		FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40516A1DB533ED00CD8F22 /* Bubble.swift */; };
+		FA565E301DC7E21F004F891D /* NewHighscore.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA565E2E1DC7E21F004F891D /* NewHighscore.sks */; };
 		FA781D681D5A71D100A51D18 /* MyData.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA781D661D5A71D100A51D18 /* MyData.plist */; };
 		FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D671D5A71D100A51D18 /* PlistManager.swift */; };
 		FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D6A1D5BBE7700A51D18 /* Level.swift */; };
@@ -42,6 +43,7 @@
 		FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FoodPath.sks; sourceTree = "<group>"; };
 		FA3B9B6F1D4920000018FD87 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FA40516A1DB533ED00CD8F22 /* Bubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
+		FA565E2E1DC7E21F004F891D /* NewHighscore.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewHighscore.sks; sourceTree = "<group>"; };
 		FA781D661D5A71D100A51D18 /* MyData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyData.plist; sourceTree = "<group>"; };
 		FA781D671D5A71D100A51D18 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		FA781D6A1D5BBE7700A51D18 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 				FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */,
 				FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */,
+				FA565E2E1DC7E21F004F891D /* NewHighscore.sks */,
 			);
 			name = Ralph;
 			path = Spacekitten;
@@ -241,6 +244,7 @@
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
 				FA26B8111DBCB86C000B8248 /* GoogleService-Info.plist in Resources */,
 				FA903E551DBD53AB0018C5F3 /* DonutSplash.sks in Resources */,
+				FA565E301DC7E21F004F891D /* NewHighscore.sks in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
 				FA781D681D5A71D100A51D18 /* MyData.plist in Resources */,
 				FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */,

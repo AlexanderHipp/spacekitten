@@ -294,7 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 10
+            return 50
         case "Scoop":
             return 20
         default:

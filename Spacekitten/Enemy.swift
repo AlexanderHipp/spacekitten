@@ -20,7 +20,7 @@ class Enemy: SKNode {
         case Donut, Scoop
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 3.5, name: "Donut")
+            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 1.5, name: "Donut")
             case Scoop: return (size: CGSize(width: 30, height: 30), color: "Scoop", speed: 2.5, name: "Scoop")
             }
         }

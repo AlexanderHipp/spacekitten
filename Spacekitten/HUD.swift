@@ -122,6 +122,7 @@ class HUD: SKNode {
         labelScore.alpha = 0
         labelBest.alpha = 0
         coinCountBest.alpha = 0
+        letItRain(screenSize)
         
         self.addChild(ralphFace)
         self.addChild(menuButton)
@@ -138,6 +139,21 @@ class HUD: SKNode {
         coinCountText.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 150))
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
         
+    }
+    
+    func letItRain(screenSize: CGSize) {
+        guard let emitter = SKEmitterNode(fileNamed: "NewHighscore") else {
+            return
+        }
+        
+        // Place the emitter at the rear of the ship.
+        emitter.position = CGPoint(x: screenSize.width / 2, y: screenSize.height)
+        emitter.particlePositionRange = CGVector(dx: screenSize.width, dy: 0.0)
+        emitter.name = "NewHighscore"
+        
+        // Send the particles to the scene.
+        emitter.targetNode = scene;
+        self.addChild(emitter)
     }
     
     
