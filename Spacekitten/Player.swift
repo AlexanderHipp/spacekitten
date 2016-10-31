@@ -39,7 +39,7 @@ class Player: SKNode {
         
         // Mouth
         playerMouth.texture = textureAtlas.textureNamed("black")
-        playerMouth.size = CGSize(width: 3, height: 3)
+        playerMouth.size = CGSize(width: 4, height: 4)
         playerMouth.zPosition = 13
         playerMouth.position = positionPlayer(sizeScreen)
         

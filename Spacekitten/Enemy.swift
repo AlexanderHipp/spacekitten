@@ -100,7 +100,7 @@ class Enemy: SKNode {
         
         
         // Add dots after the enemy with the correct colour
-        addEmitter(texture)
+        // addEmitter(texture)
         
         
  
@@ -113,6 +113,7 @@ class Enemy: SKNode {
         dotEmitter!.particleTexture = SKTexture(imageNamed: textureColor)
         dotEmitter!.targetNode = self
         enemy.addChild(dotEmitter!)
+        
     }
     
     
@@ -154,8 +155,7 @@ class Enemy: SKNode {
             textureEnemy = EnemyType.Donut.spec.color
         case .Scoop:
             textureEnemy = EnemyType.Scoop.spec.color
-        }
-        
+        }        
         return textureEnemy
         
     }
@@ -190,14 +190,9 @@ class Enemy: SKNode {
         
     }
     
-    
     func removeAllEnemies() {
         self.enemy.removeFromParent()
     }
-    
-    
-    
-    
     
     func whichEnemyTypeWillBeDisplayed(currentLevel: Int) -> EnemyType {
         
@@ -205,7 +200,7 @@ class Enemy: SKNode {
         case 1:
             return getPossibleEnemies([.Donut])
         default:
-            return getPossibleEnemies([.Scoop, .Donut])
+            return getPossibleEnemies([.Donut])
         }
         
     }

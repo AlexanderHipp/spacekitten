@@ -332,17 +332,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func enemyDie(enemy: SKSpriteNode) {
         
         let whichEnemyShouldBeSquished = enemySquish(enemy.name!)
+//        let dotEmitter = SKEmitterNode(fileNamed: "DonutSplash")
+//        dotEmitter!.targetNode = enemy
+//        dotEmitter!.zPosition = -1
+        
         
         var actions = Array<SKAction>();
         
-        actions.append(SKAction.scaleTo(1.1, duration: 0.2))
-        actions.append(SKAction.runBlock({enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)}))
-        
+        actions.append(SKAction.scaleTo(1.1, duration: 0.1))
+        actions.append(SKAction.runBlock({
+            enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
+//            enemy.addChild(dotEmitter!)
+        }))
+                
         enemy.removeAllActions()
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),
-            SKAction.waitForDuration(0.5),
-            SKAction.fadeAlphaTo(0, duration: 1.0)
+            SKAction.waitForDuration(0.7),
+            SKAction.fadeAlphaTo(0, duration: 2.0)
         ]))
         enemy.removeAllChildren()
         
