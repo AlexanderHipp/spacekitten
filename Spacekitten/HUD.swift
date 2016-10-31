@@ -52,7 +52,8 @@ class HUD: SKNode {
         menuButton.texture = textureAtlas.textureNamed("Donut")
         menuButton.name = "DonutRestart"
         menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
-        menuButton.size = CGSize(width: 60, height: 60)
+        menuButton.size = CGSize(width: 100, height: 100)
+        menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
         
         
         // Score Label
