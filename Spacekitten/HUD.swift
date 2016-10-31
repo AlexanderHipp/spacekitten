@@ -10,12 +10,13 @@ import SpriteKit
 
 class HUD: SKNode {
     
-    let coinCountText = SKLabelNode(text: "0")
+    
     let ralphFace = SKSpriteNode()
     let menuButton = SKSpriteNode()
     
+    let coinCountText = SKLabelNode(text: "0")
     let labelScore = SKLabelNode(text: "Score")
-    let labelBest = SKLabelNode(text: "Best")
+    var labelBest = SKLabelNode(text: "Best")
     var coinCountBest = SKLabelNode(text: "0")
     
     let levelLabel = SKLabelNode(text: "Level 0")
@@ -122,7 +123,6 @@ class HUD: SKNode {
         labelScore.alpha = 0
         labelBest.alpha = 0
         coinCountBest.alpha = 0
-        letItRain(screenSize)
         
         self.addChild(ralphFace)
         self.addChild(menuButton)
@@ -140,6 +140,7 @@ class HUD: SKNode {
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
         
     }
+
     
     func letItRain(screenSize: CGSize) {
         guard let emitter = SKEmitterNode(fileNamed: "NewHighscore") else {
@@ -195,13 +196,19 @@ class HUD: SKNode {
         
     }
     
-    func checkIfNewHighScore(newHighScore: Int) {
+    func checkIfNewHighScore(newHighScore: Int, screenSize: CGSize) {
         
         let oldHighScoreValue: Int = PlistManager.sharedInstance.getValueForKey(highScore) as! Int
         
         if newHighScore > oldHighScoreValue {
             PlistManager.sharedInstance.saveValue(newHighScore, forKey: highScore)
             updateHighScore()
+            letItRain(screenSize)
+            labelBest.text = "New Highscore"
+            labelBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
+            coinCountBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
+            coinCountText.hidden = true
+            labelScore.hidden = true
         }
         
     }

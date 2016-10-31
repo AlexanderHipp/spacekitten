@@ -151,7 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOver = true
             
             // Check if new highScore, if yes write it in the plist
-            hud.checkIfNewHighScore(enemiesDestroyed)
+            hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
             
             player.die(self.size)
             
