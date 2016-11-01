@@ -69,14 +69,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Game Statistics
     var enemiesDestroyed = 0
     
+    var background = SKSpriteNode(imageNamed: "background")
+    
     
     override func didMoveToView(view: SKView) {
+        // SHow outlines
+//        view.showsPhysics = true
         
         // Set level to 1 
         level.levelValue = 1
         
         // Background
-        backgroundColor = SKColor.blackColor()
+        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        addChild(background)
         
         //Define Player        
         player.definePlayer(sizeScreen: self.size)
@@ -136,7 +141,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ])
             ),
             withKey: "GameOver"
-        )
+        )            
         
     }
     
@@ -146,7 +151,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.gameOver = true
             
             // Check if new highScore, if yes write it in the plist
-            hud.checkIfNewHighScore(enemiesDestroyed)
+            hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
             
             player.die(self.size)
             
@@ -174,7 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let touch = touches.first else {
             return
         }
-        let touchLocation = touch.locationInNode(self)
+        let touchLocation = touch.locationInNode(self)        
         let nodeTouched = nodeAtPoint(touchLocation)
         
         
@@ -289,7 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 10
+            return 50
         case "Scoop":
             return 20
         default:
@@ -327,17 +332,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func enemyDie(enemy: SKSpriteNode) {
         
         let whichEnemyShouldBeSquished = enemySquish(enemy.name!)
+//        let dotEmitter = SKEmitterNode(fileNamed: "DonutSplash")
+//        dotEmitter!.targetNode = enemy
+//        dotEmitter!.zPosition = -1
+        
         
         var actions = Array<SKAction>();
         
-        actions.append(SKAction.scaleTo(1.1, duration: 0.2))
-        actions.append(SKAction.runBlock({enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)}))
-        
+        actions.append(SKAction.scaleTo(1.1, duration: 0.1))
+        actions.append(SKAction.runBlock({
+            enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
+//            enemy.addChild(dotEmitter!)
+        }))
+                
         enemy.removeAllActions()
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),
-            SKAction.waitForDuration(0.5),
-            SKAction.fadeAlphaTo(0, duration: 1.0)
+            SKAction.waitForDuration(0.7),
+            SKAction.fadeAlphaTo(0, duration: 2.0)
         ]))
         enemy.removeAllChildren()
         

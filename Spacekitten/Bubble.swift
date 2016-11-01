@@ -20,7 +20,7 @@ class Bubble: SKNode {
     
     func addBubbles(sizeScreen: CGSize, texture: String) {
         
-        bubble.size = CGSize(width: 12, height: 12)
+        bubble.size = CGSize(width: 10, height: 10)
         let bubbleRandomPosition = defineBubbleGoalPosition(sizeScreen, bubbleSize: bubble.size)
         defineBubble(bubbleRandomPosition, sizeScreen: sizeScreen, texture: texture)
 
@@ -69,7 +69,7 @@ class Bubble: SKNode {
     func growAndHideBubbles(target: CGPoint) {
         // Create the actions
         bubble.runAction(SKAction.group([
-            SKAction.moveTo(target, duration: 6),
+            SKAction.moveTo(target, duration: 8),
             SKAction.fadeOutWithDuration(1.0),
             SKAction.waitForDuration(6)
         ]))

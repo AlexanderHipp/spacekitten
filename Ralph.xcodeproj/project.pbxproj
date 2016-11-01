@@ -9,13 +9,17 @@
 /* Begin PBXBuildFile section */
 		04270E761D36A4CA00E16250 /* Enemy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04270E751D36A4CA00E16250 /* Enemy.swift */; };
 		044063A21D36BDD900CC6CE3 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044063A11D36BDD900CC6CE3 /* Random.swift */; };
+		9BC387FD9D99AF0F02DFA778 /* Pods_Ralph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19D9056D6EB9AB85D8C4C08 /* Pods_Ralph.framework */; };
+		FA26B8111DBCB86C000B8248 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA26B8101DBCB86C000B8248 /* GoogleService-Info.plist */; };
 		FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */; };
 		FA3B9B701D4920000018FD87 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B9B6F1D4920000018FD87 /* Player.swift */; };
 		FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40516A1DB533ED00CD8F22 /* Bubble.swift */; };
+		FA565E301DC7E21F004F891D /* NewHighscore.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA565E2E1DC7E21F004F891D /* NewHighscore.sks */; };
 		FA781D681D5A71D100A51D18 /* MyData.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA781D661D5A71D100A51D18 /* MyData.plist */; };
 		FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D671D5A71D100A51D18 /* PlistManager.swift */; };
 		FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D6A1D5BBE7700A51D18 /* Level.swift */; };
 		FA81A7BF1D491B58000158B4 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81A7BE1D491B58000158B4 /* HUD.swift */; };
+		FA903E551DBD53AB0018C5F3 /* DonutSplash.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */; };
 		FA9B84391D54F32100A9B37F /* CooperHewitt-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */; };
 		FAAC8CBD1D64FF46007124BD /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */; };
 		FAAC8CBE1D64FF46007124BD /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */; };
@@ -32,13 +36,19 @@
 /* Begin PBXFileReference section */
 		04270E751D36A4CA00E16250 /* Enemy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enemy.swift; sourceTree = "<group>"; };
 		044063A11D36BDD900CC6CE3 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
+		2DA9302E64C222E6BDB105B5 /* Pods-Ralph.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ralph.release.xcconfig"; path = "Pods/Target Support Files/Pods-Ralph/Pods-Ralph.release.xcconfig"; sourceTree = "<group>"; };
+		B19D9056D6EB9AB85D8C4C08 /* Pods_Ralph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ralph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD8DD3C283BF13F334E640BF /* Pods-Ralph.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ralph.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ralph/Pods-Ralph.debug.xcconfig"; sourceTree = "<group>"; };
+		FA26B8101DBCB86C000B8248 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FoodPath.sks; sourceTree = "<group>"; };
 		FA3B9B6F1D4920000018FD87 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FA40516A1DB533ED00CD8F22 /* Bubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
+		FA565E2E1DC7E21F004F891D /* NewHighscore.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewHighscore.sks; sourceTree = "<group>"; };
 		FA781D661D5A71D100A51D18 /* MyData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyData.plist; sourceTree = "<group>"; };
 		FA781D671D5A71D100A51D18 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		FA781D6A1D5BBE7700A51D18 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		FA81A7BE1D491B58000158B4 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DonutSplash.sks; sourceTree = "<group>"; };
 		FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CooperHewitt-Heavy.otf"; sourceTree = "<group>"; };
 		FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
@@ -60,12 +70,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAAC8CBD1D64FF46007124BD /* HockeySDK.framework in Frameworks */,
+				9BC387FD9D99AF0F02DFA778 /* Pods_Ralph.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6D7974A5B2F90E9642C0C934 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B19D9056D6EB9AB85D8C4C08 /* Pods_Ralph.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF836D29EC93F0E3F81BDACE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DD8DD3C283BF13F334E640BF /* Pods-Ralph.debug.xcconfig */,
+				2DA9302E64C222E6BDB105B5 /* Pods-Ralph.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		FA9B84371D54F2E400A9B37F /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +133,8 @@
 			children = (
 				FAE549231D19D4AA009BAE8C /* Ralph */,
 				FAE549221D19D4AA009BAE8C /* Products */,
+				BF836D29EC93F0E3F81BDACE /* Pods */,
+				6D7974A5B2F90E9642C0C934 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,11 +164,14 @@
 				FA781D671D5A71D100A51D18 /* PlistManager.swift */,
 				FAE5492C1D19D4AA009BAE8C /* Main.storyboard */,
 				FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */,
+				FA26B8101DBCB86C000B8248 /* GoogleService-Info.plist */,
 				FAE549341D19D4AA009BAE8C /* Info.plist */,
 				FA781D661D5A71D100A51D18 /* MyData.plist */,
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 				FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */,
+				FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */,
+				FA565E2E1DC7E21F004F891D /* NewHighscore.sks */,
 			);
 			name = Ralph;
 			path = Spacekitten;
@@ -151,10 +184,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FAE549371D19D4AA009BAE8C /* Build configuration list for PBXNativeTarget "Ralph" */;
 			buildPhases = (
+				1703DA4FFA770B49E460008D /* [CP] Check Pods Manifest.lock */,
 				FAE5491D1D19D4AA009BAE8C /* Sources */,
 				FAE5491E1D19D4AA009BAE8C /* Frameworks */,
 				FAE5491F1D19D4AA009BAE8C /* Resources */,
 				FAAC8CAF1D64FDBF007124BD /* ShellScript */,
+				9EDDEC9F6DCF6A4CDC12356D /* [CP] Embed Pods Frameworks */,
+				8BD53E1AD73849A97EA63322 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -206,6 +242,9 @@
 			files = (
 				FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */,
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
+				FA26B8111DBCB86C000B8248 /* GoogleService-Info.plist in Resources */,
+				FA903E551DBD53AB0018C5F3 /* DonutSplash.sks in Resources */,
+				FA565E301DC7E21F004F891D /* NewHighscore.sks in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
 				FA781D681D5A71D100A51D18 /* MyData.plist in Resources */,
 				FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */,
@@ -218,6 +257,51 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1703DA4FFA770B49E460008D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		8BD53E1AD73849A97EA63322 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ralph/Pods-Ralph-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9EDDEC9F6DCF6A4CDC12356D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Ralph/Pods-Ralph-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		FAAC8CAF1D64FDBF007124BD /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -372,6 +456,7 @@
 		};
 		FAE549381D19D4AA009BAE8C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DD8DD3C283BF13F334E640BF /* Pods-Ralph.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Alexander Hipp (39228KA3RH)";
@@ -390,6 +475,7 @@
 		};
 		FAE549391D19D4AA009BAE8C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2DA9302E64C222E6BDB105B5 /* Pods-Ralph.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Alexander Hipp (39228KA3RH)";

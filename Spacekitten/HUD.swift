@@ -10,12 +10,13 @@ import SpriteKit
 
 class HUD: SKNode {
     
-    let coinCountText = SKLabelNode(text: "0")
+    
     let ralphFace = SKSpriteNode()
     let menuButton = SKSpriteNode()
     
+    let coinCountText = SKLabelNode(text: "0")
     let labelScore = SKLabelNode(text: "Score")
-    let labelBest = SKLabelNode(text: "Best")
+    var labelBest = SKLabelNode(text: "Best")
     var coinCountBest = SKLabelNode(text: "0")
     
     let levelLabel = SKLabelNode(text: "Level 0")
@@ -52,7 +53,8 @@ class HUD: SKNode {
         menuButton.texture = textureAtlas.textureNamed("Donut")
         menuButton.name = "DonutRestart"
         menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
-        menuButton.size = CGSize(width: 60, height: 60)
+        menuButton.size = CGSize(width: 100, height: 100)
+        menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
         
         
         // Score Label
@@ -138,6 +140,22 @@ class HUD: SKNode {
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
         
     }
+
+    
+    func letItRain(screenSize: CGSize) {
+        guard let emitter = SKEmitterNode(fileNamed: "NewHighscore") else {
+            return
+        }
+        
+        // Place the emitter at the rear of the ship.
+        emitter.position = CGPoint(x: screenSize.width / 2, y: screenSize.height)
+        emitter.particlePositionRange = CGVector(dx: screenSize.width, dy: 0.0)
+        emitter.name = "NewHighscore"
+        
+        // Send the particles to the scene.
+        emitter.targetNode = scene;
+        self.addChild(emitter)
+    }
     
     
     func fadeOutHUDelements() {
@@ -178,13 +196,19 @@ class HUD: SKNode {
         
     }
     
-    func checkIfNewHighScore(newHighScore: Int) {
+    func checkIfNewHighScore(newHighScore: Int, screenSize: CGSize) {
         
         let oldHighScoreValue: Int = PlistManager.sharedInstance.getValueForKey(highScore) as! Int
         
         if newHighScore > oldHighScoreValue {
             PlistManager.sharedInstance.saveValue(newHighScore, forKey: highScore)
             updateHighScore()
+            letItRain(screenSize)
+            labelBest.text = "New Highscore"
+            labelBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
+            coinCountBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
+            coinCountText.hidden = true
+            labelScore.hidden = true
         }
         
     }

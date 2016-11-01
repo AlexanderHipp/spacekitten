@@ -20,7 +20,7 @@ class Enemy: SKNode {
         case Donut, Scoop
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Donut: return (size: CGSize(width: 30, height: 30), color: "Donut", speed: 4.0, name: "Donut")
+            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 1.5, name: "Donut")
             case Scoop: return (size: CGSize(width: 30, height: 30), color: "Scoop", speed: 2.5, name: "Scoop")
             }
         }
@@ -75,7 +75,7 @@ class Enemy: SKNode {
     
     func addEnemy(size: CGSize, initPosition: CGPoint, sizeScreen: CGSize, texture: String, speed: CGFloat, typeName: String) {
         
-        enemy.texture = textureAtlas.textureNamed(texture)        
+        enemy.texture = textureAtlas.textureNamed(texture)
         enemy.position = initPosition
         enemy.size = size
         enemy.name = typeName
@@ -86,7 +86,8 @@ class Enemy: SKNode {
         
         
         // Apply physics
-        enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
+//        enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
+        enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width / 2 - 10)
         enemy.physicsBody?.dynamic = true
         enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy        
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
@@ -94,12 +95,12 @@ class Enemy: SKNode {
         // Create the actions
         enemy.runAction(SKAction.group([
             SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)),
-            SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 5.0))
+            SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20.0))
         ]))
         
         
         // Add dots after the enemy with the correct colour
-        addEmitter(texture)
+        // addEmitter(texture)
         
         
  
@@ -112,6 +113,7 @@ class Enemy: SKNode {
         dotEmitter!.particleTexture = SKTexture(imageNamed: textureColor)
         dotEmitter!.targetNode = self
         enemy.addChild(dotEmitter!)
+        
     }
     
     
@@ -153,8 +155,7 @@ class Enemy: SKNode {
             textureEnemy = EnemyType.Donut.spec.color
         case .Scoop:
             textureEnemy = EnemyType.Scoop.spec.color
-        }
-        
+        }        
         return textureEnemy
         
     }
@@ -189,11 +190,9 @@ class Enemy: SKNode {
         
     }
     
-    
     func removeAllEnemies() {
         self.enemy.removeFromParent()
     }
-    
     
     func whichEnemyTypeWillBeDisplayed(currentLevel: Int) -> EnemyType {
         
@@ -201,7 +200,7 @@ class Enemy: SKNode {
         case 1:
             return getPossibleEnemies([.Donut])
         default:
-            return getPossibleEnemies([.Scoop, .Donut])
+            return getPossibleEnemies([.Donut])
         }
         
     }
