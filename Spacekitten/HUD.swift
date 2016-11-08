@@ -111,7 +111,7 @@ class HUD: SKNode {
     
     func squishHUDDonut() {
         menuButton.texture = SKTexture(imageNamed: "Donut-squished")
-        menuButton.size = CGSize(width: 74, height: 74)
+        menuButton.size = CGSize(width: 60, height: 60)
     }
     
     

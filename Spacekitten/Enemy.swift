@@ -17,11 +17,14 @@ class Enemy: SKNode {
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     enum EnemyType {
-        case Donut, Scoop
+        case Donut, Apple, Cookie, Scoop, Lollipop
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 1.5, name: "Donut")
-            case Scoop: return (size: CGSize(width: 30, height: 30), color: "Scoop", speed: 2.5, name: "Scoop")
+            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 1.0, name: "Donut")
+            case Apple: return (size: CGSize(width: 60, height: 60), color: "Apple", speed: 1.0, name: "Apple")
+            case Cookie: return (size: CGSize(width: 60, height: 60), color: "Cookie", speed: 1.0, name: "Cookie")
+            case Scoop: return (size: CGSize(width: 60, height: 60), color: "Scoop", speed: 1.0, name: "Scoop")
+            case Lollipop: return (size: CGSize(width: 60, height: 60), color: "Lollipop", speed: 2.5, name: "Lollipop")
             }
         }
     }
@@ -138,8 +141,14 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             sizeEnemy = EnemyType.Donut.spec.size
+        case .Apple:
+            sizeEnemy = EnemyType.Apple.spec.size
+        case .Cookie:
+            sizeEnemy = EnemyType.Cookie.spec.size
         case .Scoop:
             sizeEnemy = EnemyType.Scoop.spec.size
+        case .Lollipop:
+            sizeEnemy = EnemyType.Lollipop.spec.size
         }
         return sizeEnemy
     }
@@ -153,9 +162,15 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             textureEnemy = EnemyType.Donut.spec.color
+        case .Apple:
+            textureEnemy = EnemyType.Apple.spec.color
+        case .Cookie:
+            textureEnemy = EnemyType.Cookie.spec.color
         case .Scoop:
             textureEnemy = EnemyType.Scoop.spec.color
-        }        
+        case .Lollipop:
+            textureEnemy = EnemyType.Lollipop.spec.color
+        }
         return textureEnemy
         
     }
@@ -168,8 +183,14 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             speedEnemy = EnemyType.Donut.spec.speed
+        case .Apple:
+            speedEnemy = EnemyType.Apple.spec.speed
+        case .Cookie:
+            speedEnemy = EnemyType.Cookie.spec.speed
         case .Scoop:
             speedEnemy = EnemyType.Scoop.spec.speed
+        case .Lollipop:
+            speedEnemy = EnemyType.Lollipop.spec.speed
         }
         return speedEnemy
         
@@ -183,8 +204,14 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             nameEnemy = EnemyType.Donut.spec.name
+        case .Apple:
+            nameEnemy = EnemyType.Apple.spec.name
+        case .Cookie:
+            nameEnemy = EnemyType.Cookie.spec.name
         case .Scoop:
             nameEnemy = EnemyType.Scoop.spec.name
+        case .Lollipop:
+            nameEnemy = EnemyType.Lollipop.spec.name
         }
         return nameEnemy
         
@@ -197,10 +224,10 @@ class Enemy: SKNode {
     func whichEnemyTypeWillBeDisplayed(currentLevel: Int) -> EnemyType {
         
         switch currentLevel {
-        case 1:
-            return getPossibleEnemies([.Donut])
+//        case 1:
+//            return getPossibleEnemies([.Donut, .Apple, .Cookie, .Scoop, .Lollipop])
         default:
-            return getPossibleEnemies([.Donut])
+            return getPossibleEnemies([.Donut, .Apple])
         }
         
     }
