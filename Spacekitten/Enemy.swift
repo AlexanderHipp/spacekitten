@@ -20,11 +20,11 @@ class Enemy: SKNode {
         case Donut, Apple, Cookie, Scoop, Lollipop
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 1.0, name: "Donut")
-            case Apple: return (size: CGSize(width: 60, height: 60), color: "Apple", speed: 1.0, name: "Apple")
-            case Cookie: return (size: CGSize(width: 60, height: 60), color: "Cookie", speed: 1.0, name: "Cookie")
-            case Scoop: return (size: CGSize(width: 60, height: 60), color: "Scoop", speed: 1.0, name: "Scoop")
-            case Lollipop: return (size: CGSize(width: 60, height: 60), color: "Lollipop", speed: 2.5, name: "Lollipop")
+            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 2.0, name: "Donut")
+            case Apple: return (size: CGSize(width: 60, height: 60), color: "Apple", speed: 2.0, name: "Apple")
+            case Cookie: return (size: CGSize(width: 60, height: 60), color: "Cookie", speed: 2.0, name: "Cookie")
+            case Scoop: return (size: CGSize(width: 60, height: 60), color: "Scoop", speed: 2.0, name: "Scoop")
+            case Lollipop: return (size: CGSize(width: 60, height: 60), color: "Lollipop", speed: 2.0, name: "Lollipop")
             }
         }
     }
@@ -224,10 +224,28 @@ class Enemy: SKNode {
     func whichEnemyTypeWillBeDisplayed(currentLevel: Int) -> EnemyType {
         
         switch currentLevel {
-//        case 1:
-//            return getPossibleEnemies([.Donut, .Apple, .Cookie, .Scoop, .Lollipop])
+        case 1:
+            return getPossibleEnemies([.Donut, .Donut, .Donut, .Donut, .Donut])
+        case 2:
+            return getPossibleEnemies([.Donut, .Donut, .Donut, .Donut, .Apple])
+        case 3:
+            return getPossibleEnemies([.Donut, .Donut, .Cookie, .Cookie, .Apple])
+        case 4:
+            return getPossibleEnemies([.Donut, .Donut, .Scoop, .Scoop, .Apple])
+        case 5:
+            return getPossibleEnemies([.Donut, .Cookie, .Scoop, .Lollipop, .Apple])
+        case 6:
+            return getPossibleEnemies([.Donut, .Cookie, .Scoop, .Lollipop, .Lollipop])
+        case 7:
+            return getPossibleEnemies([.Scoop, .Scoop, .Lollipop, .Lollipop, .Apple])
+        case 8:
+            return getPossibleEnemies([.Cookie, .Cookie, .Scoop, .Lollipop, .Apple])
+        case 9:
+            return getPossibleEnemies([.Donut, .Donut, .Cookie, .Lollipop, .Lollipop])
+        case 10:
+            return getPossibleEnemies([.Donut, .Scoop, .Cookie, .Lollipop, .Apple])
         default:
-            return getPossibleEnemies([.Donut, .Apple])
+            return getPossibleEnemies([.Donut])
         }
         
     }
