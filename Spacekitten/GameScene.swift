@@ -89,6 +89,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.updatePlayerPhysics()
         self.addChild(player)
         
+        // Set initial player size
+        player.initialPlayerSize = player.playerSize
+        
         // HUD
         hud.createHudNodes(self.size)
         self.addChild(hud)
@@ -258,7 +261,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let damagePotential = self.enemyDamage(enemy.name!)
         
         // Update player
-        player.updatePlayerPhysics()
+        player.updatePlayerPhysics()        
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
         // Get enemy type to check bubble color

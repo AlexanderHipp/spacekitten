@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+// test
 
 
 class Enemy: SKNode {
@@ -245,7 +246,7 @@ class Enemy: SKNode {
         case 10:
             return getPossibleEnemies([.Donut, .Scoop, .Cookie, .Lollipop, .Apple])
         default:
-            return getPossibleEnemies([.Donut])
+            return getPossibleEnemies([.Donut, .Apple])
         }
         
     }
