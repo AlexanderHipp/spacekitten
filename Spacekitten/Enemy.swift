@@ -21,10 +21,10 @@ class Enemy: SKNode {
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
             case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 2.0, name: "Donut")
-            case Apple: return (size: CGSize(width: 60, height: 60), color: "Apple", speed: 2.0, name: "Apple")
-            case Cookie: return (size: CGSize(width: 60, height: 60), color: "Cookie", speed: 2.0, name: "Cookie")
-            case Scoop: return (size: CGSize(width: 60, height: 60), color: "Scoop", speed: 2.0, name: "Scoop")
-            case Lollipop: return (size: CGSize(width: 60, height: 60), color: "Lollipop", speed: 2.0, name: "Lollipop")
+            case Apple: return (size: CGSize(width: 60, height: 60), color: "Apple", speed: 2.2, name: "Apple")
+            case Cookie: return (size: CGSize(width: 60, height: 60), color: "Cookie", speed: 1.8, name: "Cookie")
+            case Scoop: return (size: CGSize(width: 60, height: 60), color: "Scoop", speed: 1.6, name: "Scoop")
+            case Lollipop: return (size: CGSize(width: 60, height: 60), color: "Lollipop", speed: 1.4, name: "Lollipop")
             }
         }
     }
