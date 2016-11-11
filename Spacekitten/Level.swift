@@ -50,5 +50,22 @@ class Level {
         }
     }
     
+    func getWaitingTimeDependentOnLevel(currentLevel: Int) -> Double {
+        
+        switch currentLevel {
+        case 1, 2, 3:
+            return 1.0
+        case 4, 5, 6:
+            return 0.9
+        case 7, 8, 9:
+            return 0.8
+        case 10:
+            return 0.6
+        default:
+            return 1.0
+        }
+        
+    }
+    
     
 }

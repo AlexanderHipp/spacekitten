@@ -65,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver = false
     
     var enemyArray = [Enemy]()
+    var timeBetweenEnemies = 1.0
     
     // Game Statistics
     var enemiesDestroyed = 0
@@ -125,18 +126,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         } else {                                                    
                                                         
                             enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
-                            
                             self.addChild(enemy)
                             
-                            // Add enemy to array
+                            // Add enemy to array which is needed to delete all enemies if the player dies
                             self.enemyArray.append(enemy)
                             
                         }
                         
+                       
+                        // Function that checks which current level the user is in and spawns the enemz accordingly
+                        self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
+                        
+                        
                     }),
                     
                     // Time after a new enemy is displayed
-                    SKAction.waitForDuration(1.0)
+                    SKAction.waitForDuration(self.timeBetweenEnemies)
+                    
                     
                 ])
             ),
