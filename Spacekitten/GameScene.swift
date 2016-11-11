@@ -65,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver = false
     
     var enemyArray = [Enemy]()
+    var timeBetweenEnemies = 1.0
     
     // Game Statistics
     var enemiesDestroyed = 0
@@ -125,18 +126,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         } else {                                                    
                                                         
                             enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
-                            
                             self.addChild(enemy)
                             
-                            // Add enemy to array
+                            // Add enemy to array which is needed to delete all enemies if the player dies
                             self.enemyArray.append(enemy)
                             
                         }
                         
+                       
+                        // Function that checks which current level the user is in and spawns the enemz accordingly
+                        self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
+                        
+                        
                     }),
                     
                     // Time after a new enemy is displayed
-                    SKAction.waitForDuration(1.0)
+                    SKAction.waitForDuration(self.timeBetweenEnemies)
+                    
                     
                 ])
             ),
@@ -210,7 +216,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
-                enemiesDestroyed += (damagePotential / 10)
+                
+                
+                enemiesDestroyed += checkGoodEnemy(damagePotential)
                 
                 let levelNew = level.checkLevel(enemiesDestroyed, currentLevel: level.levelValue)
                 
@@ -222,6 +230,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 hud.setCoinCounDisplay(enemiesDestroyed)
             }
         }
+    }
+    
+    func checkGoodEnemy(potential: Int) -> Int {
+        
+        var potentialAfterCheck = 0
+        
+        if potential < 0 {
+            potentialAfterCheck = potential * -2
+        } else {
+            potentialAfterCheck = potential
+        }
+        
+        return potentialAfterCheck / 10
+        
     }
 
     
@@ -294,9 +316,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 50
+            return 10
+        case "Apple":
+            return -10
+        case "Cookie":
+            return 30
         case "Scoop":
-            return 20
+            return 50
+        case "Lollipop":
+            return 70
         default:
             return 0
         }
@@ -332,19 +360,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func enemyDie(enemy: SKSpriteNode) {
         
         let whichEnemyShouldBeSquished = enemySquish(enemy.name!)
-//        let dotEmitter = SKEmitterNode(fileNamed: "DonutSplash")
-//        dotEmitter!.targetNode = enemy
-//        dotEmitter!.zPosition = -1
-        
-        
         var actions = Array<SKAction>();
         
         actions.append(SKAction.scaleTo(1.1, duration: 0.1))
-        actions.append(SKAction.runBlock({
-            enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
-//            enemy.addChild(dotEmitter!)
-        }))
-                
+        
+        enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
         enemy.removeAllActions()
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),

@@ -19,7 +19,6 @@
 		FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D671D5A71D100A51D18 /* PlistManager.swift */; };
 		FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D6A1D5BBE7700A51D18 /* Level.swift */; };
 		FA81A7BF1D491B58000158B4 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81A7BE1D491B58000158B4 /* HUD.swift */; };
-		FA903E551DBD53AB0018C5F3 /* DonutSplash.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */; };
 		FA9B84391D54F32100A9B37F /* CooperHewitt-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */; };
 		FAAC8CBD1D64FF46007124BD /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */; };
 		FAAC8CBE1D64FF46007124BD /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */; };
@@ -48,7 +47,6 @@
 		FA781D671D5A71D100A51D18 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		FA781D6A1D5BBE7700A51D18 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		FA81A7BE1D491B58000158B4 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
-		FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DonutSplash.sks; sourceTree = "<group>"; };
 		FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CooperHewitt-Heavy.otf"; sourceTree = "<group>"; };
 		FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 				FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */,
-				FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */,
 				FA565E2E1DC7E21F004F891D /* NewHighscore.sks */,
 			);
 			name = Ralph;
@@ -243,7 +240,6 @@
 				FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */,
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
 				FA26B8111DBCB86C000B8248 /* GoogleService-Info.plist in Resources */,
-				FA903E551DBD53AB0018C5F3 /* DonutSplash.sks in Resources */,
 				FA565E301DC7E21F004F891D /* NewHighscore.sks in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
 				FA781D681D5A71D100A51D18 /* MyData.plist in Resources */,
