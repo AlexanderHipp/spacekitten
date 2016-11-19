@@ -63,6 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let hud = HUD()
     let level = Level()
     var gameOver = false
+    var lifeCount = 0
     
     var enemyArray = [Enemy]()
     var timeBetweenEnemies = 1.0
@@ -93,7 +94,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.initialPlayerSize = player.playerSize
         
         // HUD
-        hud.createHudNodes(self.size)
+        lifeCount = hud.getCurrentLifeCount()        
+        hud.createHudNodes(self.size, lifeCount: lifeCount)
         self.addChild(hud)
         hud.zPosition = 50
         
@@ -159,12 +161,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
             self.gameOver = true
             
-            // Check if new highScore, if yes write it in the plist
-            hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
-            
+            // Animation Plazer dies
             player.die(self.size)
             
+            // Hud elements show Buttons
             hud.showButtons(self.size)
+            let newLifeCount = self.lifeCount - 1
+            hud.setHealthDisplay(newLifeCount)
+            
+            // Check if new highScore and lifeCount, if yes write it in the plist
+            hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
+            hud.updateLifeScore(newLifeCount)
             
             // Background
             backgroundColor = UIColor(red:0.19, green:0.21, blue:0.24, alpha:1.0)
@@ -319,7 +326,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 10
+            return 100
         case "Apple":
             return -10
         case "Cookie":

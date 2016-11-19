@@ -28,9 +28,14 @@ class HUD: SKNode {
     let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
     
     let highScore = "highScore"
+    let pListLifeCount = "pListLifeCount"
+    let maxLifeCount = 3
+    
+    // An array to keep track of the hearts
+    var heartNodes: [SKSpriteNode] = []
     
     
-    func createHudNodes(screenSize: CGSize) {
+    func createHudNodes(screenSize: CGSize, lifeCount: Int) {
         
         
         // Game Stats
@@ -97,6 +102,20 @@ class HUD: SKNode {
         self.addChild(self.levelLabel)
         
         
+        // Create heart nodes for the life meter
+        for index in 0 ..< maxLifeCount {
+            let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Apple"))
+            newHeartNode.size = CGSize(width: 25, height: 25)
+            let xPos = CGFloat(index * 40 + 20)
+            let yPos = screenSize.height - 30
+            newHeartNode.position = CGPoint(x: xPos, y: yPos)
+            
+            heartNodes.append(newHeartNode)
+            self.addChild(newHeartNode)
+        }
+        
+        
+        setHealthDisplay(lifeCount)
     }
     
     
@@ -107,6 +126,8 @@ class HUD: SKNode {
             coinCountText.text = coinStr
         }
     }
+    
+   
     
     
     func squishHUDDonut() {
@@ -186,6 +207,9 @@ class HUD: SKNode {
         )
     }
     
+    
+    // Connection to Plist for Highscore
+    
     func updateHighScore() {
         
         if let highScoreValue = PlistManager.sharedInstance.getValueForKey(highScore) {
@@ -213,6 +237,41 @@ class HUD: SKNode {
         
     }
     
+    
+    // LifeCount
+    
+    func getCurrentLifeCount() -> Int {
+        
+        return PlistManager.sharedInstance.getValueForKey(pListLifeCount) as! Int
+        
+    }
+    
+    func resetLifeCount() {
+        
+        PlistManager.sharedInstance.saveValue(3, forKey: pListLifeCount)
+    }
+    
+    func updateLifeScore(newLifeCount: Int) {
+        
+        PlistManager.sharedInstance.saveValue(newLifeCount, forKey: pListLifeCount)
+    
+    }
+    
+    func setHealthDisplay(newHealth: Int) {
+        
+        let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
+        
+        for index in 0 ..< 3 {
+            if index < newHealth {
+                heartNodes[index].alpha = 1
+            } else {
+                heartNodes[index].runAction(fadeAction)
+            }
+        }
+    }
+    
+    
+    // Colors for Level Labels
     
     let colorLevelLabel: [Int: UIColor] = [
         1: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* red #00beaf */
