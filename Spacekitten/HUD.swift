@@ -19,6 +19,11 @@ class HUD: SKNode {
     var labelBest = SKLabelNode(text: "Best")
     var coinCountBest = SKLabelNode(text: "0")
     
+    let labelGameOver = SKLabelNode(text: "Game Over")
+    var waitingTime = SKLabelNode(text: "Wait for 6 mins")
+    
+    let buyFullVersionButton = SKSpriteNode()
+    
     let levelLabel = SKLabelNode(text: "Level 0")
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
@@ -52,7 +57,7 @@ class HUD: SKNode {
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
         
         
-        // After Game over               
+        // After Player dies
         
         // Donut to restart the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
@@ -114,29 +119,49 @@ class HUD: SKNode {
             self.addChild(newHeartNode)
         }
         
-        
+        // Update the lifeCount Display
         setHealthDisplay(lifeCount)
+        
+        // Nodes for Game Over Display
+        
+        // Game Over Label
+        labelGameOver.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
+        labelGameOver.fontName = font
+        labelGameOver.fontSize = 25.0
+        labelGameOver.userInteractionEnabled = false
+        labelGameOver.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        labelGameOver.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        
+        
+        // Waiting Time
+        waitingTime.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
+        waitingTime.fontName = font
+        waitingTime.fontSize = 40.0
+        waitingTime.userInteractionEnabled = false
+        waitingTime.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        waitingTime.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        waitingTime.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        
     }
     
-    
     func setCoinCounDisplay(newCoinCount: Int) {
+        
         let formatter = NSNumberFormatter()
         formatter.minimumIntegerDigits = 1
         if let coinStr = formatter.stringFromNumber(newCoinCount) {
             coinCountText.text = coinStr
         }
+        
     }
-    
-   
-    
     
     func squishHUDDonut() {
+        
         menuButton.texture = SKTexture(imageNamed: "Donut-squished")
         menuButton.size = CGSize(width: 60, height: 60)
+        
     }
     
-    
-    func showButtons(screenSize: CGSize) {
+    func showMenuButtons(screenSize: CGSize) {
         
         // TODO make func for alpha add child and fade animation
         ralphFace.alpha = 0
@@ -160,6 +185,19 @@ class HUD: SKNode {
         coinCountText.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 150))
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
         
+    }
+    
+    func showGameOverButtons(screenSize: CGSize) {
+        
+        labelGameOver.alpha = 0
+        waitingTime.alpha = 0
+        coinCountText.alpha = 0
+        
+        self.addChild(labelGameOver)
+        self.addChild(waitingTime)
+        
+        labelGameOver.runAction(fadeInAnimation)
+        waitingTime.runAction(fadeInAnimation)
     }
 
     

@@ -138,10 +138,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             
                         }
                         
-                       
                         // Function that checks which current level the user is in and spawns the enemz accordingly
                         self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
-                        
                         
                     }),
                     
@@ -157,6 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func checkGameOver() {
+        
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
                         
             self.gameOver = true
@@ -164,10 +163,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Animation Plazer dies
             player.die(self.size)
             
-            // Hud elements show Buttons
-            hud.showButtons(self.size)
+            // Minimize LifeCount and update hud
             let newLifeCount = self.lifeCount - 1
             hud.setHealthDisplay(newLifeCount)
+            
+            // Check if Gameover and act accordingly
+            if checkLifeCountForGameover(newLifeCount) != true {
+                // Show normal restart game menu
+                hud.showMenuButtons(self.size)
+            } else {
+                // Show GameOver Screen
+                hud.showGameOverButtons(self.size)
+            }
             
             // Check if new highScore and lifeCount, if yes write it in the plist
             hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
@@ -175,9 +182,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // Background
             backgroundColor = UIColor(red:0.19, green:0.21, blue:0.24, alpha:1.0)
-            
 
         }
+    }
+    
+    
+    func checkLifeCountForGameover(lifeCount: Int) -> Bool {
+        
+        if lifeCount <= 0 {
+            return true
+        } else {
+            return false
+        }
+        
     }
     
     
