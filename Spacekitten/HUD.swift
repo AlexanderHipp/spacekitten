@@ -10,9 +10,8 @@ import SpriteKit
 
 class HUD: SKNode {
     
-    
-    let ralphFace = SKSpriteNode()
     let menuButton = SKSpriteNode()
+    let upsellButton = SKLabelNode(text: "Buy Fullversion")
     
     let coinCountText = SKLabelNode(text: "0")
     let labelScore = SKLabelNode(text: "Score")
@@ -51,7 +50,6 @@ class HUD: SKNode {
         coinCountText.fontSize = 40.0
         coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        self.addChild(coinCountText)
         
         // Define center of screen for placing
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
@@ -65,6 +63,7 @@ class HUD: SKNode {
         menuButton.size = CGSize(width: 100, height: 100)
         menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
         menuButton.name = "DonutRestart"
+        menuButton.alpha = 0
         
         
         // Score Label
@@ -74,7 +73,7 @@ class HUD: SKNode {
         labelScore.userInteractionEnabled = false
         labelScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        
+        labelScore.alpha = 0
         
         // Best Label
         labelBest.position = CGPoint(x: ((screenSize.width / 2) + 80), y: ((screenSize.height / 2) + 200))
@@ -83,6 +82,7 @@ class HUD: SKNode {
         labelBest.userInteractionEnabled = false
         labelBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        labelBest.alpha = 0
         
         
         // Count Best
@@ -93,6 +93,7 @@ class HUD: SKNode {
         coinCountBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         coinCountBest.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        coinCountBest.alpha = 0
         
         
         // Level Label 
@@ -104,7 +105,56 @@ class HUD: SKNode {
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         levelLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
-        self.addChild(self.levelLabel)
+        
+        
+        // Nodes for Game Over Display
+        
+        // Game Over Label
+        labelGameOver.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
+        labelGameOver.fontName = font
+        labelGameOver.fontSize = 25.0
+        labelGameOver.userInteractionEnabled = false
+        labelGameOver.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        labelGameOver.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        labelGameOver.alpha = 0
+        
+        
+        // Waiting Time
+        waitingTime.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
+        waitingTime.fontName = font
+        waitingTime.fontSize = 40.0
+        waitingTime.userInteractionEnabled = false
+        waitingTime.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        waitingTime.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        waitingTime.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        waitingTime.alpha = 0
+        
+        
+        // Upsell Button
+        upsellButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
+        upsellButton.fontName = font
+        upsellButton.fontSize = 40.0
+        upsellButton.userInteractionEnabled = false
+        upsellButton.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        upsellButton.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        upsellButton.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        upsellButton.name = "UpsellConfirmation"
+        upsellButton.alpha = 0
+        
+        
+        // Apply all nodes to HUD
+        
+        self.addChild(levelLabel)
+        self.addChild(labelScore)
+        self.addChild(labelBest)
+        self.addChild(labelGameOver)
+        
+        self.addChild(coinCountText)
+        self.addChild(coinCountBest)
+        self.addChild(waitingTime)
+        
+        self.addChild(menuButton)
+        self.addChild(upsellButton)
         
         
         // Create heart nodes for the life meter
@@ -121,26 +171,6 @@ class HUD: SKNode {
         
         // Update the lifeCount Display
         setHealthDisplay(lifeCount)
-        
-        // Nodes for Game Over Display NOT in use ATM
-        
-        // Game Over Label
-        labelGameOver.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
-        labelGameOver.fontName = font
-        labelGameOver.fontSize = 25.0
-        labelGameOver.userInteractionEnabled = false
-        labelGameOver.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        labelGameOver.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        
-        
-        // Waiting Time
-        waitingTime.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
-        waitingTime.fontName = font
-        waitingTime.fontSize = 40.0
-        waitingTime.userInteractionEnabled = false
-        waitingTime.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        waitingTime.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        waitingTime.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
         
     }
     
@@ -164,19 +194,6 @@ class HUD: SKNode {
     func showMenuButtons(screenSize: CGSize) {
         
         // TODO make func for alpha add child and fade animation
-        ralphFace.alpha = 0
-        menuButton.alpha = 0
-        labelScore.alpha = 0
-        labelBest.alpha = 0
-        coinCountBest.alpha = 0
-        
-        self.addChild(ralphFace)
-        self.addChild(menuButton)
-        self.addChild(labelScore)
-        self.addChild(labelBest)
-        self.addChild(coinCountBest)
-        
-        ralphFace.runAction(fadeInAnimation)
         menuButton.runAction(fadeInAnimation)
         labelScore.runAction(fadeInAnimation)
         labelBest.runAction(fadeInAnimation)
@@ -199,6 +216,35 @@ class HUD: SKNode {
         
     }
     
+    func showUpsell(screenSize: CGSize) {
+        
+        // Fade out elements
+        fadeOutHUDelements()
+        for index in 0 ..< 3 {
+            heartNodes[index].runAction(fadeOutAnimation)
+        }
+        
+        // Show upsell elements
+        labelGameOver.runAction(fadeInAnimation)
+        waitingTime.runAction(fadeInAnimation)
+        upsellButton.runAction(fadeInAnimation)
+        
+    }
+    
+    func hideUpsell(screenSize: CGSize) {
+        
+        // Fade in elements
+        showMenuButtons(screenSize)
+        setHealthDisplay(maxLifeCount)
+        positionLabelBestCentered(screenSize)
+        
+        // Hide upsell elements
+        labelGameOver.runAction(fadeOutAnimation)
+        waitingTime.runAction(fadeOutAnimation)
+        upsellButton.runAction(fadeOutAnimation)
+        
+    }
+    
     func letItRain(screenSize: CGSize) {
         guard let emitter = SKEmitterNode(fileNamed: "NewHighscore") else {
             return
@@ -216,15 +262,13 @@ class HUD: SKNode {
     
     
     func fadeOutHUDelements() {
-        menuButton.runAction(fadeInAnimation)
-        coinCountBest.runAction(fadeInAnimation)
-        labelBest.runAction(fadeInAnimation)
-        ralphFace.runAction(fadeInAnimation)
-        labelScore.runAction(fadeInAnimation)
-        coinCountText.runAction(fadeInAnimation)
+        menuButton.runAction(fadeOutAnimation)
+        coinCountBest.runAction(fadeOutAnimation)
+        labelBest.runAction(fadeOutAnimation)
+        labelScore.runAction(fadeOutAnimation)
+        coinCountText.runAction(fadeOutAnimation)
     }
-    
-    
+
     func showLevel(currentLevel: Int) {
         levelLabel.text = "Level \(currentLevel)"
         levelLabel.alpha = 0
@@ -237,7 +281,7 @@ class HUD: SKNode {
                 }),
                 SKAction.waitForDuration(1.0),
                 SKAction.runBlock({
-                    self.levelLabel.runAction(self.fadeOutAnimation)                    
+                    self.levelLabel.runAction(self.fadeOutAnimation)
                 })
             ])
         )
@@ -265,12 +309,16 @@ class HUD: SKNode {
             updateHighScore()
             letItRain(screenSize)
             labelBest.text = "New Highscore"
-            labelBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
-            coinCountBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
-            coinCountText.hidden = true
-            labelScore.hidden = true
+            positionLabelBestCentered(screenSize)
         }
-        
+    }
+    
+    // If the labelBest schould be centered
+    func positionLabelBestCentered(screenSize: CGSize) {
+        labelBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
+        coinCountBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
+        coinCountText.hidden = true
+        labelScore.hidden = true
     }
     
     
@@ -284,7 +332,7 @@ class HUD: SKNode {
     
     func resetLifeCount() {
         
-        PlistManager.sharedInstance.saveValue(3, forKey: pListLifeCount)
+        PlistManager.sharedInstance.saveValue(maxLifeCount, forKey: pListLifeCount)
     }
     
     func updateLifeScore(newLifeCount: Int) {
@@ -297,7 +345,7 @@ class HUD: SKNode {
         
         let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
         
-        for index in 0 ..< 3 {
+        for index in 0 ..< maxLifeCount {
             if index < newHealth {
                 heartNodes[index].alpha = 1
             } else {
@@ -305,6 +353,8 @@ class HUD: SKNode {
             }
         }
     }
+    
+    
     
     
     // Colors for Level Labels

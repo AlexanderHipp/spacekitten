@@ -83,15 +83,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Background
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        background.zPosition = 0
         addChild(background)
         
-        //Define Player        
-        player.definePlayer(sizeScreen: self.size)
-        player.updatePlayerPhysics()
-        self.addChild(player)
-        
-        // Set initial player size
-        player.initialPlayerSize = player.playerSize
+        // Initiate Player
+        initPlayer()
         
         // HUD
         lifeCount = hud.getCurrentLifeCount()        
@@ -186,9 +182,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Check if new highScore and lifeCount, if yes write it in the plist
             hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
             hud.updateLifeScore(newLifeCount)
-            
-            // Background
-            backgroundColor = UIColor(red:0.19, green:0.21, blue:0.24, alpha:1.0)
 
         }
     }
@@ -222,10 +215,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)        
         let nodeTouched = nodeAtPoint(touchLocation)
         
-        // Check for HUD donut:
+        // Check for HUD buttons:
         if (nodeTouched.name == "DonutRestart") {
-            
-            print("DonutRestart")
             
             runAction(
                 SKAction.sequence([
@@ -241,9 +232,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     })
                 ])
             )
-        } else if (nodeTouched.name == "GoToUpsell") {
+        } else if (nodeTouched.name == "GoToUpsell") {            
             
-            print("GoToUpsell")
+            // Hide elements and show the upsell page
+            background.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
+            player.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
+            backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+            hud.showUpsell(self.size)
+            
+        } else if (nodeTouched.name == "UpsellConfirmation") {
+            
+            // Adapt the hud elements to the new situation
+            hud.resetLifeCount()
+            hud.hideUpsell(self.size)
+            hud.showRestartGameButton()
+            
+            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
+            player.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
+            
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             
@@ -252,9 +258,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 self.enemyDie(nodeTouchedAsSKSpriteNode)
                 
-                
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
-                
                 
                 enemiesDestroyed += checkGoodEnemy(damagePotential)
                 
@@ -346,7 +350,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             // Nothing
         }
-   
     }
     
     
@@ -354,7 +357,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 100
+            return 150
         case "Apple":
             return -10
         case "Cookie":
@@ -413,6 +416,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func initPlayer() {
+        
+        //Define Player
+        player.definePlayer(sizeScreen: self.size)
+        player.updatePlayerPhysics()
+        self.addChild(player)
+        
+        // Set initial player size
+        player.initialPlayerSize = player.playerSize
+        
+    }
 }
 
 
