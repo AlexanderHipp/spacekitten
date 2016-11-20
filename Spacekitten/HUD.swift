@@ -24,6 +24,7 @@ class HUD: SKNode {
     var waitingTime = SKLabelNode(text: "Wait for 6 mins")
     
     let buyFullVersionButton = SKSpriteNode()
+    let logo = SKSpriteNode()
     
     let levelLabel = SKLabelNode(text: "Level 0")
     
@@ -39,25 +40,29 @@ class HUD: SKNode {
     var heartNodes: [SKSpriteNode] = []
     
     
-    func createHudNodes(screenSize: CGSize, lifeCount: Int) {
-        
-        
-        // Game Stats
-        let coinXPos = screenSize.width / 2
-        let coinYPos = screenSize.height - 50
-        coinCountText.fontName = font
-        coinCountText.position = CGPoint(x: coinXPos, y: coinYPos)
-        coinCountText.fontSize = 40.0
-        coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
-        coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+    func createHudNodes(screenSize: CGSize) {
         
         // Define center of screen for placing
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
         
+        // Game Stats
+        coinCountText.fontName = font
+        coinCountText.position = CGPoint(x: centerOfHud.x, y: screenSize.height - 50)
+        coinCountText.fontSize = 40.0
+        coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        coinCountText.alpha = 0
         
-        // After Player dies
         
-        // Donut to restart the game
+        // Before the game
+        
+        // Logo
+        logo.texture = textureAtlas.textureNamed("DontFeedRalph")
+        logo.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y + 200)
+        logo.size = CGSize(width: 190, height: 90)
+        logo.alpha = 0
+        
+        // Button to start the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
         menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
         menuButton.size = CGSize(width: 100, height: 100)
@@ -65,6 +70,8 @@ class HUD: SKNode {
         menuButton.name = "DonutRestart"
         menuButton.alpha = 0
         
+        
+        // After Player dies
         
         // Score Label
         labelScore.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 200))
@@ -95,7 +102,6 @@ class HUD: SKNode {
         coinCountBest.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
         coinCountBest.alpha = 0
         
-        
         // Level Label 
         levelLabel.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 250 )
         levelLabel.fontName = font
@@ -105,6 +111,7 @@ class HUD: SKNode {
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         levelLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        levelLabel.alpha = 0
         
         
         // Nodes for Game Over Display
@@ -155,6 +162,7 @@ class HUD: SKNode {
         
         self.addChild(menuButton)
         self.addChild(upsellButton)
+        self.addChild(logo)
         
         
         // Create heart nodes for the life meter
@@ -164,14 +172,11 @@ class HUD: SKNode {
             let xPos = CGFloat(index * 40 + 20)
             let yPos = screenSize.height - 30
             newHeartNode.position = CGPoint(x: xPos, y: yPos)
+            newHeartNode.alpha = 0
             
             heartNodes.append(newHeartNode)
             self.addChild(newHeartNode)
         }
-        
-        // Update the lifeCount Display
-        setHealthDisplay(lifeCount)
-        
     }
     
     func setCoinCounDisplay(newCoinCount: Int) {
@@ -181,15 +186,39 @@ class HUD: SKNode {
         if let coinStr = formatter.stringFromNumber(newCoinCount) {
             coinCountText.text = coinStr
         }
-        
     }
     
-    func squishHUDDonut() {
-        
+    func squishHUDDonut() {        
         menuButton.texture = SKTexture(imageNamed: "Donut-squished")
-        menuButton.size = CGSize(width: 60, height: 60)
-        
     }
+    
+    func unSquishHUDDonut() {
+        menuButton.texture = SKTexture(imageNamed: "Donut")
+    }
+    
+    // HUD setups
+    
+    func startMenuItemsShow() {
+        logo.runAction(fadeInAnimation)
+        menuButton.runAction(fadeInAnimation)
+    }
+    
+    func startMenuItemsHide() {
+        logo.runAction(fadeOutAnimation)
+        menuButton.runAction(fadeOutAnimation)
+    }
+    
+    func gameItemsShow() {
+        coinCountText.runAction(fadeInAnimation)
+        setHealthDisplay(life.getCurrentLifeCount())
+    }
+    
+    func gameItemsHide() {
+        coinCountText.runAction(fadeOutAnimation)
+        hideHeartItems()
+    }
+    
+    // END Hud setups
     
     func showMenuButtons(screenSize: CGSize) {
         
@@ -202,6 +231,12 @@ class HUD: SKNode {
         coinCountText.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 150))
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
         
+    }
+    
+    func hideHeartItems() {
+        for index in 0 ..< 3 {
+            heartNodes[index].runAction(fadeOutAnimation)
+        }
     }
     
     func showGameOverButton() {
@@ -219,10 +254,8 @@ class HUD: SKNode {
     func showUpsell(screenSize: CGSize) {
         
         // Fade out elements
-        fadeOutHUDelements()
-        for index in 0 ..< 3 {
-            heartNodes[index].runAction(fadeOutAnimation)
-        }
+        // fadeOutHUDelements()
+        hideHeartItems()
         
         // Show upsell elements
         labelGameOver.runAction(fadeInAnimation)
@@ -260,15 +293,6 @@ class HUD: SKNode {
         self.addChild(emitter)
     }
     
-    
-    func fadeOutHUDelements() {
-        menuButton.runAction(fadeOutAnimation)
-        coinCountBest.runAction(fadeOutAnimation)
-        labelBest.runAction(fadeOutAnimation)
-        labelScore.runAction(fadeOutAnimation)
-        coinCountText.runAction(fadeOutAnimation)
-    }
-
     func showLevel(currentLevel: Int) {
         levelLabel.text = "Level \(currentLevel)"
         levelLabel.alpha = 0

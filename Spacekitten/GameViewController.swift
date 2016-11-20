@@ -30,11 +30,5 @@ class GameViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
-        let menuScene = MenuScene()
-        let skView = self.view as! SKView
-        skView.ignoresSiblingOrder = true
-        menuScene.size = view.bounds.size
-        skView.presentScene(menuScene)
     }
 }

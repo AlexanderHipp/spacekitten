@@ -76,8 +76,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMoveToView(view: SKView) {
-        // SHow outlines
-//        view.showsPhysics = true
+        // Show outlines
+        // view.showsPhysics = true
         
         // Set level to 1 
         level.levelValue = 1
@@ -91,63 +91,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         initPlayer()
         
         // HUD
-        lifeCount = life.getCurrentLifeCount()
-        hud.createHudNodes(self.size, lifeCount: lifeCount)
+        hud.createHudNodes(self.size)
         self.addChild(hud)
         hud.zPosition = 50
         
         // Get highscore
         hud.updateHighScore()        
         
+        // Physics World settings
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
-        // Game starts
-        self.hud.showLevel(level.levelValue)
-        
-        runAction(
-            SKAction.repeatActionForever (
-                SKAction.sequence([
-                    SKAction.runBlock({
-                        
-                        // Check if game over
-                        if self.gameOver == true {
-                            self.removeActionForKey("GameOver")
-                        } else {
-                            self.checkGameOver()
-                        }
-                        
-                    }),
-                    SKAction.runBlock({
-                        
-                        let enemy = Enemy()
-                        
-                        // Check if game over
-                        if self.gameOver == true {
-                            self.removeAllEnemyNodes()
-                        } else {                                                    
-                                                        
-                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
-                            self.addChild(enemy)
-                            
-                            // Add enemy to array which is needed to delete all enemies if the player dies
-                            self.enemyArray.append(enemy)
-                            
-                        }
-                        
-                        // Function that checks which current level the user is in and spawns the enemz accordingly
-                        self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
-                        
-                    }),
-                    
-                    // Time after a new enemy is displayed
-                    SKAction.waitForDuration(self.timeBetweenEnemies)
-                    
-                    
-                ])
-            ),
-            withKey: "GameOver"
-        )            
+        // Show start menu items
+        hud.startMenuItemsShow()
         
     }
     
@@ -223,13 +179,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 SKAction.sequence([
                     SKAction.runBlock({
                         self.hud.squishHUDDonut()
+                        self.hud.startMenuItemsHide()
+                        self.hud.gameItemsShow()
+                        self.hud.showLevel(self.level.levelValue)
+                    }),
+                    SKAction.waitForDuration(1.5),
+                    SKAction.runBlock({
+                        
+                        // Game Loop
+                        self.gameLoop()
                     }),
                     SKAction.runBlock({
-                        self.hud.fadeOutHUDelements()
-                    }),
-                    SKAction.waitForDuration(0.9),
-                    SKAction.runBlock({
-                        self.view?.presentScene(GameScene(size: self.size), transition: .crossFadeWithDuration(0.9))
+                        self.hud.unSquishHUDDonut()
                     })
                 ])
             )
@@ -427,6 +388,53 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Set initial player size
         player.initialPlayerSize = player.playerSize
         
+    }
+    
+    
+    func gameLoop() {
+        runAction(
+            SKAction.repeatActionForever (
+                SKAction.sequence([
+                    SKAction.runBlock({
+                        
+                        // Check if game over
+                        if self.gameOver == true {
+                            self.removeActionForKey("GameOver")
+                        } else {
+                            self.checkGameOver()
+                        }
+                        
+                    }),
+                    SKAction.runBlock({
+                        
+                        let enemy = Enemy()
+                        
+                        // Check if game over
+                        if self.gameOver == true {
+                            self.removeAllEnemyNodes()
+                        } else {
+                            
+                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
+                            self.addChild(enemy)
+                            
+                            // Add enemy to array which is needed to delete all enemies if the player dies
+                            self.enemyArray.append(enemy)
+                            
+                        }
+                        
+                        // Function that checks which current level the user is in and spawns the enemy accordingly
+                        self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
+                        
+                    }),
+                    
+                    // Time after a new enemy is displayed
+                    SKAction.waitForDuration(self.timeBetweenEnemies)
+                    
+                    
+                    ])
+            ),
+            withKey: "GameOver"
+        )
     }
 }
 
