@@ -10,6 +10,8 @@ import SpriteKit
 
 class HUD: SKNode {
     
+    let life = Life()
+    
     let menuButton = SKSpriteNode()
     let upsellButton = SKLabelNode(text: "Buy Fullversion")
     
@@ -31,9 +33,7 @@ class HUD: SKNode {
     let fadeInAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
     let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
     
-    let highScore = "highScore"
-    let pListLifeCount = "pListLifeCount"
-    let maxLifeCount = 3
+    let highScore = "highScore"       
     
     // An array to keep track of the hearts
     var heartNodes: [SKSpriteNode] = []
@@ -158,7 +158,7 @@ class HUD: SKNode {
         
         
         // Create heart nodes for the life meter
-        for index in 0 ..< maxLifeCount {
+        for index in 0 ..< life.maxLifeCount {
             let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Apple"))
             newHeartNode.size = CGSize(width: 25, height: 25)
             let xPos = CGFloat(index * 40 + 20)
@@ -235,7 +235,7 @@ class HUD: SKNode {
         
         // Fade in elements
         showMenuButtons(screenSize)
-        setHealthDisplay(maxLifeCount)
+        setHealthDisplay(life.maxLifeCount)
         positionLabelBestCentered(screenSize)
         
         // Hide upsell elements
@@ -322,30 +322,11 @@ class HUD: SKNode {
     }
     
     
-    // LifeCount
-    
-    func getCurrentLifeCount() -> Int {
-        
-        return PlistManager.sharedInstance.getValueForKey(pListLifeCount) as! Int
-        
-    }
-    
-    func resetLifeCount() {
-        
-        PlistManager.sharedInstance.saveValue(maxLifeCount, forKey: pListLifeCount)
-    }
-    
-    func updateLifeScore(newLifeCount: Int) {
-        
-        PlistManager.sharedInstance.saveValue(newLifeCount, forKey: pListLifeCount)
-    
-    }
-    
     func setHealthDisplay(newHealth: Int) {
         
         let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
         
-        for index in 0 ..< maxLifeCount {
+        for index in 0 ..< life.maxLifeCount {
             if index < newHealth {
                 heartNodes[index].alpha = 1
             } else {
@@ -353,9 +334,6 @@ class HUD: SKNode {
             }
         }
     }
-    
-    
-    
     
     // Colors for Level Labels
     

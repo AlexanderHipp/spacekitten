@@ -62,6 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = Player()
     let hud = HUD()
     let level = Level()
+    let life = Life()
     var gameOver = false
     var lifeCount = 0
     
@@ -90,7 +91,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         initPlayer()
         
         // HUD
-        lifeCount = hud.getCurrentLifeCount()        
+        lifeCount = life.getCurrentLifeCount()
         hud.createHudNodes(self.size, lifeCount: lifeCount)
         self.addChild(hud)
         hud.zPosition = 50
@@ -181,7 +182,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // Check if new highScore and lifeCount, if yes write it in the plist
             hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
-            hud.updateLifeScore(newLifeCount)
+            life.updateLifeScore(newLifeCount)
 
         }
     }
@@ -243,7 +244,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else if (nodeTouched.name == "UpsellConfirmation") {
             
             // Adapt the hud elements to the new situation
-            hud.resetLifeCount()
+            life.resetLifeCount()
             hud.hideUpsell(self.size)
             hud.showRestartGameButton()
             
