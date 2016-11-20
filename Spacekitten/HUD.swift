@@ -53,7 +53,7 @@ class HUD: SKNode {
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         self.addChild(coinCountText)
         
-        
+        // Define center of screen for placing
         let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
         
         
@@ -61,10 +61,10 @@ class HUD: SKNode {
         
         // Donut to restart the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
-        menuButton.name = "DonutRestart"
         menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
         menuButton.size = CGSize(width: 100, height: 100)
         menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
+        menuButton.name = "DonutRestart"
         
         
         // Score Label
@@ -122,7 +122,7 @@ class HUD: SKNode {
         // Update the lifeCount Display
         setHealthDisplay(lifeCount)
         
-        // Nodes for Game Over Display
+        // Nodes for Game Over Display NOT in use ATM
         
         // Game Over Label
         labelGameOver.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
@@ -187,19 +187,17 @@ class HUD: SKNode {
         
     }
     
-    func showGameOverButtons(screenSize: CGSize) {
+    func showGameOverButton() {
         
-        labelGameOver.alpha = 0
-        waitingTime.alpha = 0
-        coinCountText.alpha = 0
+        menuButton.name = "GoToUpsell"
         
-        self.addChild(labelGameOver)
-        self.addChild(waitingTime)
-        
-        labelGameOver.runAction(fadeInAnimation)
-        waitingTime.runAction(fadeInAnimation)
     }
-
+    
+    func showRestartGameButton() {
+        
+        menuButton.name = "DonutRestart"
+        
+    }
     
     func letItRain(screenSize: CGSize) {
         guard let emitter = SKEmitterNode(fileNamed: "NewHighscore") else {

@@ -167,13 +167,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newLifeCount = self.lifeCount - 1
             hud.setHealthDisplay(newLifeCount)
             
-            // Check if Gameover and act accordingly
-            if checkLifeCountForGameover(newLifeCount) != true {
-                // Show normal restart game menu
-                hud.showMenuButtons(self.size)
-            } else {
+            // Show normal elements
+            hud.showMenuButtons(self.size)
+            
+            // Check if Gameover and choose button accordingly
+            if checkLifeCountForGameover(newLifeCount) == true {
+                
                 // Show GameOver Screen
-                hud.showGameOverButtons(self.size)
+                hud.showGameOverButton()
+                
+            } else {
+                
+                // Show normal restart game menu
+                hud.showRestartGameButton()
+                
             }
             
             // Check if new highScore and lifeCount, if yes write it in the plist
@@ -215,9 +222,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)        
         let nodeTouched = nodeAtPoint(touchLocation)
         
-        
         // Check for HUD donut:
-        if nodeTouched.name == "DonutRestart" {
+        if (nodeTouched.name == "DonutRestart") {
+            
+            print("DonutRestart")
             
             runAction(
                 SKAction.sequence([
@@ -232,7 +240,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.view?.presentScene(GameScene(size: self.size), transition: .crossFadeWithDuration(0.9))
                     })
                 ])
-            )                                
+            )
+        } else if (nodeTouched.name == "GoToUpsell") {
+            
+            print("GoToUpsell")
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             
