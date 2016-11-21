@@ -11,6 +11,7 @@ import SpriteKit
 class HUD: SKNode {
     
     let life = Life()
+    let d = DeviceSize()
     
     let menuButton = SKSpriteNode()
     let upsellButton = SKLabelNode(text: "Buy Fullversion")
@@ -25,6 +26,8 @@ class HUD: SKNode {
     
     let buyFullVersionButton = SKSpriteNode()
     let logo = SKSpriteNode()
+    
+    let emitter = SKEmitterNode(fileNamed: "NewHighscore")
     
     let levelLabel = SKLabelNode(text: "Level 0")
     
@@ -42,12 +45,12 @@ class HUD: SKNode {
     
     func createHudNodes(screenSize: CGSize) {
         
-        // Define center of screen for placing
-        let centerOfHud = CGPoint(x: screenSize.width / 2, y: screenSize.height / 2)
+        d.initDeviceSizes(screenSize)
         
         // Game Stats
         coinCountText.fontName = font
-        coinCountText.position = CGPoint(x: centerOfHud.x, y: screenSize.height - 50)
+        coinCountText.position = CGPoint(x: d.middleX, y: d.height - 50)
+        print(d.height)
         coinCountText.fontSize = 40.0
         coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -58,23 +61,24 @@ class HUD: SKNode {
         
         // Logo
         logo.texture = textureAtlas.textureNamed("DontFeedRalph")
-        logo.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y + 200)
+        logo.position = CGPoint(x: d.middleX, y: d.middleY + 200)
         logo.size = CGSize(width: 190, height: 90)
         logo.alpha = 0
         
         // Button to start the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
-        menuButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
+        menuButton.position = CGPoint(x: d.middleX, y: d.middleY - 200 )
         menuButton.size = CGSize(width: 100, height: 100)
         menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
-        menuButton.name = "DonutRestart"
+        displayButtonAccordingToGameover()
+        print(menuButton.name)
         menuButton.alpha = 0
         
         
         // After Player dies
         
         // Score Label
-        labelScore.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 200))
+        labelScore.position = CGPoint(x: (d.middleX - 80), y: (d.middleY + 200))
         labelScore.fontName = font
         labelScore.fontSize = 25.0
         labelScore.userInteractionEnabled = false
@@ -83,7 +87,7 @@ class HUD: SKNode {
         labelScore.alpha = 0
         
         // Best Label
-        labelBest.position = CGPoint(x: ((screenSize.width / 2) + 80), y: ((screenSize.height / 2) + 200))
+        labelBest.position = CGPoint(x: (d.middleX + 80), y: (d.middleY + 200))
         labelBest.fontName = font
         labelBest.fontSize = 25.0
         labelBest.userInteractionEnabled = false
@@ -93,7 +97,7 @@ class HUD: SKNode {
         
         
         // Count Best
-        coinCountBest.position = CGPoint(x: ((screenSize.width / 2) + 80), y: ((screenSize.height / 2) + 150))
+        coinCountBest.position = CGPoint(x: (d.middleX + 80), y: (d.middleY + 150))
         coinCountBest.fontName = font
         coinCountBest.fontSize = 40.0
         coinCountBest.userInteractionEnabled = false
@@ -103,7 +107,7 @@ class HUD: SKNode {
         coinCountBest.alpha = 0
         
         // Level Label 
-        levelLabel.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 250 )
+        levelLabel.position = CGPoint(x: d.middleX, y: d.middleY - 250 )
         levelLabel.fontName = font
         levelLabel.fontSize = 40.0
         levelLabel.zPosition = 40
@@ -117,7 +121,7 @@ class HUD: SKNode {
         // Nodes for Game Over Display
         
         // Game Over Label
-        labelGameOver.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
+        labelGameOver.position = CGPoint(x: d.middleX, y: (d.middleY + 200))
         labelGameOver.fontName = font
         labelGameOver.fontSize = 25.0
         labelGameOver.userInteractionEnabled = false
@@ -127,7 +131,7 @@ class HUD: SKNode {
         
         
         // Waiting Time
-        waitingTime.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
+        waitingTime.position = CGPoint(x: d.middleX, y: (d.middleY + 150))
         waitingTime.fontName = font
         waitingTime.fontSize = 40.0
         waitingTime.userInteractionEnabled = false
@@ -138,7 +142,7 @@ class HUD: SKNode {
         
         
         // Upsell Button
-        upsellButton.position = CGPoint(x: centerOfHud.x, y: centerOfHud.y - 200 )
+        upsellButton.position = CGPoint(x: d.middleX, y: d.middleY - 200 )
         upsellButton.fontName = font
         upsellButton.fontSize = 40.0
         upsellButton.userInteractionEnabled = false
@@ -169,8 +173,8 @@ class HUD: SKNode {
         for index in 0 ..< life.maxLifeCount {
             let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Apple"))
             newHeartNode.size = CGSize(width: 25, height: 25)
-            let xPos = CGFloat(index * 40 + 20)
-            let yPos = screenSize.height - 30
+            let xPos = Int(index * 40 + 20)
+            let yPos = d.height - 30
             newHeartNode.position = CGPoint(x: xPos, y: yPos)
             newHeartNode.alpha = 0
             
@@ -196,21 +200,69 @@ class HUD: SKNode {
         menuButton.texture = SKTexture(imageNamed: "Donut")
     }
     
+    
+    
     // HUD setups
     
-    func startMenuItemsShow() {
-        logo.runAction(fadeInAnimation)
+    func menuButtonShow() {
+        displayButtonAccordingToGameover()
         menuButton.runAction(fadeInAnimation)
     }
     
-    func startMenuItemsHide() {
-        logo.runAction(fadeOutAnimation)
+    func menuButtonHide() {
         menuButton.runAction(fadeOutAnimation)
     }
     
-    func gameItemsShow() {
+    func logoShow() {
+        logo.runAction(fadeInAnimation)
+    }
+    
+    func logoHide() {
+        logo.runAction(fadeOutAnimation)
+    }    
+    
+    func labelMenuScoreShow() {
+        coinCountText.position = CGPoint(x: (d.middleX - 80), y: (d.middleY + 150))
+        coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
+        labelScore.runAction(fadeInAnimation)
         coinCountText.runAction(fadeInAnimation)
+    }
+    
+    func labelMenuScoreHide() {
+        labelScore.runAction(fadeOutAnimation)
+        coinCountText.runAction(fadeOutAnimation)
+    }
+    
+    func menuItemsShow() {
         setHealthDisplay(life.getCurrentLifeCount())
+        menuButtonShow()
+        labelBest.runAction(fadeInAnimation)
+        coinCountBest.runAction(fadeInAnimation)
+        labelMenuScoreShow()
+    }
+    
+    func menuItemsHide() {
+        menuButton.runAction(fadeOutAnimation)
+        labelScore.runAction(fadeOutAnimation)
+        labelBest.runAction(fadeOutAnimation)
+        coinCountBest.runAction(fadeOutAnimation)
+        coinCountText.runAction(fadeOutAnimation)
+        hideHeartItems()                
+    }
+    
+    func menuItemsAfterPurchaseShow() {
+        menuButtonShow()
+        labelBest.runAction(fadeInAnimation)
+        coinCountBest.runAction(fadeInAnimation)
+        positionLabelBestCentered()
+        coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
+    }
+    
+    func gameItemsShow() {
+        setHealthDisplay(life.getCurrentLifeCount())
+        coinCountText.position = CGPoint(x: d.middleX, y: (d.middleY - 50))
+        coinCountText.fontColor = UIColor.whiteColor()
+        coinCountText.runAction(fadeInAnimation)
     }
     
     func gameItemsHide() {
@@ -218,20 +270,20 @@ class HUD: SKNode {
         hideHeartItems()
     }
     
+    func upsellPageShow() {
+        labelGameOver.runAction(fadeInAnimation)
+        waitingTime.runAction(fadeInAnimation)
+        upsellButton.runAction(fadeInAnimation)
+    }
+    
+    func upsellPageHide() {
+        labelGameOver.runAction(fadeOutAnimation)
+        waitingTime.runAction(fadeOutAnimation)
+        upsellButton.runAction(fadeOutAnimation)        
+    }
+    
     // END Hud setups
     
-    func showMenuButtons(screenSize: CGSize) {
-        
-        // TODO make func for alpha add child and fade animation
-        menuButton.runAction(fadeInAnimation)
-        labelScore.runAction(fadeInAnimation)
-        labelBest.runAction(fadeInAnimation)
-        coinCountBest.runAction(fadeInAnimation)
-        
-        coinCountText.position = CGPoint(x: ((screenSize.width / 2) - 80), y: ((screenSize.height / 2) + 150))
-        coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
-        
-    }
     
     func hideHeartItems() {
         for index in 0 ..< 3 {
@@ -239,58 +291,26 @@ class HUD: SKNode {
         }
     }
     
-    func showGameOverButton() {
-        
-        menuButton.name = "GoToUpsell"
-        
-    }
-    
-    func showRestartGameButton() {
-        
-        menuButton.name = "DonutRestart"
-        
-    }
-    
-    func showUpsell(screenSize: CGSize) {
-        
-        // Fade out elements
-        // fadeOutHUDelements()
-        hideHeartItems()
-        
-        // Show upsell elements
-        labelGameOver.runAction(fadeInAnimation)
-        waitingTime.runAction(fadeInAnimation)
-        upsellButton.runAction(fadeInAnimation)
-        
-    }
-    
-    func hideUpsell(screenSize: CGSize) {
-        
-        // Fade in elements
-        showMenuButtons(screenSize)
-        setHealthDisplay(life.maxLifeCount)
-        positionLabelBestCentered(screenSize)
-        
-        // Hide upsell elements
-        labelGameOver.runAction(fadeOutAnimation)
-        waitingTime.runAction(fadeOutAnimation)
-        upsellButton.runAction(fadeOutAnimation)
-        
-    }
-    
-    func letItRain(screenSize: CGSize) {
-        guard let emitter = SKEmitterNode(fileNamed: "NewHighscore") else {
-            return
+    func displayButtonAccordingToGameover() {
+        if life.checkLifeCountForGameover() == true {
+            menuButton.name = "GoToUpsell"
+        } else {
+            menuButton.name = "StartGame"
         }
+    }
+    
+    func letItRain() {
+        
+        emitter!.hidden = false
         
         // Place the emitter at the rear of the ship.
-        emitter.position = CGPoint(x: screenSize.width / 2, y: screenSize.height)
-        emitter.particlePositionRange = CGVector(dx: screenSize.width, dy: 0.0)
-        emitter.name = "NewHighscore"
+        emitter!.position = CGPoint(x: d.middleX, y: d.height)
+        emitter!.particlePositionRange = CGVector(dx: d.width, dy: 0)
+        emitter!.name = "NewHighscore"
         
         // Send the particles to the scene.
-        emitter.targetNode = scene;
-        self.addChild(emitter)
+        emitter!.targetNode = scene;
+        self.addChild(emitter!)
     }
     
     func showLevel(currentLevel: Int) {
@@ -324,23 +344,24 @@ class HUD: SKNode {
         
     }
     
-    func checkIfNewHighScore(newHighScore: Int, screenSize: CGSize) {
+    func checkIfNewHighScore(newHighScore: Int) {
         
         let oldHighScoreValue: Int = PlistManager.sharedInstance.getValueForKey(highScore) as! Int
         
         if newHighScore > oldHighScoreValue {
             PlistManager.sharedInstance.saveValue(newHighScore, forKey: highScore)
             updateHighScore()
-            letItRain(screenSize)
+            letItRain()
             labelBest.text = "New Highscore"
-            positionLabelBestCentered(screenSize)
+            positionLabelBestCentered()
         }
     }
     
     // If the labelBest schould be centered
-    func positionLabelBestCentered(screenSize: CGSize) {
-        labelBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 200))
-        coinCountBest.position = CGPoint(x: (screenSize.width / 2), y: ((screenSize.height / 2) + 150))
+    
+    func positionLabelBestCentered() {
+        labelBest.position = CGPoint(x: d.middleX, y: (d.middleY + 200))
+        coinCountBest.position = CGPoint(x: d.middleX, y: (d.middleY + 150))
         coinCountText.hidden = true
         labelScore.hidden = true
     }

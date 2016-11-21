@@ -30,4 +30,14 @@ class Life: SKNode {
         
     }
     
+    func checkLifeCountForGameover() -> Bool {
+        
+        if getCurrentLifeCount() <= 0 {
+            return true
+        } else {
+            return false
+        }
+        
+    }
+    
 }

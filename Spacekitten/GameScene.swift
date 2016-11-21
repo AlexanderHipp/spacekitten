@@ -62,7 +62,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = Player()
     let hud = HUD()
     let level = Level()
-    let life = Life()
+    let life = Life()    
+    
     var gameOver = false
     var lifeCount = 0
     
@@ -103,7 +104,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         // Show start menu items
-        hud.startMenuItemsShow()
+        hud.logoShow()
+        hud.menuButtonShow()
+        
+        
         
     }
     
@@ -121,38 +125,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hud.setHealthDisplay(newLifeCount)
             
             // Show normal elements
-            hud.showMenuButtons(self.size)
-            
-            // Check if Gameover and choose button accordingly
-            if checkLifeCountForGameover(newLifeCount) == true {
-                
-                // Show GameOver Screen
-                hud.showGameOverButton()
-                
-            } else {
-                
-                // Show normal restart game menu
-                hud.showRestartGameButton()
-                
-            }
+            hud.menuItemsShow()
             
             // Check if new highScore and lifeCount, if yes write it in the plist
-            hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
+            hud.checkIfNewHighScore(enemiesDestroyed)
             life.updateLifeScore(newLifeCount)
 
         }
     }
     
     
-    func checkLifeCountForGameover(lifeCount: Int) -> Bool {
-        
-        if lifeCount <= 0 {
-            return true
-        } else {
-            return false
-        }
-        
-    }
+    
     
     
     func removeAllEnemyNodes()  {
@@ -173,21 +156,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let nodeTouched = nodeAtPoint(touchLocation)
         
         // Check for HUD buttons:
-        if (nodeTouched.name == "DonutRestart") {
+        if (nodeTouched.name == "StartGame") {
+            
+            print(life.getCurrentLifeCount())
+            print("Game started")
             
             runAction(
                 SKAction.sequence([
                     SKAction.runBlock({
                         self.hud.squishHUDDonut()
-                        self.hud.startMenuItemsHide()
+                        self.hud.logoHide()
+                        self.hud.menuButtonHide()
                         self.hud.gameItemsShow()
                         self.hud.showLevel(self.level.levelValue)
                     }),
-                    SKAction.waitForDuration(1.5),
+                    SKAction.waitForDuration(3.0),
                     SKAction.runBlock({
-                        
-                        // Game Loop
+                        print("Before Loop")
                         self.gameLoop()
+                        print("After Loop")
                     }),
                     SKAction.runBlock({
                         self.hud.unSquishHUDDonut()
@@ -195,22 +182,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ])
             )
         } else if (nodeTouched.name == "GoToUpsell") {            
-            
-            // Hide elements and show the upsell page
+                                    
+            hud.menuItemsHide()
             background.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
-            player.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
             backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
-            hud.showUpsell(self.size)
+            player.hideWithAnimation()
+            hud.upsellPageShow()
             
         } else if (nodeTouched.name == "UpsellConfirmation") {
             
-            // Adapt the hud elements to the new situation
+            // Set life count back to max for now. If user is premium there is no need for this check anymore
             life.resetLifeCount()
-            hud.hideUpsell(self.size)
-            hud.showRestartGameButton()
             
+            hud.upsellPageHide()
+            
+            hud.menuItemsAfterPurchaseShow()
             background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
-            player.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
+            player.showWithAnimation()
             
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
@@ -392,13 +380,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func gameLoop() {
+        
+        var index = 1
+        
         runAction(
             SKAction.repeatActionForever (
                 SKAction.sequence([
                     SKAction.runBlock({
                         
+                        print("Loop Round", index)
+                        index = index + 1
+                        
                         // Check if game over
                         if self.gameOver == true {
+                            print("Game over")
                             self.removeActionForKey("GameOver")
                         } else {
                             self.checkGameOver()

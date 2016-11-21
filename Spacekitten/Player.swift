@@ -138,5 +138,13 @@ class Player: SKNode {
     }
     
     
+    func hideWithAnimation() {
+        self.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
+    }
+    
+    func showWithAnimation() {
+        self.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
+    }
+    
     
 }
