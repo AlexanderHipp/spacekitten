@@ -64,8 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let level = Level()
     let life = Life()    
     
-    var gameOver = false
-    var lifeCount = 0
+    var gameLost = false
     
     var enemyArray = [Enemy]()
     var timeBetweenEnemies = 1.0
@@ -106,30 +105,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Show start menu items
         hud.logoShow()
         hud.menuButtonShow()
-        
+        print("Show start menu")
         
         
     }
     
-    func checkGameOver() {
+    func checkGameLost() {
         
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
-                        
-            self.gameOver = true
+            print("Check game over")
+            self.gameLost = true
             
             // Animation Plazer dies
             player.die(self.size)
             
             // Minimize LifeCount and update hud
-            let newLifeCount = self.lifeCount - 1
-            hud.setHealthDisplay(newLifeCount)
-            
-            // Show normal elements
-            hud.menuItemsShow()
+            let newLifeCount = life.getCurrentLifeCount() - 1
+            life.updateLifeScore(newLifeCount)
             
             // Check if new highScore and lifeCount, if yes write it in the plist
             hud.checkIfNewHighScore(enemiesDestroyed)
-            life.updateLifeScore(newLifeCount)
+            
+            // Show normal elements
+            hud.menuItemsShow()
+            print("Show menu after game is game over")
 
         }
     }
@@ -167,12 +166,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.hud.squishHUDDonut()
                         self.hud.logoHide()
                         self.hud.menuButtonHide()
+                        self.hud.menuItemsAfterPurchaseHide()
+                    }),
+                    SKAction.waitForDuration(1.0),
+                    SKAction.runBlock({
                         self.hud.gameItemsShow()
                         self.hud.showLevel(self.level.levelValue)
                     }),
-                    SKAction.waitForDuration(3.0),
+                    SKAction.waitForDuration(2.0),
                     SKAction.runBlock({
                         print("Before Loop")
+                        self.gameLost = false
                         self.gameLoop()
                         print("After Loop")
                     }),
@@ -381,6 +385,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameLoop() {
         
+        print("Inside Loop Start")
+        
         var index = 1
         
         runAction(
@@ -392,11 +398,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         index = index + 1
                         
                         // Check if game over
-                        if self.gameOver == true {
+                        if self.gameLost == true {
                             print("Game over")
-                            self.removeActionForKey("GameOver")
+                            self.removeActionForKey("GameLost")
                         } else {
-                            self.checkGameOver()
+                            self.checkGameLost()
                         }
                         
                     }),
@@ -404,8 +410,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         let enemy = Enemy()
                         
-                        // Check if game over
-                        if self.gameOver == true {
+                        // Check if game lost
+                        if self.gameLost == true {
                             self.removeAllEnemyNodes()
                         } else {
                             
@@ -426,9 +432,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     SKAction.waitForDuration(self.timeBetweenEnemies)
                     
                     
-                    ])
+                    ])                
             ),
-            withKey: "GameOver"
+            withKey: "GameLost"
         )
     }
 }

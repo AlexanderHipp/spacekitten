@@ -50,7 +50,6 @@ class HUD: SKNode {
         // Game Stats
         coinCountText.fontName = font
         coinCountText.position = CGPoint(x: d.middleX, y: d.height - 50)
-        print(d.height)
         coinCountText.fontSize = 40.0
         coinCountText.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -70,8 +69,6 @@ class HUD: SKNode {
         menuButton.position = CGPoint(x: d.middleX, y: d.middleY - 200 )
         menuButton.size = CGSize(width: 100, height: 100)
         menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
-        displayButtonAccordingToGameover()
-        print(menuButton.name)
         menuButton.alpha = 0
         
         
@@ -235,6 +232,7 @@ class HUD: SKNode {
     
     func menuItemsShow() {
         setHealthDisplay(life.getCurrentLifeCount())
+        print("Menu items show", life.getCurrentLifeCount())
         menuButtonShow()
         labelBest.runAction(fadeInAnimation)
         coinCountBest.runAction(fadeInAnimation)
@@ -258,11 +256,19 @@ class HUD: SKNode {
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
     }
     
+    func menuItemsAfterPurchaseHide() {
+        menuButtonHide()
+        labelBest.runAction(fadeOutAnimation)
+        coinCountBest.runAction(fadeOutAnimation)
+    }
+    
     func gameItemsShow() {
         setHealthDisplay(life.getCurrentLifeCount())
-        coinCountText.position = CGPoint(x: d.middleX, y: (d.middleY - 50))
+        print("Game items show", life.getCurrentLifeCount())
+        coinCountText.position = CGPoint(x: d.middleX, y: (d.height - 50))
         coinCountText.fontColor = UIColor.whiteColor()
         coinCountText.runAction(fadeInAnimation)
+        labelScore.runAction(fadeOutAnimation)
     }
     
     func gameItemsHide() {
@@ -297,6 +303,7 @@ class HUD: SKNode {
         } else {
             menuButton.name = "StartGame"
         }
+        print("Button:", menuButton.name)
     }
     
     func letItRain() {
@@ -367,12 +374,13 @@ class HUD: SKNode {
     }
     
     
-    func setHealthDisplay(newHealth: Int) {
+    func setHealthDisplay(currentHealth: Int) {
         
         let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
+        print("Set health display", life.getCurrentLifeCount())
         
         for index in 0 ..< life.maxLifeCount {
-            if index < newHealth {
+            if index < currentHealth {
                 heartNodes[index].alpha = 1
             } else {
                 heartNodes[index].runAction(fadeAction)
