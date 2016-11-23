@@ -113,11 +113,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkGameLost() {
         
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
+            
+            self.removeAllEnemyNodes()
+            
             print("Check game over")
             self.gameLost = true
             
-            // Animation Plazer dies
+            // Animation Player dies
             player.die(self.size)
+            
+            print("menu after game is game over")
             
             // Minimize LifeCount and update hud
             let newLifeCount = life.getCurrentLifeCount() - 1
@@ -128,7 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             // Show normal elements
             hud.menuItemsShow()
-            print("Show menu after game is game over")
+            
 
         }
     }
@@ -167,10 +172,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.hud.logoHide()
                         self.hud.menuButtonHide()
                         self.hud.menuItemsAfterPurchaseHide()
-                    }),
-                    SKAction.waitForDuration(1.0),
-                    SKAction.runBlock({
                         self.hud.gameItemsShow()
+                    }),                    
+                    SKAction.runBlock({
+                        self.level.levelValue = 1
+                        self.enemiesDestroyed = 0
+                        self.hud.coinCountText.text = "0"
                         self.hud.showLevel(self.level.levelValue)
                     }),
                     SKAction.waitForDuration(2.0),
@@ -186,14 +193,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 ])
             )
         } else if (nodeTouched.name == "GoToUpsell") {            
-                                    
+            
+            // UPSELL PAGE
+            print("upsell page")
+            
             hud.menuItemsHide()
+            hud.startMenuHide()
+            
             background.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
             backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
             player.hideWithAnimation()
             hud.upsellPageShow()
             
         } else if (nodeTouched.name == "UpsellConfirmation") {
+            
+            // MENU AFTER UPSELL
+            print("menu after upsell")
             
             // Set life count back to max for now. If user is premium there is no need for this check anymore
             life.resetLifeCount()
@@ -411,9 +426,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         let enemy = Enemy()
                         
                         // Check if game lost
-                        if self.gameLost == true {
-                            self.removeAllEnemyNodes()
-                        } else {
+                        if self.gameLost != true {
                             
                             enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
                             self.addChild(enemy)

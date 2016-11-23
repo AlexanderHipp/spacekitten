@@ -35,7 +35,7 @@ class HUD: SKNode {
     
     let font = "CooperHewitt-Heavy"
     let fadeInAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
-    let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.9)
+    let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.2)
     
     let highScore = "highScore"       
     
@@ -84,7 +84,6 @@ class HUD: SKNode {
         labelScore.alpha = 0
         
         // Best Label
-        labelBest.position = CGPoint(x: (d.middleX + 80), y: (d.middleY + 200))
         labelBest.fontName = font
         labelBest.fontSize = 25.0
         labelBest.userInteractionEnabled = false
@@ -92,9 +91,7 @@ class HUD: SKNode {
         labelBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         labelBest.alpha = 0
         
-        
         // Count Best
-        coinCountBest.position = CGPoint(x: (d.middleX + 80), y: (d.middleY + 150))
         coinCountBest.fontName = font
         coinCountBest.fontSize = 40.0
         coinCountBest.userInteractionEnabled = false
@@ -102,6 +99,8 @@ class HUD: SKNode {
         coinCountBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         coinCountBest.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
         coinCountBest.alpha = 0
+        
+        positionLabelBestRight()
         
         // Level Label 
         levelLabel.position = CGPoint(x: d.middleX, y: d.middleY - 250 )
@@ -197,6 +196,7 @@ class HUD: SKNode {
         menuButton.texture = SKTexture(imageNamed: "Donut")
     }
     
+   
     
     
     // HUD setups
@@ -216,7 +216,13 @@ class HUD: SKNode {
     
     func logoHide() {
         logo.runAction(fadeOutAnimation)
-    }    
+    }
+    
+    
+    func startMenuHide() {
+        logo.runAction(fadeOutAnimation)
+        menuButtonHide()
+    }
     
     func labelMenuScoreShow() {
         coinCountText.position = CGPoint(x: (d.middleX - 80), y: (d.middleY + 150))
@@ -237,6 +243,7 @@ class HUD: SKNode {
         labelBest.runAction(fadeInAnimation)
         coinCountBest.runAction(fadeInAnimation)
         labelMenuScoreShow()
+        positionLabelBestRight()
     }
     
     func menuItemsHide() {
@@ -245,7 +252,9 @@ class HUD: SKNode {
         labelBest.runAction(fadeOutAnimation)
         coinCountBest.runAction(fadeOutAnimation)
         coinCountText.runAction(fadeOutAnimation)
-        hideHeartItems()                
+        hideHeartItems()
+        emitter?.removeAllActions()
+        emitter?.removeFromParent()
     }
     
     func menuItemsAfterPurchaseShow() {
@@ -263,8 +272,7 @@ class HUD: SKNode {
     }
     
     func gameItemsShow() {
-        setHealthDisplay(life.getCurrentLifeCount())
-        print("Game items show", life.getCurrentLifeCount())
+        setHealthDisplay(life.getCurrentLifeCount())        
         coinCountText.position = CGPoint(x: d.middleX, y: (d.height - 50))
         coinCountText.fontColor = UIColor.whiteColor()
         coinCountText.runAction(fadeInAnimation)
@@ -364,14 +372,20 @@ class HUD: SKNode {
         }
     }
     
-    // If the labelBest schould be centered
+    // Label position
     
     func positionLabelBestCentered() {
         labelBest.position = CGPoint(x: d.middleX, y: (d.middleY + 200))
         coinCountBest.position = CGPoint(x: d.middleX, y: (d.middleY + 150))
-        coinCountText.hidden = true
-        labelScore.hidden = true
+        coinCountText.runAction(fadeOutAnimation)
+        labelScore.runAction(fadeOutAnimation)
     }
+    
+    func positionLabelBestRight() {
+        labelBest.position = CGPoint(x: (d.middleX + 80), y: (d.middleY + 200))
+        coinCountBest.position = CGPoint(x: (d.middleX + 80), y: (d.middleY + 150))
+    }
+    
     
     
     func setHealthDisplay(currentHealth: Int) {
