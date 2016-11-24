@@ -4,5 +4,7 @@
 <dict>
 	<key>highScore</key>
 	<integer>0</integer>
+	<key>pListLifeCount</key>
+	<integer>3</integer>
 </dict>
 </plist>

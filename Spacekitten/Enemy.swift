@@ -104,9 +104,7 @@ class Enemy: SKNode {
         
         
         // Add dots after the enemy with the correct colour
-        // addEmitter(texture)
-        
-        
+        // addEmitter(texture)                
  
     }
     

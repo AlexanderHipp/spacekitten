@@ -62,7 +62,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = Player()
     let hud = HUD()
     let level = Level()
-    var gameOver = false
+    let life = Life()    
+    
+    var gameLost = false
     
     var enemyArray = [Enemy]()
     var timeBetweenEnemies = 1.0
@@ -74,23 +76,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMoveToView(view: SKView) {
-        // SHow outlines
-//        view.showsPhysics = true
+        // Show outlines
+        // view.showsPhysics = true
         
         // Set level to 1 
         level.levelValue = 1
         
         // Background
         background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        background.zPosition = 0
         addChild(background)
         
-        //Define Player        
-        player.definePlayer(sizeScreen: self.size)
-        player.updatePlayerPhysics()
-        self.addChild(player)
-        
-        // Set initial player size
-        player.initialPlayerSize = player.playerSize
+        // Initiate Player
+        initPlayer()
         
         // HUD
         hud.createHudNodes(self.size)
@@ -100,78 +98,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Get highscore
         hud.updateHighScore()        
         
+        // Physics World settings
         physicsWorld.gravity = CGVectorMake(0, 0)
         physicsWorld.contactDelegate = self
         
-        // Game starts
-        self.hud.showLevel(level.levelValue)
+        // Show start menu items
+        hud.logoShow()
+        hud.menuButtonShow()
+        print("Show start menu")
         
-        runAction(
-            SKAction.repeatActionForever (
-                SKAction.sequence([
-                    SKAction.runBlock({
-                        
-                        // Check if game over
-                        if self.gameOver == true {
-                            self.removeActionForKey("GameOver")
-                        } else {
-                            self.checkGameOver()
-                        }
-                        
-                    }),
-                    SKAction.runBlock({
-                        
-                        let enemy = Enemy()
-                        
-                        // Check if game over
-                        if self.gameOver == true {
-                            self.removeAllEnemyNodes()
-                        } else {                                                    
-                                                        
-                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
-                            self.addChild(enemy)
-                            
-                            // Add enemy to array which is needed to delete all enemies if the player dies
-                            self.enemyArray.append(enemy)
-                            
-                        }
-                        
-                       
-                        // Function that checks which current level the user is in and spawns the enemz accordingly
-                        self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
-                        
-                        
-                    }),
-                    
-                    // Time after a new enemy is displayed
-                    SKAction.waitForDuration(self.timeBetweenEnemies)
-                    
-                    
-                ])
-            ),
-            withKey: "GameOver"
-        )            
         
     }
     
-    func checkGameOver() {
+    func checkGameLost() {
+        
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
-                        
-            self.gameOver = true
             
-            // Check if new highScore, if yes write it in the plist
-            hud.checkIfNewHighScore(enemiesDestroyed, screenSize: self.size)
+            self.removeAllEnemyNodes()
             
+            print("Check game over")
+            self.gameLost = true
+            
+            // Animation Player dies
             player.die(self.size)
             
-            hud.showButtons(self.size)
+            print("menu after game is game over")
             
-            // Background
-            backgroundColor = UIColor(red:0.19, green:0.21, blue:0.24, alpha:1.0)
+            // Check if new highScore and lifeCount, if yes write it in the plist
+            let newHighscore = hud.checkIfNewHighScore(enemiesDestroyed)
             
-
+            // Minimize LifeCount and update hud
+            let newLifeCount = life.decreaseLifeCount(newHighscore: newHighscore)
+            life.updateLifeScore(newLifeCount)
+            
+            // Show normal elements
+            hud.menuItemsShow(newHighscore)
+            
         }
     }
+    
+    
+    
     
     
     func removeAllEnemyNodes()  {
@@ -191,24 +158,66 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.locationInNode(self)        
         let nodeTouched = nodeAtPoint(touchLocation)
         
-        
-        // Check for HUD donut:
-        if nodeTouched.name == "DonutRestart" {
+        // Check for HUD buttons:
+        if (nodeTouched.name == "StartGame") {
+            
+            print(life.getCurrentLifeCount())
+            print("Game started")
             
             runAction(
                 SKAction.sequence([
                     SKAction.runBlock({
                         self.hud.squishHUDDonut()
+                        self.hud.logoHide()
+                        self.hud.menuButtonHide()
+                        self.hud.menuItemsAfterPurchaseHide()
+                        self.hud.gameItemsShow()
                     }),
                     SKAction.runBlock({
-                        self.hud.fadeOutHUDelements()
+                        self.level.levelValue = 1
+                        self.enemiesDestroyed = 0
+                        self.hud.coinCountText.text = "0"
+                        self.hud.showLevel(self.level.levelValue)
                     }),
-                    SKAction.waitForDuration(0.9),
+                    SKAction.waitForDuration(2.0),
                     SKAction.runBlock({
-                        self.view?.presentScene(GameScene(size: self.size), transition: .crossFadeWithDuration(0.9))
+                        print("Before Loop")
+                        self.gameLost = false
+                        self.gameLoop()
+                        print("After Loop")
+                    }),
+                    SKAction.runBlock({
+                        self.hud.unSquishHUDDonut()
                     })
                 ])
-            )                                
+            )
+        } else if (nodeTouched.name == "GoToUpsell") {            
+            
+            // UPSELL PAGE
+            print("upsell page")
+            
+            hud.menuItemsHide()
+            hud.startMenuHide()
+            
+            background.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
+            backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
+            player.hideWithAnimation()
+            hud.upsellPageShow()
+            
+        } else if (nodeTouched.name == "UpsellConfirmation") {
+            
+            // MENU AFTER UPSELL
+            print("menu after upsell")
+            
+            // Set life count back to max for now. If user is premium there is no need for this check anymore
+            life.resetLifeCount()
+            
+            hud.upsellPageHide()
+            
+            hud.menuItemsAfterPurchaseShow()
+            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
+            player.showWithAnimation()
+            
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             
@@ -217,9 +226,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 self.enemyDie(nodeTouchedAsSKSpriteNode)
                 
-                
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
-                
                 
                 enemiesDestroyed += checkGoodEnemy(damagePotential)
                 
@@ -311,7 +318,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             // Nothing
         }
-   
     }
     
     
@@ -319,7 +325,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 10
+            return 150
         case "Apple":
             return -10
         case "Cookie":
@@ -378,6 +384,71 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func initPlayer() {
+        
+        //Define Player
+        player.definePlayer(sizeScreen: self.size)
+        player.updatePlayerPhysics()
+        self.addChild(player)
+        
+        // Set initial player size
+        player.initialPlayerSize = player.playerSize
+        
+    }
+    
+    
+    func gameLoop() {
+        
+        print("Inside Loop Start")
+        
+        var index = 1
+        
+        runAction(
+            SKAction.repeatActionForever (
+                SKAction.sequence([
+                    SKAction.runBlock({
+                        
+                        print("Loop Round", index)
+                        index = index + 1
+                        
+                        // Check if game over
+                        if self.gameLost == true {
+                            print("Game over")
+                            self.removeActionForKey("GameLost")
+                        } else {
+                            self.checkGameLost()
+                        }
+                        
+                    }),
+                    SKAction.runBlock({
+                        
+                        let enemy = Enemy()
+                        
+                        // Check if game lost
+                        if self.gameLost != true {
+                            
+                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
+                            self.addChild(enemy)
+                            
+                            // Add enemy to array which is needed to delete all enemies if the player dies
+                            self.enemyArray.append(enemy)
+                            
+                        }
+                        
+                        // Function that checks which current level the user is in and spawns the enemy accordingly
+                        self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
+                        
+                    }),
+                    
+                    // Time after a new enemy is displayed
+                    SKAction.waitForDuration(self.timeBetweenEnemies)
+                    
+                    
+                    ])                
+            ),
+            withKey: "GameLost"
+        )
+    }
 }
 
 
