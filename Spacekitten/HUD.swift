@@ -236,14 +236,25 @@ class HUD: SKNode {
         coinCountText.runAction(fadeOutAnimation)
     }
     
-    func menuItemsShow() {
+    func menuItemsShow(newHighscore: Bool) {
+        
         setHealthDisplay(life.getCurrentLifeCount())
         print("Menu items show", life.getCurrentLifeCount())
         menuButtonShow()
+        print(newHighscore)
+        
+        if (newHighscore == true) {
+            labelBest.text = "New Highscore"
+            positionLabelBestCentered()
+            letItRain()
+        } else {
+            labelBest.text = "Best"
+            labelMenuScoreShow()
+            positionLabelBestRight()
+        }
+        
         labelBest.runAction(fadeInAnimation)
         coinCountBest.runAction(fadeInAnimation)
-        labelMenuScoreShow()
-        positionLabelBestRight()
     }
     
     func menuItemsHide() {
@@ -319,8 +330,8 @@ class HUD: SKNode {
         emitter!.hidden = false
         
         // Place the emitter at the rear of the ship.
-        emitter!.position = CGPoint(x: d.middleX, y: d.height)
-        emitter!.particlePositionRange = CGVector(dx: d.width, dy: 0)
+        emitter!.position = CGPoint(x: d.middleX, y: d.height + 60)
+        emitter!.particlePositionRange = CGVector(dx: d.width, dy: 20)
         emitter!.name = "NewHighscore"
         
         // Send the particles to the scene.
@@ -359,16 +370,16 @@ class HUD: SKNode {
         
     }
     
-    func checkIfNewHighScore(newHighScore: Int) {
+    func checkIfNewHighScore(newHighScore: Int) -> Bool {
         
         let oldHighScoreValue: Int = PlistManager.sharedInstance.getValueForKey(highScore) as! Int
         
         if newHighScore > oldHighScoreValue {
             PlistManager.sharedInstance.saveValue(newHighScore, forKey: highScore)
             updateHighScore()
-            letItRain()
-            labelBest.text = "New Highscore"
-            positionLabelBestCentered()
+            return true
+        } else {
+            return false
         }
     }
     

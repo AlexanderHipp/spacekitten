@@ -129,10 +129,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             life.updateLifeScore(newLifeCount)
             
             // Check if new highScore and lifeCount, if yes write it in the plist
-            hud.checkIfNewHighScore(enemiesDestroyed)
+            let newHighscore = hud.checkIfNewHighScore(enemiesDestroyed)
+            
+            print(newHighscore)
             
             // Show normal elements
-            hud.menuItemsShow()
+            hud.menuItemsShow(newHighscore)
+            
+            // Check if life count down
             
 
         }
@@ -173,7 +177,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.hud.menuButtonHide()
                         self.hud.menuItemsAfterPurchaseHide()
                         self.hud.gameItemsShow()
-                    }),                    
+                    }),
                     SKAction.runBlock({
                         self.level.levelValue = 1
                         self.enemiesDestroyed = 0
