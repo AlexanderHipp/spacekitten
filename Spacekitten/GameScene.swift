@@ -228,7 +228,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
                 
-                enemiesDestroyed += checkGoodEnemy(damagePotential)
+                enemiesDestroyed += calculatePotential(damagePotential)
                 
                 let levelNew = level.checkLevel(enemiesDestroyed, currentLevel: level.levelValue)
                 
@@ -237,23 +237,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     level.levelValue = levelNew
                 }
                 
+                // Update counter in the game
                 hud.setCoinCounDisplay(enemiesDestroyed)
             }
         }
     }
     
-    func checkGoodEnemy(potential: Int) -> Int {
-        
-        var potentialAfterCheck = 0
-        
-        if potential < 0 {
-            potentialAfterCheck = potential * -2
-        } else {
-            potentialAfterCheck = potential
-        }
-        
-        return potentialAfterCheck / 10
-        
+    func calculatePotential(potential: Int) -> Int {
+        return (potential / 10)
     }
 
     
