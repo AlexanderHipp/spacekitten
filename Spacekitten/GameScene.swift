@@ -128,7 +128,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newHighscore = hud.checkIfNewHighScore(enemiesDestroyed)
             
             // Minimize LifeCount and update hud
-            let newLifeCount = life.decreaseLifeCount(newHighscore: newHighscore)
+            let newLifeCount = life.decreaseLifeCount(newHighscore)
             life.updateLifeScore(newLifeCount)
             
             // Show normal elements
