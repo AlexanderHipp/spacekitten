@@ -40,4 +40,13 @@ class Life: SKNode {
         
     }
     
+    func decreaseLifeCount(newHighscore: Bool) -> Int {
+        if newHighscore == true  {
+            return getCurrentLifeCount()
+        } else {
+            return getCurrentLifeCount() - 1
+        }
+        
+    }
+    
 }

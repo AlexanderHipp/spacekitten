@@ -124,21 +124,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             print("menu after game is game over")
             
-            // Minimize LifeCount and update hud
-            let newLifeCount = life.getCurrentLifeCount() - 1
-            life.updateLifeScore(newLifeCount)
-            
             // Check if new highScore and lifeCount, if yes write it in the plist
             let newHighscore = hud.checkIfNewHighScore(enemiesDestroyed)
             
-            print(newHighscore)
+            // Minimize LifeCount and update hud
+            let newLifeCount = life.decreaseLifeCount(newHighscore: newHighscore)
+            life.updateLifeScore(newLifeCount)
             
             // Show normal elements
             hud.menuItemsShow(newHighscore)
             
-            // Check if life count down
-            
-
         }
     }
     

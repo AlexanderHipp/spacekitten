@@ -246,7 +246,7 @@ class HUD: SKNode {
         if (newHighscore == true) {
             labelBest.text = "New Highscore"
             positionLabelBestCentered()
-            letItRain()
+            // letItRain()
         } else {
             labelBest.text = "Best"
             labelMenuScoreShow()
@@ -264,8 +264,6 @@ class HUD: SKNode {
         coinCountBest.runAction(fadeOutAnimation)
         coinCountText.runAction(fadeOutAnimation)
         hideHeartItems()
-        emitter?.removeAllActions()
-        emitter?.removeFromParent()
     }
     
     func menuItemsAfterPurchaseShow() {
