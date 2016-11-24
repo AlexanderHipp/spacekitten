@@ -6,5 +6,7 @@
 	<integer>0</integer>
 	<key>pListLifeCount</key>
 	<integer>3</integer>
+	<key>premium</key>
+	<false/>
 </dict>
 </plist>

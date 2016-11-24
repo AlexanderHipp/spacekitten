@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Life: SKNode {
+class Life {
     
     let pListLifeCount = "pListLifeCount"
     let maxLifeCount = 3

@@ -62,7 +62,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let player = Player()
     let hud = HUD()
     let level = Level()
-    let life = Life()    
+    let life = Life()
+    let p = Premium()
     
     var gameLost = false
     
@@ -106,6 +107,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.logoShow()
         hud.menuButtonShow()
         print("Show start menu")
+        
+        print("This user has the premium membership:", p.checkIfUserIsPremium())
         
         
     }
@@ -212,11 +215,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Set life count back to max for now. If user is premium there is no need for this check anymore
             life.resetLifeCount()
             
+            // Set premium account
+            p.getPremium()
+            
+            print("User is now premium")
+            hud.premiumLabel.text = "PREMIUM"
+            
             hud.upsellPageHide()
             
             hud.menuItemsAfterPurchaseShow()
             background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
             player.showWithAnimation()
+            
+            // Here we should check if the purchase was successful or not in an own class
+            
             
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
