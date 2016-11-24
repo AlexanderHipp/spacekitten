@@ -231,6 +231,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             
+        } else if (nodeTouched.name == "BackFromFunnelToMenu") {
+            
+            // MENU AFTER UPSELL
+            print("menu after back from upsell")
+            
+            hud.upsellPageHide()
+            
+            // Show normal elements
+            hud.menuItemsShow(false)
+            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
+            player.showWithAnimation()
+           
+            
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             
             // If the user touches an enemy

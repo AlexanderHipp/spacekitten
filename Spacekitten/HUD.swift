@@ -26,6 +26,7 @@ class HUD: SKNode {
     var waitingTime = SKLabelNode(text: "Wait for 6 mins")
     
     let buyFullVersionButton = SKSpriteNode()
+    let closeFunnelButton = SKSpriteNode()
     let logo = SKSpriteNode()
     
     let emitter = SKEmitterNode(fileNamed: "NewHighscore")
@@ -117,7 +118,7 @@ class HUD: SKNode {
         levelLabel.alpha = 0
         
         
-        // Nodes for Game Over Display
+        // Nodes for Funnel
         
         // Game Over Label
         labelGameOver.position = CGPoint(x: d.middleX, y: (d.middleY + 200))
@@ -127,6 +128,14 @@ class HUD: SKNode {
         labelGameOver.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelGameOver.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         labelGameOver.alpha = 0
+        
+        
+        // Close Funnel Button
+        closeFunnelButton.texture = textureAtlas.textureNamed("Cookie")
+        closeFunnelButton.position = CGPoint(x: 40, y: d.height - 40 )
+        closeFunnelButton.size = CGSize(width: 30, height: 30)        
+        closeFunnelButton.alpha = 0
+        closeFunnelButton.name = "BackFromFunnelToMenu"
         
         
         // Waiting Time
@@ -185,6 +194,7 @@ class HUD: SKNode {
         self.addChild(logo)
         
         self.addChild(premiumLabel)
+        self.addChild(closeFunnelButton)
         
         
         // Create heart nodes for the life meter
@@ -224,7 +234,6 @@ class HUD: SKNode {
     // HUD setups
     
     func menuButtonShow() {
-        
         displayButtonAccordingToGameover()
         menuButton.runAction(fadeInAnimation)
     }
@@ -320,12 +329,14 @@ class HUD: SKNode {
         labelGameOver.runAction(fadeInAnimation)
         waitingTime.runAction(fadeInAnimation)
         upsellButton.runAction(fadeInAnimation)
+        closeFunnelButton.runAction(fadeInAnimation)
     }
     
     func upsellPageHide() {
         labelGameOver.runAction(fadeOutAnimation)
         waitingTime.runAction(fadeOutAnimation)
-        upsellButton.runAction(fadeOutAnimation)        
+        upsellButton.runAction(fadeOutAnimation)
+        closeFunnelButton.runAction(fadeOutAnimation)
     }
     
     // END Hud setups
