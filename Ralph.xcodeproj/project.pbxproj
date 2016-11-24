@@ -12,14 +12,16 @@
 		9BC387FD9D99AF0F02DFA778 /* Pods_Ralph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B19D9056D6EB9AB85D8C4C08 /* Pods_Ralph.framework */; };
 		FA26B8111DBCB86C000B8248 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA26B8101DBCB86C000B8248 /* GoogleService-Info.plist */; };
 		FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */; };
+		FA3AFFFC1DE76A74008D10D0 /* Premium.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3AFFFB1DE76A74008D10D0 /* Premium.swift */; };
 		FA3B9B701D4920000018FD87 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA3B9B6F1D4920000018FD87 /* Player.swift */; };
 		FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA40516A1DB533ED00CD8F22 /* Bubble.swift */; };
 		FA565E301DC7E21F004F891D /* NewHighscore.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA565E2E1DC7E21F004F891D /* NewHighscore.sks */; };
+		FA6A43841DE1CB6E008D6405 /* Life.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A43831DE1CB6E008D6405 /* Life.swift */; };
+		FA6A43861DE38217008D6405 /* DeviceSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A43851DE38217008D6405 /* DeviceSize.swift */; };
 		FA781D681D5A71D100A51D18 /* MyData.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA781D661D5A71D100A51D18 /* MyData.plist */; };
 		FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D671D5A71D100A51D18 /* PlistManager.swift */; };
 		FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D6A1D5BBE7700A51D18 /* Level.swift */; };
 		FA81A7BF1D491B58000158B4 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81A7BE1D491B58000158B4 /* HUD.swift */; };
-		FA903E551DBD53AB0018C5F3 /* DonutSplash.sks in Resources */ = {isa = PBXBuildFile; fileRef = FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */; };
 		FA9B84391D54F32100A9B37F /* CooperHewitt-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */; };
 		FAAC8CBD1D64FF46007124BD /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */; };
 		FAAC8CBE1D64FF46007124BD /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */; };
@@ -30,7 +32,6 @@
 		FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */; };
 		FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FAE549311D19D4AA009BAE8C /* LaunchScreen.storyboard */; };
 		FAE5493B1D19D514009BAE8C /* sprites.atlas in Resources */ = {isa = PBXBuildFile; fileRef = FAE5493A1D19D514009BAE8C /* sprites.atlas */; };
-		FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAECE2C81D2D69FE00075695 /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,14 +42,16 @@
 		DD8DD3C283BF13F334E640BF /* Pods-Ralph.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ralph.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Ralph/Pods-Ralph.debug.xcconfig"; sourceTree = "<group>"; };
 		FA26B8101DBCB86C000B8248 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = FoodPath.sks; sourceTree = "<group>"; };
+		FA3AFFFB1DE76A74008D10D0 /* Premium.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Premium.swift; sourceTree = "<group>"; };
 		FA3B9B6F1D4920000018FD87 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FA40516A1DB533ED00CD8F22 /* Bubble.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bubble.swift; sourceTree = "<group>"; };
 		FA565E2E1DC7E21F004F891D /* NewHighscore.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = NewHighscore.sks; sourceTree = "<group>"; };
+		FA6A43831DE1CB6E008D6405 /* Life.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Life.swift; sourceTree = "<group>"; };
+		FA6A43851DE38217008D6405 /* DeviceSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceSize.swift; sourceTree = "<group>"; };
 		FA781D661D5A71D100A51D18 /* MyData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyData.plist; sourceTree = "<group>"; };
 		FA781D671D5A71D100A51D18 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		FA781D6A1D5BBE7700A51D18 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		FA81A7BE1D491B58000158B4 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
-		FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = DonutSplash.sks; sourceTree = "<group>"; };
 		FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CooperHewitt-Heavy.otf"; sourceTree = "<group>"; };
 		FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
@@ -61,7 +64,6 @@
 		FAE549321D19D4AA009BAE8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FAE549341D19D4AA009BAE8C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FAE5493A1D19D514009BAE8C /* sprites.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = sprites.atlas; sourceTree = "<group>"; };
-		FAECE2C81D2D69FE00075695 /* MenuScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,13 +154,15 @@
 				FAAC8CB61D64FE7C007124BD /* Frameworks */,
 				FA9B84371D54F2E400A9B37F /* Ressources */,
 				FAE549241D19D4AA009BAE8C /* AppDelegate.swift */,
+				FA6A43851DE38217008D6405 /* DeviceSize.swift */,
+				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
 				FAE549281D19D4AA009BAE8C /* GameScene.swift */,
 				04270E751D36A4CA00E16250 /* Enemy.swift */,
 				FA40516A1DB533ED00CD8F22 /* Bubble.swift */,
 				FA81A7BE1D491B58000158B4 /* HUD.swift */,
+				FA6A43831DE1CB6E008D6405 /* Life.swift */,
+				FA3AFFFB1DE76A74008D10D0 /* Premium.swift */,
 				FA3B9B6F1D4920000018FD87 /* Player.swift */,
-				FAE5492A1D19D4AA009BAE8C /* GameViewController.swift */,
-				FAECE2C81D2D69FE00075695 /* MenuScene.swift */,
 				044063A11D36BDD900CC6CE3 /* Random.swift */,
 				FA781D6A1D5BBE7700A51D18 /* Level.swift */,
 				FA781D671D5A71D100A51D18 /* PlistManager.swift */,
@@ -170,7 +174,6 @@
 				FAE5492F1D19D4AA009BAE8C /* Assets.xcassets */,
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 				FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */,
-				FA903E531DBD53AB0018C5F3 /* DonutSplash.sks */,
 				FA565E2E1DC7E21F004F891D /* NewHighscore.sks */,
 			);
 			name = Ralph;
@@ -243,7 +246,6 @@
 				FA26EC0E1DB6B51500CA44BB /* FoodPath.sks in Resources */,
 				FAE549331D19D4AA009BAE8C /* LaunchScreen.storyboard in Resources */,
 				FA26B8111DBCB86C000B8248 /* GoogleService-Info.plist in Resources */,
-				FA903E551DBD53AB0018C5F3 /* DonutSplash.sks in Resources */,
 				FA565E301DC7E21F004F891D /* NewHighscore.sks in Resources */,
 				FAE549301D19D4AA009BAE8C /* Assets.xcassets in Resources */,
 				FA781D681D5A71D100A51D18 /* MyData.plist in Resources */,
@@ -322,15 +324,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA3AFFFC1DE76A74008D10D0 /* Premium.swift in Sources */,
 				FAE549291D19D4AA009BAE8C /* GameScene.swift in Sources */,
 				FA81A7BF1D491B58000158B4 /* HUD.swift in Sources */,
+				FA6A43861DE38217008D6405 /* DeviceSize.swift in Sources */,
 				FAE5492B1D19D4AA009BAE8C /* GameViewController.swift in Sources */,
 				FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */,
-				FAECE2C91D2D69FE00075695 /* MenuScene.swift in Sources */,
 				04270E761D36A4CA00E16250 /* Enemy.swift in Sources */,
 				FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */,
 				FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */,
 				FA3B9B701D4920000018FD87 /* Player.swift in Sources */,
+				FA6A43841DE1CB6E008D6405 /* Life.swift in Sources */,
 				FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */,
 				044063A21D36BDD900CC6CE3 /* Random.swift in Sources */,
 			);

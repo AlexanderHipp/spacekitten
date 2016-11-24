@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         BITHockeyManager.sharedHockeyManager().authenticator.authenticateInstallation()
         
         // Firebase
-        FIRApp.configure()
+        FIRApp.configure()                
 
         return true
     }

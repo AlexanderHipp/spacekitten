@@ -8,6 +8,7 @@
 
 import SpriteKit
 
+// test
 
 
 class Enemy: SKNode {
@@ -17,11 +18,14 @@ class Enemy: SKNode {
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     enum EnemyType {
-        case Donut, Scoop
+        case Donut, Apple, Cookie, Scoop, Lollipop
         var spec: (size: CGSize, color: String, speed: CGFloat, name: String) {
             switch self {
-            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 1.5, name: "Donut")
-            case Scoop: return (size: CGSize(width: 30, height: 30), color: "Scoop", speed: 2.5, name: "Scoop")
+            case Donut: return (size: CGSize(width: 60, height: 60), color: "Donut", speed: 2.0, name: "Donut")
+            case Apple: return (size: CGSize(width: 60, height: 60), color: "Apple", speed: 2.2, name: "Apple")
+            case Cookie: return (size: CGSize(width: 60, height: 60), color: "Cookie", speed: 1.8, name: "Cookie")
+            case Scoop: return (size: CGSize(width: 60, height: 60), color: "Scoop", speed: 1.6, name: "Scoop")
+            case Lollipop: return (size: CGSize(width: 60, height: 60), color: "Lollipop", speed: 1.4, name: "Lollipop")
             }
         }
     }
@@ -100,9 +104,7 @@ class Enemy: SKNode {
         
         
         // Add dots after the enemy with the correct colour
-        // addEmitter(texture)
-        
-        
+        // addEmitter(texture)                
  
     }
     
@@ -138,8 +140,14 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             sizeEnemy = EnemyType.Donut.spec.size
+        case .Apple:
+            sizeEnemy = EnemyType.Apple.spec.size
+        case .Cookie:
+            sizeEnemy = EnemyType.Cookie.spec.size
         case .Scoop:
             sizeEnemy = EnemyType.Scoop.spec.size
+        case .Lollipop:
+            sizeEnemy = EnemyType.Lollipop.spec.size
         }
         return sizeEnemy
     }
@@ -153,9 +161,15 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             textureEnemy = EnemyType.Donut.spec.color
+        case .Apple:
+            textureEnemy = EnemyType.Apple.spec.color
+        case .Cookie:
+            textureEnemy = EnemyType.Cookie.spec.color
         case .Scoop:
             textureEnemy = EnemyType.Scoop.spec.color
-        }        
+        case .Lollipop:
+            textureEnemy = EnemyType.Lollipop.spec.color
+        }
         return textureEnemy
         
     }
@@ -168,8 +182,14 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             speedEnemy = EnemyType.Donut.spec.speed
+        case .Apple:
+            speedEnemy = EnemyType.Apple.spec.speed
+        case .Cookie:
+            speedEnemy = EnemyType.Cookie.spec.speed
         case .Scoop:
             speedEnemy = EnemyType.Scoop.spec.speed
+        case .Lollipop:
+            speedEnemy = EnemyType.Lollipop.spec.speed
         }
         return speedEnemy
         
@@ -183,8 +203,14 @@ class Enemy: SKNode {
         switch type {
         case .Donut:
             nameEnemy = EnemyType.Donut.spec.name
+        case .Apple:
+            nameEnemy = EnemyType.Apple.spec.name
+        case .Cookie:
+            nameEnemy = EnemyType.Cookie.spec.name
         case .Scoop:
             nameEnemy = EnemyType.Scoop.spec.name
+        case .Lollipop:
+            nameEnemy = EnemyType.Lollipop.spec.name
         }
         return nameEnemy
         
@@ -198,9 +224,27 @@ class Enemy: SKNode {
         
         switch currentLevel {
         case 1:
-            return getPossibleEnemies([.Donut])
+            return getPossibleEnemies([.Donut, .Donut, .Donut, .Donut, .Donut])
+        case 2:
+            return getPossibleEnemies([.Donut, .Donut, .Donut, .Donut, .Apple])
+        case 3:
+            return getPossibleEnemies([.Donut, .Donut, .Cookie, .Cookie, .Apple])
+        case 4:
+            return getPossibleEnemies([.Donut, .Donut, .Scoop, .Scoop, .Apple])
+        case 5:
+            return getPossibleEnemies([.Donut, .Cookie, .Scoop, .Lollipop, .Apple])
+        case 6:
+            return getPossibleEnemies([.Donut, .Cookie, .Scoop, .Lollipop, .Lollipop])
+        case 7:
+            return getPossibleEnemies([.Scoop, .Scoop, .Lollipop, .Lollipop, .Apple])
+        case 8:
+            return getPossibleEnemies([.Cookie, .Cookie, .Scoop, .Lollipop, .Apple])
+        case 9:
+            return getPossibleEnemies([.Donut, .Donut, .Cookie, .Lollipop, .Lollipop])
+        case 10:
+            return getPossibleEnemies([.Donut, .Scoop, .Cookie, .Lollipop, .Apple])
         default:
-            return getPossibleEnemies([.Donut])
+            return getPossibleEnemies([.Donut, .Apple])
         }
         
     }
