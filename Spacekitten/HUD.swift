@@ -12,6 +12,7 @@ class HUD: SKNode {
     
     let life = Life()
     let d = DeviceSize()
+    let p = Premium()
     
     let menuButton = SKSpriteNode()
     let upsellButton = SKLabelNode(text: "Buy Fullversion")
@@ -31,11 +32,13 @@ class HUD: SKNode {
     
     let levelLabel = SKLabelNode(text: "Level 0")
     
+    let premiumLabel = SKLabelNode(text: "BASIC")
+    
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     let font = "CooperHewitt-Heavy"
-    let fadeInAnimation = SKAction.fadeAlphaTo(1, duration: 0.9)
-    let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.2)
+    let fadeInAnimation = SKAction.fadeAlphaTo(1, duration: 0.2)
+    let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.1)
     
     let highScore = "highScore"       
     
@@ -148,6 +151,23 @@ class HUD: SKNode {
         upsellButton.name = "UpsellConfirmation"
         upsellButton.alpha = 0
         
+        // Premium label
+        premiumLabel.position = CGPoint(x: d.width - 40, y: d.height - 40 )
+        premiumLabel.fontName = font
+        premiumLabel.fontSize = 10.0
+        premiumLabel.zPosition = 40
+        premiumLabel.userInteractionEnabled = false
+        premiumLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        premiumLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        premiumLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        premiumLabel.alpha = 1
+        
+        if p.checkIfUserIsPremium() == true {
+            premiumLabel.text = "PREMIUM"
+        } else {
+            premiumLabel.text = "BASIC"
+        }
+        
         
         // Apply all nodes to HUD
         
@@ -163,6 +183,8 @@ class HUD: SKNode {
         self.addChild(menuButton)
         self.addChild(upsellButton)
         self.addChild(logo)
+        
+        self.addChild(premiumLabel)
         
         
         // Create heart nodes for the life meter
@@ -202,6 +224,7 @@ class HUD: SKNode {
     // HUD setups
     
     func menuButtonShow() {
+        
         displayButtonAccordingToGameover()
         menuButton.runAction(fadeInAnimation)
     }
@@ -315,7 +338,8 @@ class HUD: SKNode {
     }
     
     func displayButtonAccordingToGameover() {
-        if life.checkLifeCountForGameover() == true {
+        
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) {
             menuButton.name = "GoToUpsell"
         } else {
             menuButton.name = "StartGame"
@@ -399,16 +423,23 @@ class HUD: SKNode {
     
     func setHealthDisplay(currentHealth: Int) {
         
-        let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
-        print("Set health display", life.getCurrentLifeCount())
-        
-        for index in 0 ..< life.maxLifeCount {
-            if index < currentHealth {
-                heartNodes[index].alpha = 1
-            } else {
-                heartNodes[index].runAction(fadeAction)
+        if (p.checkIfUserIsPremium() == false) {
+            let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
+            print("Set health display", life.getCurrentLifeCount())
+            
+            for index in 0 ..< life.maxLifeCount {
+                if index < currentHealth {
+                    heartNodes[index].alpha = 1
+                } else {
+                    heartNodes[index].runAction(fadeAction)
+                }
             }
+        } else {
+            hideHeartItems()
+            print("User is premium therefore don't show the health display")
         }
+        
+        
     }
     
     // Colors for Level Labels
