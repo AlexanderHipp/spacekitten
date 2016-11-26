@@ -8,5 +8,7 @@
 	<integer>3</integer>
 	<key>premium</key>
 	<false/>
+	<key>timestampLifeTimer</key>
+	<date>2016-11-26T11:25:26Z</date>
 </dict>
 </plist>

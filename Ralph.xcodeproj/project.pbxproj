@@ -22,6 +22,7 @@
 		FA781D691D5A71D100A51D18 /* PlistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D671D5A71D100A51D18 /* PlistManager.swift */; };
 		FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA781D6A1D5BBE7700A51D18 /* Level.swift */; };
 		FA81A7BF1D491B58000158B4 /* HUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA81A7BE1D491B58000158B4 /* HUD.swift */; };
+		FA8C96FD1DE98BFD006C7004 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA8C96FC1DE98BFD006C7004 /* Timer.swift */; };
 		FA9B84391D54F32100A9B37F /* CooperHewitt-Heavy.otf in Resources */ = {isa = PBXBuildFile; fileRef = FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */; };
 		FAAC8CBD1D64FF46007124BD /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */; };
 		FAAC8CBE1D64FF46007124BD /* HockeySDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */; };
@@ -52,6 +53,7 @@
 		FA781D671D5A71D100A51D18 /* PlistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistManager.swift; sourceTree = "<group>"; };
 		FA781D6A1D5BBE7700A51D18 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		FA81A7BE1D491B58000158B4 /* HUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUD.swift; sourceTree = "<group>"; };
+		FA8C96FC1DE98BFD006C7004 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		FA9B84381D54F2F100A9B37F /* CooperHewitt-Heavy.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CooperHewitt-Heavy.otf"; sourceTree = "<group>"; };
 		FAAC8CBA1D64FF46007124BD /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = "<group>"; };
 		FAAC8CBC1D64FF46007124BD /* HockeySDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HockeySDKResources.bundle; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 				FAE549281D19D4AA009BAE8C /* GameScene.swift */,
 				04270E751D36A4CA00E16250 /* Enemy.swift */,
 				FA40516A1DB533ED00CD8F22 /* Bubble.swift */,
+				FA8C96FC1DE98BFD006C7004 /* Timer.swift */,
 				FA81A7BE1D491B58000158B4 /* HUD.swift */,
 				FA6A43831DE1CB6E008D6405 /* Life.swift */,
 				FA3AFFFB1DE76A74008D10D0 /* Premium.swift */,
@@ -333,6 +336,7 @@
 				04270E761D36A4CA00E16250 /* Enemy.swift in Sources */,
 				FA40516B1DB533ED00CD8F22 /* Bubble.swift in Sources */,
 				FAE549251D19D4AA009BAE8C /* AppDelegate.swift in Sources */,
+				FA8C96FD1DE98BFD006C7004 /* Timer.swift in Sources */,
 				FA3B9B701D4920000018FD87 /* Player.swift in Sources */,
 				FA6A43841DE1CB6E008D6405 /* Life.swift in Sources */,
 				FA781D6B1D5BBE7700A51D18 /* Level.swift in Sources */,
