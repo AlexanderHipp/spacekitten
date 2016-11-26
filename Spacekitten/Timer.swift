@@ -25,6 +25,7 @@ class Timer: UIViewController {
     
     var stringForTimer = ""
     var timer = NSTimer()
+    var timerFinished = Bool()
     
     
     
@@ -36,16 +37,27 @@ class Timer: UIViewController {
         startTimer()
     }
     
+    
     func printTime() {
         
-//        formatter.dateFormat = "MM/dd/yy hh:mm:ss a"
         let startTime = NSDate()
         let endTime = getEndTimePList()
         
         let timeDifference = userCalendar.components(requestedComponent, fromDate: startTime, toDate: endTime, options: [])
         
         stringForTimer = "\(timeDifference.minute) minutes \(timeDifference.second) seconds"
+        
+        timerFinished = checkIfTimerFinished(timeDifference)
+        
+        if timerFinished == true {
+            endTimer()
+        }
+        
         print("Timer", stringForTimer)
+        print(timerFinished)
+        
+        isTimerActive()
+        
         
     }
     
@@ -59,23 +71,46 @@ class Timer: UIViewController {
         
         let endTime = NSDate()
         let calendar = NSCalendar.currentCalendar()
-        let date = calendar.dateByAddingUnit(.Minute, value: 5, toDate: endTime, options: [])
+        let date = calendar.dateByAddingUnit(.Minute, value: 1, toDate: endTime, options: [])
         
         PlistManager.sharedInstance.saveValue(date!, forKey: timestampLifeTimer)
         
     }
     
+    func startTimer(){
+        
+        timerFinished = false
+        timer.fire()
+        
+    }
+    
     func endTimer(){
         
+        timerFinished = true
         timer.invalidate()
         
     }
     
-    func startTimer(){
+    func checkIfTimerFinished(difference: NSDateComponents) -> Bool {
         
-        timer.fire()
+        if (difference.minute == 0) && (difference.second == 0) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func isTimerActive() -> Bool {
+        
+        if !timer.valid {
+            return false
+        } else {
+            return true
+        }
         
     }
+    
+    
 
     
 }

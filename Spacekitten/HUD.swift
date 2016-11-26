@@ -12,7 +12,7 @@ class HUD: SKNode {
     
     let life = Life()
     let d = DeviceSize()
-    let p = Premium()
+    let p = Premium()    
     
     let menuButton = SKSpriteNode()
     let upsellButton = SKLabelNode(text: "Buy Fullversion")
