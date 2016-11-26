@@ -12,7 +12,8 @@ class HUD: SKNode {
     
     let life = Life()
     let d = DeviceSize()
-    let p = Premium()    
+    let p = Premium()
+    let t = Timer()
     
     let menuButton = SKSpriteNode()
     let upsellButton = SKLabelNode(text: "Buy Fullversion")
@@ -196,7 +197,11 @@ class HUD: SKNode {
         self.addChild(premiumLabel)
         self.addChild(closeFunnelButton)
         
+        createHeartNodes()
         
+    }
+    
+    func createHeartNodes() {
         // Create heart nodes for the life meter
         for index in 0 ..< life.maxLifeCount {
             let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Apple"))
@@ -270,10 +275,8 @@ class HUD: SKNode {
     
     func menuItemsShow(newHighscore: Bool) {
         
-        setHealthDisplay(life.getCurrentLifeCount())
-        print("Menu items show", life.getCurrentLifeCount())
+        setHealthDisplay()
         menuButtonShow()
-        print(newHighscore)
         
         if (newHighscore == true) {
             labelBest.text = "New Highscore"
@@ -313,7 +316,7 @@ class HUD: SKNode {
     }
     
     func gameItemsShow() {
-        setHealthDisplay(life.getCurrentLifeCount())        
+        setHealthDisplay()
         coinCountText.position = CGPoint(x: d.middleX, y: (d.height - 50))
         coinCountText.fontColor = UIColor.whiteColor()
         coinCountText.runAction(fadeInAnimation)
@@ -343,14 +346,15 @@ class HUD: SKNode {
     
     
     func hideHeartItems() {
-        for index in 0 ..< 3 {
+        for index in 0 ..< life.maxLifeCount {
             heartNodes[index].runAction(fadeOutAnimation)
         }
     }
     
     func displayButtonAccordingToGameover() {
         
-        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) {
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (t.checkIfTimerIsRunning() == true) {
+            print(t.checkIfTimerIsRunning())
             menuButton.name = "GoToUpsell"
         } else {
             menuButton.name = "StartGame"
@@ -432,14 +436,17 @@ class HUD: SKNode {
     
     
     
-    func setHealthDisplay(currentHealth: Int) {
+    func setHealthDisplay() {
+        
+        createHeartNodes()
         
         if (p.checkIfUserIsPremium() == false) {
+            
             let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
-            print("Set health display", life.getCurrentLifeCount())
             
             for index in 0 ..< life.maxLifeCount {
-                if index < currentHealth {
+                
+                if index < life.getCurrentLifeCount() {
                     heartNodes[index].alpha = 1
                 } else {
                     heartNodes[index].runAction(fadeAction)
@@ -449,9 +456,10 @@ class HUD: SKNode {
             hideHeartItems()
             print("User is premium therefore don't show the health display")
         }
-        
-        
     }
+    
+   
+    
     
     // Colors for Level Labels
     
@@ -462,7 +470,6 @@ class HUD: SKNode {
         4: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* green #00beaf */
         5: UIColor(red: 0.949, green: 0.3608, blue: 0.2627, alpha: 1.0) /* orange #f25c43 */
     ]
-    
     
 }
 

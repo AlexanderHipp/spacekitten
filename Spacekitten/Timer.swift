@@ -9,9 +9,12 @@
 import UIKit
 import SpriteKit
 
-class Timer: UIViewController {
+class Timer {
+    
+    let life = Life()
     
     let timestampLifeTimer = "timestampLifeTimer"
+    let lifeTimerRunning = "lifeTimerRunning"
     
     let formatter = NSDateFormatter()
     let userCalendar = NSCalendar.currentCalendar()
@@ -26,19 +29,9 @@ class Timer: UIViewController {
     var stringForTimer = ""
     var timer = NSTimer()
     var timerFinished = Bool()
+ 
     
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(printTime), userInfo: nil, repeats: true)
-        
-        startTimer()
-    }
-    
-    
-    func printTime() {
+    @objc func printTime() {
         
         let startTime = NSDate()
         let endTime = getEndTimePList()
@@ -50,16 +43,18 @@ class Timer: UIViewController {
         timerFinished = checkIfTimerFinished(timeDifference)
         
         if timerFinished == true {
-            endTimer()
+            
+            endTimer()            
+            // Reset the life count to max
+            life.resetLifeCount()
+            
         }
         
         print("Timer", stringForTimer)
-        print(timerFinished)
-        
-        isTimerActive()
-        
+        print(timerFinished)        
         
     }
+    
     
     func getEndTimePList() -> NSDate {
         
@@ -71,7 +66,7 @@ class Timer: UIViewController {
         
         let endTime = NSDate()
         let calendar = NSCalendar.currentCalendar()
-        let date = calendar.dateByAddingUnit(.Minute, value: 1, toDate: endTime, options: [])
+        let date = calendar.dateByAddingUnit(.Second, value: 10, toDate: endTime, options: [])
         
         PlistManager.sharedInstance.saveValue(date!, forKey: timestampLifeTimer)
         
@@ -79,8 +74,11 @@ class Timer: UIViewController {
     
     func startTimer(){
         
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(self.printTime), userInfo: nil, repeats: true)
+        
         timerFinished = false
         timer.fire()
+        PlistManager.sharedInstance.saveValue(true, forKey: lifeTimerRunning)
         
     }
     
@@ -88,6 +86,7 @@ class Timer: UIViewController {
         
         timerFinished = true
         timer.invalidate()
+        PlistManager.sharedInstance.saveValue(false, forKey: lifeTimerRunning)        
         
     }
     
@@ -100,18 +99,19 @@ class Timer: UIViewController {
         }
     }
     
-    func isTimerActive() -> Bool {
+    func checkIfTimerIsRunning() -> Bool {
         
-        if !timer.valid {
+        // check if the timer is runnin in the plist and check if the timestamp in the plist is in the past
+        let plistInfo = PlistManager.sharedInstance.getValueForKey(lifeTimerRunning) as! Bool
+        let timestamp = PlistManager.sharedInstance.getValueForKey(timestampLifeTimer) as! NSDate
+        
+        if (plistInfo == false) || (timestamp.timeIntervalSinceNow.isSignMinus) {
             return false
         } else {
             return true
         }
         
     }
-    
-    
-
     
 }
 

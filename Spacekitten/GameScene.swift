@@ -64,6 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let level = Level()
     let life = Life()
     let p = Premium()
+    let t = Timer()
     
     var gameLost = false
     
@@ -118,14 +119,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
             
             self.removeAllEnemyNodes()
-            
-            print("Check game over")
             self.gameLost = true
             
             // Animation Player dies
             player.die(self.size)
-            
-            print("menu after game is game over")
             
             // Check if new highScore and lifeCount, if yes write it in the plist
             let newHighscore = hud.checkIfNewHighScore(enemiesDestroyed)
@@ -134,12 +131,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newLifeCount = life.decreaseLifeCount(newHighscore)
             life.updateLifeScore(newLifeCount)
             
+            // If no lifes left the timer should fire but only if the user is not premium
+            startTimerIfNeeded()
+            
             // Show normal elements
             hud.menuItemsShow(newHighscore)
             
         }
     }
     
+    func startTimerIfNeeded(){
+        
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (t.checkIfTimerIsRunning() == false) {            
+            t.setEndTimePList()
+            t.startTimer()
+        }
+        
+    }
     
     
     
