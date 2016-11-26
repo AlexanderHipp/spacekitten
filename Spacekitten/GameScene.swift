@@ -64,7 +64,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let level = Level()
     let life = Life()
     let p = Premium()
-    let t = Timer()
     
     var gameLost = false
     
@@ -142,9 +141,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func startTimerIfNeeded(){
         
-        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (t.checkIfTimerIsRunning() == false) {            
-            t.setEndTimePList()
-            t.startTimer()
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (hud.checkIfTimerIsRunning() == false) {
+            hud.setEndTimePList()
+            hud.startTimer()
         }
         
     }
@@ -204,15 +203,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             )
         } else if (nodeTouched.name == "GoToUpsell") {            
             
-            // UPSELL PAGE
-            print("upsell page")
-            
-            hud.menuItemsHide()
-            hud.startMenuHide()
-            
-            background.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
-            backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
-            player.hideWithAnimation()
             hud.upsellPageShow()
             
         } else if (nodeTouched.name == "UpsellConfirmation") {
@@ -232,12 +222,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             hud.upsellPageHide()
             
             hud.menuItemsAfterPurchaseShow()
-            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
-            player.showWithAnimation()
             
             // Here we should check if the purchase was successful or not in an own class
-            
-            
             
         } else if (nodeTouched.name == "BackFromFunnelToMenu") {
             
@@ -245,12 +231,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("menu after back from upsell")
             
             hud.upsellPageHide()
-            
-            // Show normal elements
-            hud.menuItemsShow(false)
-            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
-            player.showWithAnimation()
-           
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             

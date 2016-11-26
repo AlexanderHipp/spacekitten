@@ -161,7 +161,6 @@
 				FAE549281D19D4AA009BAE8C /* GameScene.swift */,
 				04270E751D36A4CA00E16250 /* Enemy.swift */,
 				FA40516A1DB533ED00CD8F22 /* Bubble.swift */,
-				FA8C96FC1DE98BFD006C7004 /* Timer.swift */,
 				FA81A7BE1D491B58000158B4 /* HUD.swift */,
 				FA6A43831DE1CB6E008D6405 /* Life.swift */,
 				FA3AFFFB1DE76A74008D10D0 /* Premium.swift */,
@@ -178,6 +177,7 @@
 				FAE5493A1D19D514009BAE8C /* sprites.atlas */,
 				FA26EC0C1DB6B51500CA44BB /* FoodPath.sks */,
 				FA565E2E1DC7E21F004F891D /* NewHighscore.sks */,
+				FA8C96FC1DE98BFD006C7004 /* Timer.swift */,
 			);
 			name = Ralph;
 			path = Spacekitten;
