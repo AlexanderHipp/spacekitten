@@ -219,8 +219,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("User is now premium")
             hud.premiumLabel.text = "PREMIUM"
             
-            hud.upsellPageHide()
+            hud.endTimer()
+            hud.hideHeartItems()
             
+            hud.upsellPageHide()
             hud.menuItemsAfterPurchaseShow()
             
             // Here we should check if the purchase was successful or not in an own class
