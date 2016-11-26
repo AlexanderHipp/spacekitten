@@ -51,9 +51,6 @@ class HUD: SKNode {
     let formatter = NSDateFormatter()
     let userCalendar = NSCalendar.currentCalendar()
     let requestedComponent: NSCalendarUnit = [
-        NSCalendarUnit.Month,
-        NSCalendarUnit.Day,
-        NSCalendarUnit.Hour,
         NSCalendarUnit.Minute,
         NSCalendarUnit.Second
     ]    
@@ -142,8 +139,9 @@ class HUD: SKNode {
         // Game Over Label
         labelGameOver.position = CGPoint(x: d.middleX, y: (d.middleY + 200))
         labelGameOver.fontName = font
-        labelGameOver.fontSize = 25.0
+        labelGameOver.fontSize = 35.0
         labelGameOver.zPosition = 41
+        labelGameOver.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
         labelGameOver.userInteractionEnabled = false
         labelGameOver.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelGameOver.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -162,7 +160,7 @@ class HUD: SKNode {
         // Waiting Time
         waitingTime.position = CGPoint(x: d.middleX, y: (d.middleY + 150))
         waitingTime.fontName = font
-        waitingTime.fontSize = 40.0
+        waitingTime.fontSize = 25.0
         waitingTime.zPosition = 41
         waitingTime.userInteractionEnabled = false
         waitingTime.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -513,10 +511,9 @@ class HUD: SKNode {
         
         let startTime = NSDate()
         let endTime = getEndTimePList()
-        
+
         let timeDifference = userCalendar.components(requestedComponent, fromDate: startTime, toDate: endTime, options: [])
-        
-        stringForTimer = "\(timeDifference.minute) minutes \(timeDifference.second) seconds"
+        waitingTime.text = "Please wait \(timeDifference.minute):\(String(format: "%02d", timeDifference.second)) mins or"
         
         timerFinished = checkIfTimerFinished(timeDifference)
         
@@ -533,7 +530,6 @@ class HUD: SKNode {
         }
         
         print("Timer", stringForTimer)
-        print(timerFinished)
         
     }
     
@@ -548,7 +544,7 @@ class HUD: SKNode {
         
         let endTime = NSDate()
         let calendar = NSCalendar.currentCalendar()
-        let date = calendar.dateByAddingUnit(.Second, value: 10, toDate: endTime, options: [])
+        let date = calendar.dateByAddingUnit(.Minute, value: 6, toDate: endTime, options: [])
         
         PlistManager.sharedInstance.saveValue(date!, forKey: timestampLifeTimer)
         
