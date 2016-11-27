@@ -13,7 +13,6 @@ class HUD: SKNode {
     let life = Life()
     let d = DeviceSize()
     let p = Premium()
-    let t = Timer()
     
     
     let coinCountText = SKLabelNode(text: "0")
@@ -386,8 +385,8 @@ class HUD: SKNode {
     
     func displayButtonAccordingToGameover() {
         
-        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (t.checkIfTimerIsRunning() == true) {
-            print(t.checkIfTimerIsRunning())
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (checkIfTimerIsRunning() == true) {
+            print(checkIfTimerIsRunning())
             menuButton.name = "GoToUpsell"
         } else {
             menuButton.name = "StartGame"
@@ -525,6 +524,7 @@ class HUD: SKNode {
             
             // Update Menu
             upsellPageHide()
+            logoHide()
             menuItemsShow(false)
             
         }
@@ -544,7 +544,7 @@ class HUD: SKNode {
         
         let endTime = NSDate()
         let calendar = NSCalendar.currentCalendar()
-        let date = calendar.dateByAddingUnit(.Minute, value: 6, toDate: endTime, options: [])
+        let date = calendar.dateByAddingUnit(.Minute, value: 2, toDate: endTime, options: [])
         
         PlistManager.sharedInstance.saveValue(date!, forKey: timestampLifeTimer)
         
@@ -559,6 +559,8 @@ class HUD: SKNode {
         PlistManager.sharedInstance.saveValue(true, forKey: lifeTimerRunning)
         
     }
+    
+    
     
     func endTimer(){
         
@@ -590,6 +592,18 @@ class HUD: SKNode {
         }
         
     }
+    
+    
+    // Overall check
+    
+    func notPremiumAndTimerRunning() {
+        if (p.checkIfUserIsPremium() == false) && (checkIfTimerIsRunning() == true) {
+            startTimer()
+            print("Start timer from plist ")
+        }
+    }
+    
+    
     
 }
 

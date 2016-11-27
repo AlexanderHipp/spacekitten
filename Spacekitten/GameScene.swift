@@ -77,6 +77,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMoveToView(view: SKView) {
+        
+        // Check if timer is running and if user if premium
+        
+        print("This user has the premium membership:", p.checkIfUserIsPremium())        
+        
+        hud.notPremiumAndTimerRunning()
+        
         // Show outlines
         // view.showsPhysics = true
         
@@ -107,9 +114,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.logoShow()
         hud.menuButtonShow()
         print("Show start menu")
-        
-        print("This user has the premium membership:", p.checkIfUserIsPremium())
-        
         
     }
     
