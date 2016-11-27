@@ -5,8 +5,12 @@
 	<key>highScore</key>
 	<integer>0</integer>
 	<key>pListLifeCount</key>
-	<integer>3</integer>
+	<integer>2</integer>
 	<key>premium</key>
+	<false/>
+	<key>timestampLifeTimer</key>
+	<date>2016-11-26T11:25:26Z</date>
+	<key>lifeTimerRunning</key>
 	<false/>
 </dict>
 </plist>

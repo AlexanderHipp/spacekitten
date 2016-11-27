@@ -11,7 +11,7 @@ import SpriteKit
 class Life {
     
     let pListLifeCount = "pListLifeCount"
-    let maxLifeCount = 3
+    let maxLifeCount = 2
         
     func getCurrentLifeCount() -> Int {
         
@@ -41,6 +41,7 @@ class Life {
     }
     
     func decreaseLifeCount(newHighscore: Bool) -> Int {
+        
         if newHighscore == true  {
             return getCurrentLifeCount()
         } else {

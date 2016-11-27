@@ -77,6 +77,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMoveToView(view: SKView) {
+        
+        // Check if timer is running and if user if premium
+        
+        print("This user has the premium membership:", p.checkIfUserIsPremium())        
+        
+        hud.notPremiumAndTimerRunning()
+        
         // Show outlines
         // view.showsPhysics = true
         
@@ -108,9 +115,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.menuButtonShow()
         print("Show start menu")
         
-        print("This user has the premium membership:", p.checkIfUserIsPremium())
-        
-        
     }
     
     func checkGameLost() {
@@ -118,14 +122,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
             
             self.removeAllEnemyNodes()
-            
-            print("Check game over")
             self.gameLost = true
             
             // Animation Player dies
             player.die(self.size)
-            
-            print("menu after game is game over")
             
             // Check if new highScore and lifeCount, if yes write it in the plist
             let newHighscore = hud.checkIfNewHighScore(enemiesDestroyed)
@@ -134,12 +134,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newLifeCount = life.decreaseLifeCount(newHighscore)
             life.updateLifeScore(newLifeCount)
             
+            // If no lifes left the timer should fire but only if the user is not premium
+            startTimerIfNeeded()
+            
             // Show normal elements
             hud.menuItemsShow(newHighscore)
             
         }
     }
     
+    func startTimerIfNeeded(){
+        
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (hud.checkIfTimerIsRunning() == false) {
+            hud.setEndTimePList()
+            hud.startTimer()
+        }
+        
+    }
     
     
     
@@ -196,15 +207,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             )
         } else if (nodeTouched.name == "GoToUpsell") {            
             
-            // UPSELL PAGE
-            print("upsell page")
-            
-            hud.menuItemsHide()
-            hud.startMenuHide()
-            
-            background.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
-            backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
-            player.hideWithAnimation()
             hud.upsellPageShow()
             
         } else if (nodeTouched.name == "UpsellConfirmation") {
@@ -221,15 +223,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("User is now premium")
             hud.premiumLabel.text = "PREMIUM"
             
-            hud.upsellPageHide()
+            hud.endTimer()
+            hud.hideHeartItems()
             
+            hud.upsellPageHide()
             hud.menuItemsAfterPurchaseShow()
-            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
-            player.showWithAnimation()
             
             // Here we should check if the purchase was successful or not in an own class
-            
-            
             
         } else if (nodeTouched.name == "BackFromFunnelToMenu") {
             
@@ -237,12 +237,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             print("menu after back from upsell")
             
             hud.upsellPageHide()
-            
-            // Show normal elements
-            hud.menuItemsShow(false)
-            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
-            player.showWithAnimation()
-           
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             

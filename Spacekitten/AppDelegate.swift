@@ -14,6 +14,8 @@ import HockeySDK
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
+    let hud = HUD()
+    
     var window: UIWindow?
     
     
@@ -44,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        hud.notPremiumAndTimerRunning()        
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
