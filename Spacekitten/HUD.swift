@@ -44,6 +44,14 @@ class HUD: SKNode {
     
     let highScore = "highScore"
     
+    // Pause Screen
+    let backLabelOnPause = SKSpriteNode()
+    let titleLabelOnPause = SKLabelNode(text: "Paused")
+    let buttonToMenuOnPause = SKLabelNode(text: "Main Menu")
+    let buttonPauseGame = SKSpriteNode()
+    let backgroundPause = SKSpriteNode()
+    
+    
     // Timer
     let timestampLifeTimer = "timestampLifeTimer"
     let lifeTimerRunning = "lifeTimerRunning"
@@ -207,6 +215,49 @@ class HUD: SKNode {
         backgroundFunnel.alpha = 0
         
         
+        // Pause screen
+        backLabelOnPause.texture = textureAtlas.textureNamed("Cookie")
+        backLabelOnPause.position = CGPoint(x: d.width - 40, y: 40 )
+        backLabelOnPause.size = CGSize(width: 30, height: 30)
+        backLabelOnPause.alpha = 0
+        backLabelOnPause.zPosition = 42
+        backLabelOnPause.name = "backLabelOnPause"
+        
+        titleLabelOnPause.position = CGPoint(x: d.middleX, y: (d.middleY + 200))
+        titleLabelOnPause.fontName = font
+        titleLabelOnPause.fontSize = 35.0
+        titleLabelOnPause.zPosition = 41
+        titleLabelOnPause.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        titleLabelOnPause.userInteractionEnabled = false
+        titleLabelOnPause.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        titleLabelOnPause.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        titleLabelOnPause.alpha = 0
+        
+        buttonToMenuOnPause.position = CGPoint(x: d.middleX, y: (d.middleY - 200))
+        buttonToMenuOnPause.fontName = font
+        buttonToMenuOnPause.fontSize = 30.0
+        buttonToMenuOnPause.zPosition = 41
+        buttonToMenuOnPause.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        buttonToMenuOnPause.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
+        buttonToMenuOnPause.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        buttonToMenuOnPause.name = "buttonPauseToMenu"
+        buttonToMenuOnPause.alpha = 0
+        
+        buttonPauseGame.texture = textureAtlas.textureNamed("Cookie")
+        buttonPauseGame.position = CGPoint(x: d.width - 40, y: 40 )
+        buttonPauseGame.size = CGSize(width: 30, height: 30)
+        buttonPauseGame.alpha = 0
+        buttonPauseGame.zPosition = 41
+        buttonPauseGame.name = "buttonPauseGame"
+        
+        backgroundPause.name = "backgroundPause"
+        backgroundPause.size = CGSizeMake(CGFloat(d.width), CGFloat(d.height))
+        backgroundPause.color = SKColor.blackColor()
+        backgroundPause.position = CGPoint(x: d.middleX, y: d.middleY)
+        backgroundPause.zPosition = 40
+        backgroundPause.alpha = 0
+        
+        
         
         // Apply all nodes to HUD
         self.addChild(levelLabel)
@@ -228,6 +279,13 @@ class HUD: SKNode {
         self.addChild(backgroundFunnel)
         
         createHeartNodes()
+        
+        self.addChild(backLabelOnPause)
+        self.addChild(titleLabelOnPause)
+        self.addChild(buttonToMenuOnPause)
+        self.addChild(buttonPauseGame)
+        self.addChild(backgroundPause)
+        
         
     }
     
@@ -337,6 +395,7 @@ class HUD: SKNode {
         coinCountBest.runAction(fadeInAnimation)
         positionLabelBestCentered()
         coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
+        logoHide()
     }
     
     func menuItemsAfterPurchaseHide() {
@@ -350,12 +409,13 @@ class HUD: SKNode {
         coinCountText.position = CGPoint(x: d.middleX, y: (d.height - 50))
         coinCountText.fontColor = UIColor.whiteColor()
         coinCountText.runAction(fadeInAnimation)
+        buttonPauseGame.runAction(fadeInAnimation)
         labelScore.runAction(fadeOutAnimation)
     }
     
     func gameItemsHide() {
         coinCountText.runAction(fadeOutAnimation)
-        hideHeartItems()
+        buttonPauseGame.runAction(fadeOutAnimation)
     }
     
     func upsellPageShow() {
@@ -372,6 +432,20 @@ class HUD: SKNode {
         upsellButton.runAction(fadeOutAnimation)
         closeFunnelButton.runAction(fadeOutAnimation)
         backgroundFunnel.runAction(fadeOutAnimation)
+    }
+    
+    func pauseGameShow() {
+        backLabelOnPause.runAction(fadeInAnimation)
+        titleLabelOnPause.runAction(fadeInAnimation)
+        buttonToMenuOnPause.runAction(fadeInAnimation)
+        backgroundPause.runAction(SKAction.fadeAlphaTo(0.8, duration: 0.2))
+    }
+    
+    func pauseGameHide() {
+        backLabelOnPause.runAction(fadeOutAnimation)
+        titleLabelOnPause.runAction(fadeOutAnimation)
+        buttonToMenuOnPause.runAction(fadeOutAnimation)
+        backgroundPause.runAction(fadeOutAnimation)
     }
     
     // END Hud setups

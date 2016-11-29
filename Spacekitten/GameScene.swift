@@ -137,8 +137,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // If no lifes left the timer should fire but only if the user is not premium
             startTimerIfNeeded()
             
-            // Show normal elements
+            // Show normal menu elements
             hud.menuItemsShow(newHighscore)
+            hud.gameItemsHide()
             
         }
     }
@@ -151,8 +152,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
-    
     
     
     func removeAllEnemyNodes()  {
@@ -233,10 +232,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         } else if (nodeTouched.name == "BackFromFunnelToMenu") {
             
-            // MENU AFTER UPSELL
-            print("menu after back from upsell")
-            
+            // Menu after upsell
             hud.upsellPageHide()
+            
+        } else if (nodeTouched.name == "backLabelOnPause") {
+            
+            // Continue game
+            hud.pauseGameHide()
+            
+        } else if (nodeTouched.name == "buttonPauseGame") {
+            
+            // Pause game
+            hud.pauseGameShow()
+        
+        } else if (nodeTouched.name == "buttonPauseToMenu") {
+            
+            hud.pauseGameHide()
+            hud.gameItemsHide()
+            hud.menuItemsShow(false)
+            
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
             
