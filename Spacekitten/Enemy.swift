@@ -91,16 +91,13 @@ class Enemy: SKNode {
         
         // Apply physics
 //        enemy.physicsBody = SKPhysicsBody(texture: enemy.texture!, size: enemy.size)
-        enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width / 2 - 10)
+        enemy.physicsBody = SKPhysicsBody(circleOfRadius: enemy.size.width / 2)
         enemy.physicsBody?.dynamic = true
         enemy.physicsBody?.categoryBitMask = PhysicsCategory.Enemy        
         enemy.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Create the actions
-        enemy.runAction(SKAction.group([
-            SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)),
-            SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20.0))
-        ]))
+        enemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(speed)))
         
         
         // Add dots after the enemy with the correct colour

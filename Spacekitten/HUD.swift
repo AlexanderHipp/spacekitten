@@ -243,6 +243,8 @@ class HUD: SKNode {
             newHeartNode.position = CGPoint(x: xPos, y: yPos)
             newHeartNode.alpha = 0
             
+            print(index)
+            
             heartNodes.append(newHeartNode)
             self.addChild(newHeartNode)
         }
@@ -379,8 +381,12 @@ class HUD: SKNode {
     // END Hud setups    
     
     func hideHeartItems() {
+        
         for index in 0 ..< life.maxLifeCount {
-            heartNodes[index].texture = SKTexture(imageNamed: "Heart_empty")
+            
+            heartNodes[index].alpha = 0
+            
+            print("index2:", index)
         }
     }
     
@@ -475,14 +481,14 @@ class HUD: SKNode {
         
         if (p.checkIfUserIsPremium() == false) {
             
-            let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
-            
             for index in 0 ..< life.maxLifeCount {
                 
+                heartNodes[index].alpha = 1
+                
                 if index < life.getCurrentLifeCount() {
-                    heartNodes[index].alpha = 1
+                    heartNodes[index].texture = SKTexture(imageNamed: "Heart_full")
                 } else {
-                    heartNodes[index].runAction(fadeAction)
+                    heartNodes[index].texture = SKTexture(imageNamed: "Heart_empty")
                 }
             }
         } else {

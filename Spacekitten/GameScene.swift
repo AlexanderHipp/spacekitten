@@ -158,6 +158,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func removeAllEnemyNodes()  {
         // Go through the enemyArray and delete all enemy nodes from the game
         for i in 0 ..< self.enemyArray.count  {
+            print("i:", i)
             self.enemyArray[i].removeFromParent()
         }                
     }
@@ -193,7 +194,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.hud.coinCountText.text = "0"
                         self.hud.showLevel(self.level.levelValue)
                     }),
-                    SKAction.waitForDuration(0.2),
+                    SKAction.waitForDuration(2.0),
                     SKAction.runBlock({
                         print("Before Loop")
                         self.gameLost = false
@@ -270,6 +271,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, playerHit:SKSpriteNode) {
         
         // TODO: enemy animation fade out or similar
+        
+        enemy.removeAllActions()
         
         // Remove enemy from view
         enemy.removeFromParent()
@@ -404,6 +407,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ]))
         enemy.removeAllChildren()
         
+        
+        
     }
     
     func initPlayer() {
@@ -423,15 +428,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         print("Inside Loop Start")
         
-        var index = 1
+        //var index = 1
         
         runAction(
             SKAction.repeatActionForever (
                 SKAction.sequence([
                     SKAction.runBlock({
                         
-                        print("Loop Round", index)
-                        index = index + 1
+                        //print("Loop Round", index)
+                        //index = index + 1
                         
                         // Check if game over
                         if self.gameLost == true {
@@ -463,8 +468,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     
                     // Time after a new enemy is displayed
-                    SKAction.waitForDuration(self.timeBetweenEnemies)
-                    
+                    SKAction.waitForDuration(self.timeBetweenEnemies)                    
                     
                     ])                
             ),

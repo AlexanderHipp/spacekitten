@@ -24,7 +24,6 @@ class Player: SKNode {
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
     let imageHead = "Ralph"
-    let imageMouth = "mouth"
     
     func definePlayer(sizeScreen sizeScreen: CGSize) {
         
@@ -59,7 +58,8 @@ class Player: SKNode {
     }
     
     func updatePlayerPhysics() {        
-        playerHead.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: self.imageMouth), size: playerMouth.size)
+        //playerHead.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: self.imageMouth), size: playerMouth.size)
+        playerHead.physicsBody = SKPhysicsBody(circleOfRadius: max(playerMouth.size.width / 2, playerMouth.size.height / 2))
         playerHead.physicsBody?.dynamic = false
         playerHead.physicsBody?.categoryBitMask = PhysicsCategory.Player
         playerHead.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
