@@ -68,12 +68,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameLost = false
     
     var enemyArray = [Enemy]()
-    var timeBetweenEnemies = 1.0
+    var timeBetweenEnemies = 0.7
     
     // Game Statistics
     var enemiesDestroyed = 0
     
-    var background = SKSpriteNode(imageNamed: "background")
+    var background = SKSpriteNode(imageNamed: "Mountains")
     
     
     override func didMoveToView(view: SKView) {
@@ -193,7 +193,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.hud.coinCountText.text = "0"
                         self.hud.showLevel(self.level.levelValue)
                     }),
-                    SKAction.waitForDuration(2.0),
+                    SKAction.waitForDuration(0.2),
                     SKAction.runBlock({
                         print("Before Loop")
                         self.gameLost = false
@@ -335,7 +335,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 150
+            return 15
         case "Apple":
             return -10
         case "Cookie":
@@ -354,11 +354,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return "bubblePink"
+            return "Eat_Dot_Donut"
+        case "Apple":
+            return "Eat_Dot_Apple"
+        case "Cookie":
+            return "Eat_Dot_Cookie"
         case "Scoop":
-            return "bubbleYellow"
+            return "Eat_Dot_Scoop"
+        case "Lollipop":
+            return "Eat_Dot_Lollipop"
         default:
-            return "bubblePink"
+            return "Eat_Dot_Donut"
         }
     }
     //
@@ -368,8 +374,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         switch type {
         case "Donut":
             return "Donut-squished"
+        case "Apple":
+            return "Apple-squished"
+        case "Cookie":
+            return "Cookie-squished"
         case "Scoop":
             return "Scoop-squished"
+        case "Lollipop":
+            return "Lollipop-squished"
         default:
             return "Donut-squished"
         }
@@ -387,8 +399,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         enemy.removeAllActions()
         enemy.runAction(SKAction.sequence([
             SKAction.group(actions),
-            SKAction.waitForDuration(0.7),
-            SKAction.fadeAlphaTo(0, duration: 2.0)
+            SKAction.waitForDuration(0.4),
+            SKAction.fadeAlphaTo(0, duration: 0.5)
         ]))
         enemy.removeAllChildren()
         

@@ -21,7 +21,7 @@ class HUD: SKNode {
     var coinCountBest = SKLabelNode(text: "0")
     
     let labelGameOver = SKLabelNode(text: "Game Over")
-    var waitingTime = SKLabelNode(text: "Wait for 6 mins")
+    var waitingTime = SKLabelNode(text: "Wait for 1 min")
     
     let buyFullVersionButton = SKSpriteNode()
     let closeFunnelButton = SKSpriteNode()
@@ -78,16 +78,16 @@ class HUD: SKNode {
         // Before the game
         
         // Logo
-        logo.texture = textureAtlas.textureNamed("DontFeedRalph")
+        logo.texture = textureAtlas.textureNamed("Logo")
         logo.position = CGPoint(x: d.middleX, y: d.middleY + 200)
-        logo.size = CGSize(width: 190, height: 90)
+        logo.size = CGSize(width: 310, height: 145)
         logo.alpha = 0
         
         // Button to start the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
-        menuButton.position = CGPoint(x: d.middleX, y: d.middleY - 200 )
-        menuButton.size = CGSize(width: 100, height: 100)
-        menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
+        menuButton.position = CGPoint(x: d.middleX, y: d.middleY - 170 )
+        menuButton.size = CGSize(width: 90, height: 90)
+        //menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
         menuButton.alpha = 0
         
         
@@ -100,6 +100,7 @@ class HUD: SKNode {
         labelScore.userInteractionEnabled = false
         labelScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        labelScore.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         labelScore.alpha = 0
         
         // Best Label
@@ -108,6 +109,7 @@ class HUD: SKNode {
         labelBest.userInteractionEnabled = false
         labelBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        labelBest.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         labelBest.alpha = 0
         
         // Count Best
@@ -116,7 +118,7 @@ class HUD: SKNode {
         coinCountBest.userInteractionEnabled = false
         coinCountBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        coinCountBest.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        coinCountBest.fontColor = UIColor(red:0.00, green:0.33, blue:0.59, alpha:1.0)
         coinCountBest.alpha = 0
         
         positionLabelBestRight()
@@ -129,7 +131,7 @@ class HUD: SKNode {
         levelLabel.userInteractionEnabled = false
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        levelLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        levelLabel.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         levelLabel.alpha = 0
         
         
@@ -140,7 +142,7 @@ class HUD: SKNode {
         labelGameOver.fontName = font
         labelGameOver.fontSize = 35.0
         labelGameOver.zPosition = 41
-        labelGameOver.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        labelGameOver.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         labelGameOver.userInteractionEnabled = false
         labelGameOver.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelGameOver.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -148,9 +150,9 @@ class HUD: SKNode {
         
         
         // Close Funnel Button
-        closeFunnelButton.texture = textureAtlas.textureNamed("Cookie")
+        closeFunnelButton.texture = textureAtlas.textureNamed("Button_Back")
         closeFunnelButton.position = CGPoint(x: 40, y: d.height - 40 )
-        closeFunnelButton.size = CGSize(width: 30, height: 30)        
+        closeFunnelButton.size = CGSize(width: 17, height: 30)
         closeFunnelButton.alpha = 0
         closeFunnelButton.zPosition = 41
         closeFunnelButton.name = "BackFromFunnelToMenu"
@@ -188,7 +190,7 @@ class HUD: SKNode {
         premiumLabel.userInteractionEnabled = false
         premiumLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         premiumLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        premiumLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        premiumLabel.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         premiumLabel.alpha = 1
         
         if p.checkIfUserIsPremium() == true {
@@ -201,7 +203,7 @@ class HUD: SKNode {
         // Background for the funnel
         backgroundFunnel.name = "bar"
         backgroundFunnel.size = CGSizeMake(CGFloat(d.width), CGFloat(d.height))
-        backgroundFunnel.color = SKColor.whiteColor()
+        backgroundFunnel.color = UIColor(red:0.79, green:0.79, blue:0.79, alpha:1.0)
         backgroundFunnel.position = CGPoint(x: d.middleX, y: d.middleY)
         backgroundFunnel.zPosition = 40
         backgroundFunnel.alpha = 0
@@ -222,7 +224,7 @@ class HUD: SKNode {
         self.addChild(upsellButton)
         self.addChild(logo)
         
-        self.addChild(premiumLabel)
+        //self.addChild(premiumLabel)
         self.addChild(closeFunnelButton)
         
         self.addChild(backgroundFunnel)
@@ -234,9 +236,9 @@ class HUD: SKNode {
     func createHeartNodes() {
         // Create heart nodes for the life meter
         for index in 0 ..< life.maxLifeCount {
-            let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Apple"))
+            let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Heart_full"))
             newHeartNode.size = CGSize(width: 25, height: 25)
-            let xPos = Int(index * 40 + 20)
+            let xPos = Int(index * 35 + 25)
             let yPos = d.height - 30
             newHeartNode.position = CGPoint(x: xPos, y: yPos)
             newHeartNode.alpha = 0
@@ -293,7 +295,7 @@ class HUD: SKNode {
     
     func labelMenuScoreShow() {
         coinCountText.position = CGPoint(x: (d.middleX - 80), y: (d.middleY + 150))
-        coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
+        coinCountText.fontColor = UIColor(red:0.98, green:0.61, blue:0.16, alpha:1.0)
         labelScore.runAction(fadeInAnimation)
         coinCountText.runAction(fadeInAnimation)
     }
@@ -336,7 +338,7 @@ class HUD: SKNode {
         labelBest.runAction(fadeInAnimation)
         coinCountBest.runAction(fadeInAnimation)
         positionLabelBestCentered()
-        coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
+        coinCountText.fontColor = UIColor(red:0.00, green:0.33, blue:0.59, alpha:1.0)
     }
     
     func menuItemsAfterPurchaseHide() {
@@ -348,7 +350,7 @@ class HUD: SKNode {
     func gameItemsShow() {
         setHealthDisplay()
         coinCountText.position = CGPoint(x: d.middleX, y: (d.height - 50))
-        coinCountText.fontColor = UIColor.whiteColor()
+        coinCountText.fontColor = UIColor.blackColor()
         coinCountText.runAction(fadeInAnimation)
         labelScore.runAction(fadeOutAnimation)
     }
@@ -374,12 +376,11 @@ class HUD: SKNode {
         backgroundFunnel.runAction(fadeOutAnimation)
     }
     
-    // END Hud setups
-    
+    // END Hud setups    
     
     func hideHeartItems() {
         for index in 0 ..< life.maxLifeCount {
-            heartNodes[index].runAction(fadeOutAnimation)
+            heartNodes[index].texture = SKTexture(imageNamed: "Heart_empty")
         }
     }
     
@@ -496,10 +497,10 @@ class HUD: SKNode {
     // Colors for Level Labels
     
     let colorLevelLabel: [Int: UIColor] = [
-        1: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* red #00beaf */
-        2: UIColor(red: 0.9294, green: 0.8784, blue: 0.0588, alpha: 1.0), /* yellow #ede00f */
-        3: UIColor(red: 0.2902, green: 0.5412, blue: 0.7843, alpha: 1.0), /* blue #4a8ac8 */
-        4: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* green #00beaf */
+        1: UIColor(red: 0.2902, green: 0.5412, blue: 0.7843, alpha: 1.0), /* blue #4a8ac8 */
+        2: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* green #00beaf */
+        3: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* red #00beaf */
+        4: UIColor(red: 0.9294, green: 0.8784, blue: 0.0588, alpha: 1.0), /* yellow #ede00f */
         5: UIColor(red: 0.949, green: 0.3608, blue: 0.2627, alpha: 1.0) /* orange #f25c43 */
     ]
     
@@ -544,7 +545,7 @@ class HUD: SKNode {
         
         let endTime = NSDate()
         let calendar = NSCalendar.currentCalendar()
-        let date = calendar.dateByAddingUnit(.Minute, value: 2, toDate: endTime, options: [])
+        let date = calendar.dateByAddingUnit(.Minute, value: 1, toDate: endTime, options: [])
         
         PlistManager.sharedInstance.saveValue(date!, forKey: timestampLifeTimer)
         
