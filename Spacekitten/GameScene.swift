@@ -64,10 +64,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let level = Level()
     let life = Life()
     let p = Premium()
+    let enemySprites = Enemy()
     
     var gameLost = false
     
-    var enemyArray = [Enemy]()
     var timeBetweenEnemies = 0.7
     
     // Game Statistics
@@ -121,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
             
-            self.removeAllEnemyNodes()
+//            self.removeAllEnemyNodes()
             self.gameLost = true
             
             // Animation Player dies
@@ -153,14 +153,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func removeAllEnemyNodes()  {
-        // Go through the enemyArray and delete all enemy nodes from the game
-        for i in 0 ..< self.enemyArray.count  {
-            print("i:", i)
-            self.enemyArray[i].removeAllChildren()
-            self.enemyArray[i].removeFromParent()
-        }
-    }
+//    func removeAllEnemyNodes()  {
+//        // Go through the enemyArray and delete all enemy nodes from the game
+//        for i in 0 ..< self.enemyArray.count  {
+//            print("i:", i)
+//            self.enemyArray[i].removeAllChildren()
+//            self.enemyArray[i].removeFromParent()
+//        }
+//    }
     
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -286,7 +286,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bubbleColor = self.bubbleColor(enemyCollision.name!)
         
         // Add 3 bubbles to the eating action
-        addBubbles(bubbleColor)
+        //addBubbles(bubbleColor)
         
     }
     
@@ -447,17 +447,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     SKAction.runBlock({
                         
-                        let enemyOfScene = Enemy()
                         
                         // Check if game lost
                         if self.gameLost != true {
                             
-                            enemyOfScene.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
-                            self.addChild(enemyOfScene)
-                            
-                            // Add enemy to array which is needed to delete all enemies if the player dies
-                            self.enemyArray.append(enemyOfScene)
-                            print("ARRAY", self.enemyArray)
+                            self.addChild(self.enemySprites.spawnEnemy(self.size))
                             
                         }
                         
