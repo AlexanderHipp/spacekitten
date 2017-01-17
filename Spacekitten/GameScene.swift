@@ -80,14 +80,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Check if timer is running and if user if premium
         
-        print("This user has the premium membership:", p.checkIfUserIsPremium())        
+        print("This user has the premium membership:", p.checkIfUserIsPremium())
         
         hud.notPremiumAndTimerRunning()
         
         // Show outlines
         // view.showsPhysics = true
         
-        // Set level to 1 
+        // Set level to 1
         level.levelValue = 1
         
         // Background
@@ -104,7 +104,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.zPosition = 50
         
         // Get highscore
-        hud.updateHighScore()        
+        hud.updateHighScore()
         
         // Physics World settings
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -153,14 +153,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    
-    
     func removeAllEnemyNodes()  {
         // Go through the enemyArray and delete all enemy nodes from the game
         for i in 0 ..< self.enemyArray.count  {
             print("i:", i)
+            self.enemyArray[i].removeAllChildren()
             self.enemyArray[i].removeFromParent()
-        }                
+        }
     }
     
     
@@ -170,7 +169,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let touch = touches.first else {
             return
         }
-        let touchLocation = touch.locationInNode(self)        
+        let touchLocation = touch.locationInNode(self)
         let nodeTouched = nodeAtPoint(touchLocation)
         
         // Check for HUD buttons:
@@ -204,9 +203,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     SKAction.runBlock({
                         self.hud.unSquishHUDDonut()
                     })
-                ])
+                    ])
             )
-        } else if (nodeTouched.name == "GoToUpsell") {            
+        } else if (nodeTouched.name == "GoToUpsell") {
             
             hud.upsellPageShow()
             
@@ -239,12 +238,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             hud.upsellPageHide()
             
-        } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
+        } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy) {
             
             // If the user touches an enemy
             
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 self.enemyDie(nodeTouchedAsSKSpriteNode)
+                print(nodeTouchedAsSKSpriteNode)
                 
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
                 
@@ -266,26 +266,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func calculatePotential(potential: Int) -> Int {
         return (potential / 10)
     }
-
     
-    func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, playerHit:SKSpriteNode) {
+    
+    func enemyDidCollideWithPlayer(enemyCollision:SKSpriteNode, playerHit:SKSpriteNode) {
+        
+        print(enemyCollision)
         
         // TODO: enemy animation fade out or similar
-        
-        enemy.removeAllActions()
-        
-        // Remove enemy from view
-        enemy.removeFromParent()
+        enemyDie(enemyCollision)
         
         // Get enemy type to check damage
-        let damagePotential = self.enemyDamage(enemy.name!)
+        let damagePotential = self.enemyDamage(enemyCollision.name!)
         
         // Update player
-        player.updatePlayerPhysics()        
+        player.updatePlayerPhysics()
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
         // Get enemy type to check bubble color
-        let bubbleColor = self.bubbleColor(enemy.name!)
+        let bubbleColor = self.bubbleColor(enemyCollision.name!)
         
         // Add 3 bubbles to the eating action
         addBubbles(bubbleColor)
@@ -303,7 +301,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             index += 1
         }
-        
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -323,11 +320,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Check if both hit bodies are not null and than do the function
                 if let bodyAAC = destructingBody.node as? SKSpriteNode {
                     if let bodyAAB = hitBody.node as? SKSpriteNode {
-                        enemyDidCollideWithPlayer(enemy: bodyAAC, playerHit: bodyAAB)
+                        enemyDidCollideWithPlayer(bodyAAC, playerHit: bodyAAB)
                     }
                 }
             }
-        
+            
         } else {
             // Nothing
         }
@@ -391,23 +388,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func enemyDie(enemy: SKSpriteNode) {
+    func enemyDie(enemyInDieFunction: SKSpriteNode) {
         
-        let whichEnemyShouldBeSquished = enemySquish(enemy.name!)
+        print(enemyInDieFunction)
+        
+        let whichEnemyShouldBeSquished = enemySquish(enemyInDieFunction.name!)
         var actions = Array<SKAction>();
         
         actions.append(SKAction.scaleTo(1.1, duration: 0.1))
         
-        enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
-        enemy.removeAllActions()
-        enemy.runAction(SKAction.sequence([
+        enemyInDieFunction.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
+        enemyInDieFunction.removeAllActions()
+        enemyInDieFunction.runAction(SKAction.sequence([
             SKAction.group(actions),
             SKAction.waitForDuration(0.4),
             SKAction.fadeAlphaTo(0, duration: 0.5)
-        ]))
-        enemy.removeAllChildren()
-        
-        
+            ]))
+        enemyInDieFunction.removeFromParent()
+        enemyInDieFunction.removeAllChildren()
         
     }
     
@@ -449,16 +447,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     SKAction.runBlock({
                         
-                        let enemy = Enemy()
+                        let enemyOfScene = Enemy()
                         
                         // Check if game lost
                         if self.gameLost != true {
                             
-                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
-                            self.addChild(enemy)
+                            enemyOfScene.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
+                            self.addChild(enemyOfScene)
                             
                             // Add enemy to array which is needed to delete all enemies if the player dies
-                            self.enemyArray.append(enemy)
+                            self.enemyArray.append(enemyOfScene)
+                            print("ARRAY", self.enemyArray)
                             
                         }
                         
@@ -468,9 +467,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     
                     // Time after a new enemy is displayed
-                    SKAction.waitForDuration(self.timeBetweenEnemies)                    
+                    SKAction.waitForDuration(self.timeBetweenEnemies)
                     
-                    ])                
+                    ])
             ),
             withKey: "GameLost"
         )
