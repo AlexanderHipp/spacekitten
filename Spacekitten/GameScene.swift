@@ -451,8 +451,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         // Check if game lost
                         if self.gameLost != true {
                             
-                            self.addChild(self.enemySprites.spawnEnemy(self.size))
-                            
+                            // Add new Enemy
+                            self.addChild(self.enemySprites.spawnEnemy(self.size, currentLevel: self.level.levelValue))
                         }
                         
                         // Function that checks which current level the user is in and spawns the enemy accordingly
