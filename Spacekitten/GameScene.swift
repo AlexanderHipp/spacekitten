@@ -79,9 +79,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMoveToView(view: SKView) {
         
         // Check if timer is running and if user if premium
-        
-        print("This user has the premium membership:", p.checkIfUserIsPremium())
-        
         hud.notPremiumAndTimerRunning()
         
         // Show outlines
@@ -113,7 +110,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Show start menu items
         hud.logoShow()
         hud.menuButtonShow()
-        print("Show start menu")
         
     }
     
@@ -175,9 +171,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Check for HUD buttons:
         if (nodeTouched.name == "StartGame") {
             
-            print(life.getCurrentLifeCount())
-            print("Game started")
-            
             runAction(
                 SKAction.sequence([
                     SKAction.runBlock({
@@ -195,10 +188,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     SKAction.waitForDuration(2.0),
                     SKAction.runBlock({
-                        print("Before Loop")
                         self.gameLost = false
                         self.gameLoop()
-                        print("After Loop")
                     }),
                     SKAction.runBlock({
                         self.hud.unSquishHUDDonut()
@@ -211,16 +202,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         } else if (nodeTouched.name == "UpsellConfirmation") {
             
-            // MENU AFTER UPSELL
-            print("menu after upsell")
-            
             // Set life count back to max for now. If user is premium there is no need for this check anymore
             life.resetLifeCount()
             
             // Set premium account
             p.getPremium()
             
-            print("User is now premium")
             hud.premiumLabel.text = "PREMIUM"
             
             hud.endTimer()
@@ -243,8 +230,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // If the user touches an enemy
             
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
-                self.enemyDie(nodeTouchedAsSKSpriteNode)
-                print(nodeTouchedAsSKSpriteNode)
+                
+                print("enemyDieFunctionTouched")
+                enemySprites.enemyDie(nodeTouchedAsSKSpriteNode)
                 
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
                 
@@ -270,10 +258,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func enemyDidCollideWithPlayer(enemyCollision:SKSpriteNode, playerHit:SKSpriteNode) {
         
-        print(enemyCollision)
         
         // TODO: enemy animation fade out or similar
-        enemyDie(enemyCollision)
+        print("enemyDieFunctionCollision")
+        enemySprites.enemyDie(enemyCollision)
         
         // Get enemy type to check damage
         let damagePotential = self.enemyDamage(enemyCollision.name!)
@@ -283,7 +271,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
         // Get enemy type to check bubble color
-        let bubbleColor = self.bubbleColor(enemyCollision.name!)
+        //let bubbleColor = self.bubbleColor(enemyCollision.name!)
         
         // Add 3 bubbles to the eating action
         //addBubbles(bubbleColor)
@@ -369,45 +357,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     //
     
-    func enemySquish(type: String) -> String {
-        
-        switch type {
-        case "Donut":
-            return "Donut-squished"
-        case "Apple":
-            return "Apple-squished"
-        case "Cookie":
-            return "Cookie-squished"
-        case "Scoop":
-            return "Scoop-squished"
-        case "Lollipop":
-            return "Lollipop-squished"
-        default:
-            return "Donut-squished"
-        }
-    }
+//    func enemySquish(type: String) -> String {
+//        
+//        switch type {
+//        case "Donut":
+//            return "Donut-squished"
+//        case "Apple":
+//            return "Apple-squished"
+//        case "Cookie":
+//            return "Cookie-squished"
+//        case "Scoop":
+//            return "Scoop-squished"
+//        case "Lollipop":
+//            return "Lollipop-squished"
+//        default:
+//            return "Donut-squished"
+//        }
+//    }
     
-    
-    func enemyDie(enemyInDieFunction: SKSpriteNode) {
-        
-        print(enemyInDieFunction)
-        
-        let whichEnemyShouldBeSquished = enemySquish(enemyInDieFunction.name!)
-        var actions = Array<SKAction>();
-        
-        actions.append(SKAction.scaleTo(1.1, duration: 0.1))
-        
-        enemyInDieFunction.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
-        enemyInDieFunction.removeAllActions()
-        enemyInDieFunction.runAction(SKAction.sequence([
-            SKAction.group(actions),
-            SKAction.waitForDuration(0.4),
-            SKAction.fadeAlphaTo(0, duration: 0.5)
-            ]))
-        enemyInDieFunction.removeFromParent()
-        enemyInDieFunction.removeAllChildren()
-        
-    }
+//    
+//    func enemyDie(enemyInDieFunction: SKSpriteNode) {
+//        
+//        print(enemyInDieFunction)
+//        
+//        let whichEnemyShouldBeSquished = enemySquish(enemyInDieFunction.name!)
+//        var actions = Array<SKAction>();
+//        
+//        actions.append(SKAction.scaleTo(1.1, duration: 0.1))
+//        
+//        enemyInDieFunction.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
+//        enemyInDieFunction.removeAllActions()
+//        enemyInDieFunction.runAction(SKAction.sequence([
+//            SKAction.group(actions),
+//            SKAction.waitForDuration(0.4),
+//            SKAction.fadeAlphaTo(0, duration: 0.5)
+//            ]))
+//        enemyInDieFunction.removeFromParent()
+//        enemyInDieFunction.removeAllChildren()
+//        
+//    }
     
     func initPlayer() {
         
@@ -424,8 +412,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameLoop() {
         
-        print("Inside Loop Start")
-        
         //var index = 1
         
         runAction(
@@ -438,7 +424,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         // Check if game over
                         if self.gameLost == true {
-                            print("Game over")
                             self.removeActionForKey("GameLost")
                         } else {
                             self.checkGameLost()
@@ -453,6 +438,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                             
                             // Add new Enemy
                             self.addChild(self.enemySprites.spawnEnemy(self.size, currentLevel: self.level.levelValue))
+                            
                         }
                         
                         // Function that checks which current level the user is in and spawns the enemy accordingly

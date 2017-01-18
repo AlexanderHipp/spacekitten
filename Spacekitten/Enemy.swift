@@ -11,8 +11,6 @@ import SpriteKit
 
 class Enemy: SKNode {
     
-    var enemySprites: [SKSpriteNode] = []
-    
     let calculationOfRandom = Calculation()
     
     enum EnemyType {
@@ -36,8 +34,6 @@ class Enemy: SKNode {
         let enemyTypeValue = whichEnemyTypeWillBeDisplayed(currentLevel)
         let newEnemy = SKSpriteNode(imageNamed:enemyTexture(enemyTypeValue))
         
-        enemySprites.append(newEnemy)
-        
         // position new sprite at a random position on the screen
         newEnemy.position = defineEnemyPosition(sizeScreen, enemySize: CGSize(width: 60, height: 60))
         
@@ -55,8 +51,6 @@ class Enemy: SKNode {
         
         // Create the action: Movement to target (player's mouth)
         newEnemy.runAction(SKAction.moveTo(CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2), duration: NSTimeInterval(enemySpeed(enemyTypeValue))))
-        
-        print("ARRAY", enemySprites)
         
         return newEnemy
         
@@ -109,7 +103,7 @@ class Enemy: SKNode {
         return textureEnemy
         
     }
-    
+ 
     
     func enemySpeed(type: EnemyType) -> CGFloat {
         
@@ -188,6 +182,22 @@ class Enemy: SKNode {
         let enemyToDisplay: EnemyType = enemyArray.sample()
         return enemyToDisplay
         
+    }
+    
+    
+    func enemyDie(particularEnemy: SKSpriteNode) {        
+        
+        particularEnemy.removeFromParent()
+        particularEnemy.removeAllChildren()
+        particularEnemy.removeAllActions()
+
+        // let whichEnemyShouldBeSquished = enemySquish(particularEnemy.name!)
+        // particularEnemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
+        
+    }
+    
+    func enemySquish(type: String) -> String {
+        return type + "-squished"
     }
     
     
