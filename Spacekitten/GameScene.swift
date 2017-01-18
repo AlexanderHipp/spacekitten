@@ -65,6 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let life = Life()
     let p = Premium()
     let enemySprites = Enemy()
+    let bubbles = Bubble()
     
     var gameLost = false
     
@@ -271,21 +272,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
         // Get enemy type to check bubble color
-        //let bubbleColor = self.bubbleColor(enemyCollision.name!)
+        let bubbleColor = self.bubbleColor(enemyCollision.name!)
         
         // Add 3 bubbles to the eating action
-        //addBubbles(bubbleColor)
+        addBubbles(bubbleColor)               
         
     }
     
-    func addBubbles(color: String) {
+    func addBubbles(colorOfBubbles: String) {
         
         var index = 0
         while index <= 2 {
             
-            let bubbles = Bubble()
-            bubbles.addBubbles(self.size, texture: color)
-            self.addChild(bubbles)
+            addChild(bubbles.spawnBubble(self.size, typeOfEnemy: colorOfBubbles))
             
             index += 1
         }
@@ -337,7 +336,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // Merge with other bubbleColor in Enemy.swift
     func bubbleColor(type: String) -> String {
         
         switch type {
@@ -355,47 +353,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return "Eat_Dot_Donut"
         }
     }
-    //
     
-//    func enemySquish(type: String) -> String {
-//        
-//        switch type {
-//        case "Donut":
-//            return "Donut-squished"
-//        case "Apple":
-//            return "Apple-squished"
-//        case "Cookie":
-//            return "Cookie-squished"
-//        case "Scoop":
-//            return "Scoop-squished"
-//        case "Lollipop":
-//            return "Lollipop-squished"
-//        default:
-//            return "Donut-squished"
-//        }
-//    }
-    
-//    
-//    func enemyDie(enemyInDieFunction: SKSpriteNode) {
-//        
-//        print(enemyInDieFunction)
-//        
-//        let whichEnemyShouldBeSquished = enemySquish(enemyInDieFunction.name!)
-//        var actions = Array<SKAction>();
-//        
-//        actions.append(SKAction.scaleTo(1.1, duration: 0.1))
-//        
-//        enemyInDieFunction.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
-//        enemyInDieFunction.removeAllActions()
-//        enemyInDieFunction.runAction(SKAction.sequence([
-//            SKAction.group(actions),
-//            SKAction.waitForDuration(0.4),
-//            SKAction.fadeAlphaTo(0, duration: 0.5)
-//            ]))
-//        enemyInDieFunction.removeFromParent()
-//        enemyInDieFunction.removeAllChildren()
-//        
-//    }
     
     func initPlayer() {
         
