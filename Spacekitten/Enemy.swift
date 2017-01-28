@@ -56,6 +56,7 @@ class Enemy: SKNode {
         
     }
     
+    
     func defineEnemyPosition(sizeScreen: CGSize, enemySize: CGSize) -> CGPoint {
         
         // Determine where to spawn the enemy along the Y axis, left or right
@@ -185,20 +186,36 @@ class Enemy: SKNode {
     }
     
     
-    func enemyDie(particularEnemy: SKSpriteNode) {        
+    func enemyDieSquish(particularEnemy: SKSpriteNode) {
         
-        particularEnemy.removeFromParent()
-        particularEnemy.removeAllChildren()
+//        let whichEnemyShouldBeSquished = enemySquish(particularEnemy.name!)
+//        particularEnemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
+        
         particularEnemy.removeAllActions()
-
-        // let whichEnemyShouldBeSquished = enemySquish(particularEnemy.name!)
-        // particularEnemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
+        particularEnemy.runAction(SKAction.fadeOutWithDuration(0.2))
+        
+        particularEnemy.runAction(SKAction.sequence([
+            SKAction.waitForDuration(2.0),
+            SKAction.runBlock({
+                self.removeAllChildren()
+                self.removeFromParent()
+            })
+        ]))
         
     }
     
-    func enemySquish(type: String) -> String {
-        return type + "-squished"
+    
+    func enemyDieEat(particularEnemy: SKSpriteNode) {
+        
+        particularEnemy.removeAllActions()
+        particularEnemy.removeAllChildren()
+        particularEnemy.removeFromParent()
+        
     }
+    
+//    func enemySquish(type: String) -> String {
+//        return type + "-squished"
+//    }
     
     
     

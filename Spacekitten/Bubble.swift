@@ -43,6 +43,7 @@ class Bubble: SKNode {
 
     }
     
+    
     func defineBubbleGoalPosition(sizeScreen: CGSize, bubbleSize: CGSize) -> CGPoint {
         
         // Determine where to send the bubble along the Y axis, left or right

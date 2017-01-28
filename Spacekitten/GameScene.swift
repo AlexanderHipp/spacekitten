@@ -221,22 +221,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         } else if (nodeTouched.name == "BackFromFunnelToMenu") {
             
-            // MENU AFTER UPSELL
-            print("menu after back from upsell")
-            
             hud.upsellPageHide()
             
         } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy) {
             
-            // If the user touches an enemy
-            
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
                 
-                print("enemyDieFunctionTouched")
-                enemySprites.enemyDie(nodeTouchedAsSKSpriteNode)
+                // Squish donuts
+                enemySprites.enemyDieSquish(nodeTouchedAsSKSpriteNode)
                 
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
-                
                 enemiesDestroyed += calculatePotential(damagePotential)
                 
                 let levelNew = level.checkLevel(enemiesDestroyed, currentLevel: level.levelValue)
@@ -261,8 +255,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         // TODO: enemy animation fade out or similar
-        print("enemyDieFunctionCollision")
-        enemySprites.enemyDie(enemyCollision)
+        enemySprites.enemyDieEat(enemyCollision)
         
         // Get enemy type to check damage
         let damagePotential = self.enemyDamage(enemyCollision.name!)
@@ -376,9 +369,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             SKAction.repeatActionForever (
                 SKAction.sequence([
                     SKAction.runBlock({
-                        
-                        //print("Loop Round", index)
-                        //index = index + 1
                         
                         // Check if game over
                         if self.gameLost == true {
