@@ -42,7 +42,7 @@ class Level {
         case 382 ... 599:
             return 9
             
-        case 600 ... 9999999999999:
+        case 600 ... 9999:
             return 10
             
         default:

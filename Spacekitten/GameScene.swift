@@ -49,11 +49,10 @@ struct PhysicsCategory {
 
 extension Array {
     func sample() -> Element {
-        let randomIndex = Int(arc4random()) % count
+        let randomIndex = Int(arc4random_uniform(UInt32(count)))
         return self[randomIndex]
     }
 }
-
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
