@@ -361,11 +361,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         
                         if self.gameLost == true {
                             
+                            self.bubbles.removeAllChildren()
+                            self.bubbles.removeAllActions()
+                            self.bubbles.removeFromParent()
+                            
+                            self.enemySprites.removeAllChildren()
+                            self.enemySprites.removeAllActions()
+                            self.enemySprites.removeFromParent()
+                            
                             self.removeAllActions()
                             self.removeActionForKey("GameLost")
                             
                         } else {
-                                                    
+                            
                             // Add new Enemy
                             self.addChild(self.enemySprites.spawnEnemy(self.size, currentLevel: self.level.levelValue))
                             

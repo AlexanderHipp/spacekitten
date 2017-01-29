@@ -18,8 +18,7 @@ class Player: SKNode {
     
     // Initialize variable for the player
     var playerSize: Int = 1
-    var initialPlayerSize: Int = 1
-    
+    var initialPlayerSize: Int = 1    
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
