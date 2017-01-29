@@ -14,8 +14,6 @@ class HUD: SKNode {
     let d = DeviceSize()
     let p = Premium()
     
-    let menuButton = SKSpriteNode()
-    let upsellButton = SKLabelNode(text: "Buy Fullversion")
     
     let coinCountText = SKLabelNode(text: "0")
     let labelScore = SKLabelNode(text: "Score")
@@ -23,9 +21,10 @@ class HUD: SKNode {
     var coinCountBest = SKLabelNode(text: "0")
     
     let labelGameOver = SKLabelNode(text: "Game Over")
-    var waitingTime = SKLabelNode(text: "Wait for 6 mins")
+    var waitingTime = SKLabelNode(text: "Wait for 1 min")
     
     let buyFullVersionButton = SKSpriteNode()
+    let closeFunnelButton = SKSpriteNode()
     let logo = SKSpriteNode()
     
     let emitter = SKEmitterNode(fileNamed: "NewHighscore")
@@ -33,6 +32,9 @@ class HUD: SKNode {
     let levelLabel = SKLabelNode(text: "Level 0")
     
     let premiumLabel = SKLabelNode(text: "BASIC")
+    let backgroundFunnel = SKSpriteNode()
+    let menuButton = SKSpriteNode()
+    let upsellButton = SKLabelNode(text: "Buy Fullversion")
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
@@ -40,7 +42,21 @@ class HUD: SKNode {
     let fadeInAnimation = SKAction.fadeAlphaTo(1, duration: 0.2)
     let fadeOutAnimation = SKAction.fadeAlphaTo(0, duration: 0.1)
     
-    let highScore = "highScore"       
+    let highScore = "highScore"
+    
+    // Timer
+    let timestampLifeTimer = "timestampLifeTimer"
+    let lifeTimerRunning = "lifeTimerRunning"
+    let formatter = NSDateFormatter()
+    let userCalendar = NSCalendar.currentCalendar()
+    let requestedComponent: NSCalendarUnit = [
+        NSCalendarUnit.Minute,
+        NSCalendarUnit.Second
+    ]    
+    var stringForTimer = ""
+    var timer = NSTimer()
+    var timerFinished = Bool()
+
     
     // An array to keep track of the hearts
     var heartNodes: [SKSpriteNode] = []
@@ -62,16 +78,16 @@ class HUD: SKNode {
         // Before the game
         
         // Logo
-        logo.texture = textureAtlas.textureNamed("DontFeedRalph")
+        logo.texture = textureAtlas.textureNamed("Logo")
         logo.position = CGPoint(x: d.middleX, y: d.middleY + 200)
-        logo.size = CGSize(width: 190, height: 90)
+        logo.size = CGSize(width: 310, height: 145)
         logo.alpha = 0
         
         // Button to start the game
         menuButton.texture = textureAtlas.textureNamed("Donut")
-        menuButton.position = CGPoint(x: d.middleX, y: d.middleY - 200 )
-        menuButton.size = CGSize(width: 100, height: 100)
-        menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
+        menuButton.position = CGPoint(x: d.middleX, y: d.middleY - 170 )
+        menuButton.size = CGSize(width: 90, height: 90)
+        //menuButton.runAction(SKAction.repeatActionForever(SKAction.rotateByAngle(-5.0, duration: 20)))
         menuButton.alpha = 0
         
         
@@ -84,6 +100,7 @@ class HUD: SKNode {
         labelScore.userInteractionEnabled = false
         labelScore.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelScore.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        labelScore.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         labelScore.alpha = 0
         
         // Best Label
@@ -92,6 +109,7 @@ class HUD: SKNode {
         labelBest.userInteractionEnabled = false
         labelBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
+        labelBest.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         labelBest.alpha = 0
         
         // Count Best
@@ -100,7 +118,7 @@ class HUD: SKNode {
         coinCountBest.userInteractionEnabled = false
         coinCountBest.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         coinCountBest.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        coinCountBest.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        coinCountBest.fontColor = UIColor(red:0.00, green:0.33, blue:0.59, alpha:1.0)
         coinCountBest.alpha = 0
         
         positionLabelBestRight()
@@ -113,26 +131,38 @@ class HUD: SKNode {
         levelLabel.userInteractionEnabled = false
         levelLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         levelLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        levelLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        levelLabel.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         levelLabel.alpha = 0
         
         
-        // Nodes for Game Over Display
+        // Nodes for Funnel
         
         // Game Over Label
         labelGameOver.position = CGPoint(x: d.middleX, y: (d.middleY + 200))
         labelGameOver.fontName = font
-        labelGameOver.fontSize = 25.0
+        labelGameOver.fontSize = 35.0
+        labelGameOver.zPosition = 41
+        labelGameOver.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         labelGameOver.userInteractionEnabled = false
         labelGameOver.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         labelGameOver.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
         labelGameOver.alpha = 0
         
         
+        // Close Funnel Button
+        closeFunnelButton.texture = textureAtlas.textureNamed("Button_Back")
+        closeFunnelButton.position = CGPoint(x: 40, y: d.height - 40 )
+        closeFunnelButton.size = CGSize(width: 17, height: 30)
+        closeFunnelButton.alpha = 0
+        closeFunnelButton.zPosition = 41
+        closeFunnelButton.name = "BackFromFunnelToMenu"
+        
+        
         // Waiting Time
         waitingTime.position = CGPoint(x: d.middleX, y: (d.middleY + 150))
         waitingTime.fontName = font
-        waitingTime.fontSize = 40.0
+        waitingTime.fontSize = 25.0
+        waitingTime.zPosition = 41
         waitingTime.userInteractionEnabled = false
         waitingTime.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         waitingTime.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -144,6 +174,7 @@ class HUD: SKNode {
         upsellButton.position = CGPoint(x: d.middleX, y: d.middleY - 200 )
         upsellButton.fontName = font
         upsellButton.fontSize = 40.0
+        upsellButton.zPosition = 41
         upsellButton.userInteractionEnabled = false
         upsellButton.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         upsellButton.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
@@ -155,11 +186,11 @@ class HUD: SKNode {
         premiumLabel.position = CGPoint(x: d.width - 40, y: d.height - 40 )
         premiumLabel.fontName = font
         premiumLabel.fontSize = 10.0
-        premiumLabel.zPosition = 40
+        premiumLabel.zPosition = 41
         premiumLabel.userInteractionEnabled = false
         premiumLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         premiumLabel.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        premiumLabel.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        premiumLabel.fontColor = UIColor(red: 0, green: 0, blue: 0, alpha:1.0)
         premiumLabel.alpha = 1
         
         if p.checkIfUserIsPremium() == true {
@@ -169,8 +200,17 @@ class HUD: SKNode {
         }
         
         
-        // Apply all nodes to HUD
+        // Background for the funnel
+        backgroundFunnel.name = "bar"
+        backgroundFunnel.size = CGSizeMake(CGFloat(d.width), CGFloat(d.height))
+        backgroundFunnel.color = UIColor(red:0.79, green:0.79, blue:0.79, alpha:1.0)
+        backgroundFunnel.position = CGPoint(x: d.middleX, y: d.middleY)
+        backgroundFunnel.zPosition = 40
+        backgroundFunnel.alpha = 0
         
+        
+        
+        // Apply all nodes to HUD
         self.addChild(levelLabel)
         self.addChild(labelScore)
         self.addChild(labelBest)
@@ -184,17 +224,24 @@ class HUD: SKNode {
         self.addChild(upsellButton)
         self.addChild(logo)
         
-        self.addChild(premiumLabel)
+        //self.addChild(premiumLabel)
+        self.addChild(closeFunnelButton)
         
+        self.addChild(backgroundFunnel)
         
+        createHeartNodes()
+        
+    }
+    
+    func createHeartNodes() {
         // Create heart nodes for the life meter
         for index in 0 ..< life.maxLifeCount {
-            let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Apple"))
+            let newHeartNode = SKSpriteNode(texture:textureAtlas.textureNamed("Heart_full"))
             newHeartNode.size = CGSize(width: 25, height: 25)
-            let xPos = Int(index * 40 + 20)
+            let xPos = Int(index * 35 + 25)
             let yPos = d.height - 30
             newHeartNode.position = CGPoint(x: xPos, y: yPos)
-            newHeartNode.alpha = 0
+            newHeartNode.alpha = 0                
             
             heartNodes.append(newHeartNode)
             self.addChild(newHeartNode)
@@ -224,7 +271,6 @@ class HUD: SKNode {
     // HUD setups
     
     func menuButtonShow() {
-        
         displayButtonAccordingToGameover()
         menuButton.runAction(fadeInAnimation)
     }
@@ -249,7 +295,7 @@ class HUD: SKNode {
     
     func labelMenuScoreShow() {
         coinCountText.position = CGPoint(x: (d.middleX - 80), y: (d.middleY + 150))
-        coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
+        coinCountText.fontColor = UIColor(red:0.98, green:0.61, blue:0.16, alpha:1.0)
         labelScore.runAction(fadeInAnimation)
         coinCountText.runAction(fadeInAnimation)
     }
@@ -261,10 +307,8 @@ class HUD: SKNode {
     
     func menuItemsShow(newHighscore: Bool) {
         
-        setHealthDisplay(life.getCurrentLifeCount())
-        print("Menu items show", life.getCurrentLifeCount())
+        setHealthDisplay()
         menuButtonShow()
-        print(newHighscore)
         
         if (newHighscore == true) {
             labelBest.text = "New Highscore"
@@ -294,7 +338,7 @@ class HUD: SKNode {
         labelBest.runAction(fadeInAnimation)
         coinCountBest.runAction(fadeInAnimation)
         positionLabelBestCentered()
-        coinCountText.fontColor = UIColor(red:0.00, green:0.75, blue:0.69, alpha:1.0)
+        coinCountText.fontColor = UIColor(red:0.00, green:0.33, blue:0.59, alpha:1.0)
     }
     
     func menuItemsAfterPurchaseHide() {
@@ -304,9 +348,9 @@ class HUD: SKNode {
     }
     
     func gameItemsShow() {
-        setHealthDisplay(life.getCurrentLifeCount())        
+        setHealthDisplay()
         coinCountText.position = CGPoint(x: d.middleX, y: (d.height - 50))
-        coinCountText.fontColor = UIColor.whiteColor()
+        coinCountText.fontColor = UIColor.blackColor()
         coinCountText.runAction(fadeInAnimation)
         labelScore.runAction(fadeOutAnimation)
     }
@@ -320,31 +364,37 @@ class HUD: SKNode {
         labelGameOver.runAction(fadeInAnimation)
         waitingTime.runAction(fadeInAnimation)
         upsellButton.runAction(fadeInAnimation)
+        closeFunnelButton.runAction(fadeInAnimation)
+        backgroundFunnel.runAction(fadeInAnimation)
     }
     
     func upsellPageHide() {
         labelGameOver.runAction(fadeOutAnimation)
         waitingTime.runAction(fadeOutAnimation)
-        upsellButton.runAction(fadeOutAnimation)        
+        upsellButton.runAction(fadeOutAnimation)
+        closeFunnelButton.runAction(fadeOutAnimation)
+        backgroundFunnel.runAction(fadeOutAnimation)
     }
     
-    // END Hud setups
-    
+    // END Hud setups    
     
     func hideHeartItems() {
-        for index in 0 ..< 3 {
-            heartNodes[index].runAction(fadeOutAnimation)
+        
+        for index in 0 ..< life.maxLifeCount {
+            
+            heartNodes[index].alpha = 0
+            
         }
     }
     
     func displayButtonAccordingToGameover() {
         
-        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) {
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (checkIfTimerIsRunning() == true) {
             menuButton.name = "GoToUpsell"
         } else {
             menuButton.name = "StartGame"
         }
-        print("Button:", menuButton.name)
+        
     }
     
     func letItRain() {
@@ -421,36 +471,139 @@ class HUD: SKNode {
     
     
     
-    func setHealthDisplay(currentHealth: Int) {
+    func setHealthDisplay() {
+        
+        createHeartNodes()
         
         if (p.checkIfUserIsPremium() == false) {
-            let fadeAction = SKAction.fadeAlphaTo(0.2, duration: 0)
-            print("Set health display", life.getCurrentLifeCount())
             
             for index in 0 ..< life.maxLifeCount {
-                if index < currentHealth {
-                    heartNodes[index].alpha = 1
+                
+                heartNodes[index].alpha = 1
+                
+                if index < life.getCurrentLifeCount() {
+                    heartNodes[index].texture = SKTexture(imageNamed: "Heart_full")
                 } else {
-                    heartNodes[index].runAction(fadeAction)
+                    heartNodes[index].texture = SKTexture(imageNamed: "Heart_empty")
                 }
             }
         } else {
             hideHeartItems()
-            print("User is premium therefore don't show the health display")
         }
-        
-        
     }
+    
+   
+    
     
     // Colors for Level Labels
     
     let colorLevelLabel: [Int: UIColor] = [
-        1: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* red #00beaf */
-        2: UIColor(red: 0.9294, green: 0.8784, blue: 0.0588, alpha: 1.0), /* yellow #ede00f */
-        3: UIColor(red: 0.2902, green: 0.5412, blue: 0.7843, alpha: 1.0), /* blue #4a8ac8 */
-        4: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* green #00beaf */
+        1: UIColor(red: 0.2902, green: 0.5412, blue: 0.7843, alpha: 1.0), /* blue #4a8ac8 */
+        2: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* green #00beaf */
+        3: UIColor(red: 0, green: 0.7451, blue: 0.6863, alpha: 1.0), /* red #00beaf */
+        4: UIColor(red: 0.9294, green: 0.8784, blue: 0.0588, alpha: 1.0), /* yellow #ede00f */
         5: UIColor(red: 0.949, green: 0.3608, blue: 0.2627, alpha: 1.0) /* orange #f25c43 */
     ]
+    
+    
+    // TIMER
+    
+    @objc func printTime() {
+        
+        let startTime = NSDate()
+        let endTime = getEndTimePList()
+
+        let timeDifference = userCalendar.components(requestedComponent, fromDate: startTime, toDate: endTime, options: [])
+        waitingTime.text = "Please wait \(timeDifference.minute):\(String(format: "%02d", timeDifference.second)) mins or"
+        
+        timerFinished = checkIfTimerFinished(timeDifference)
+        
+        if timerFinished == true {
+            
+            endTimer()
+            // Reset the life count to max
+            life.resetLifeCount()
+            
+            // Update Menu
+            upsellPageHide()
+            logoHide()
+            menuItemsShow(false)
+            
+        }
+        
+    }
+    
+    
+    func getEndTimePList() -> NSDate {
+        
+        return PlistManager.sharedInstance.getValueForKey(timestampLifeTimer) as! NSDate
+        
+    }
+    
+    func setEndTimePList() {
+        
+        let endTime = NSDate()
+        let calendar = NSCalendar.currentCalendar()
+        let date = calendar.dateByAddingUnit(.Minute, value: 1, toDate: endTime, options: [])
+        
+        PlistManager.sharedInstance.saveValue(date!, forKey: timestampLifeTimer)
+        
+    }
+    
+    func startTimer(){
+        
+        timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(self.printTime), userInfo: nil, repeats: true)
+        
+        timerFinished = false
+        timer.fire()
+        PlistManager.sharedInstance.saveValue(true, forKey: lifeTimerRunning)
+        
+    }
+    
+    
+    
+    func endTimer(){
+        
+        timerFinished = true
+        timer.invalidate()
+        PlistManager.sharedInstance.saveValue(false, forKey: lifeTimerRunning)
+        
+    }
+    
+    func checkIfTimerFinished(difference: NSDateComponents) -> Bool {
+        
+        if (difference.minute == 0) && (difference.second == 0) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func checkIfTimerIsRunning() -> Bool {
+        
+        // check if the timer is runnin in the plist and check if the timestamp in the plist is in the past
+        let plistInfo = PlistManager.sharedInstance.getValueForKey(lifeTimerRunning) as! Bool
+        let timestamp = PlistManager.sharedInstance.getValueForKey(timestampLifeTimer) as! NSDate
+        
+        if (plistInfo == false) || (timestamp.timeIntervalSinceNow.isSignMinus) {
+            return false
+        } else {
+            return true
+        }
+        
+    }
+    
+    
+    // Overall check
+    
+    func notPremiumAndTimerRunning() {
+        if (p.checkIfUserIsPremium() == false) && (checkIfTimerIsRunning() == true) {
+            
+            startTimer()
+            
+        }
+    }
+    
     
     
 }

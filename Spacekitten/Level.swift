@@ -42,7 +42,7 @@ class Level {
         case 382 ... 599:
             return 9
             
-        case 600 ... 9999999999999:
+        case 600 ... 9999:
             return 10
             
         default:
@@ -53,16 +53,16 @@ class Level {
     func getWaitingTimeDependentOnLevel(currentLevel: Int) -> Double {
         
         switch currentLevel {
-        case 1, 2, 3:
+        case 1, 2:
             return 1.0
-        case 4, 5, 6:
-            return 0.9
-        case 7, 8, 9:
-            return 0.8
-        case 10:
+        case 3, 4, 5, 6:
             return 0.6
+        case 7, 8, 9:
+            return 0.4
+        case 10, 11, 12, 13, 14:
+            return 0.2
         default:
-            return 1.0
+            return 0.1
         }
         
     }

@@ -49,11 +49,10 @@ struct PhysicsCategory {
 
 extension Array {
     func sample() -> Element {
-        let randomIndex = Int(arc4random()) % count
+        let randomIndex = Int(arc4random_uniform(UInt32(count)))
         return self[randomIndex]
     }
 }
-
 
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -64,23 +63,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let level = Level()
     let life = Life()
     let p = Premium()
+    let enemySprites = Enemy()
+    let bubbles = Bubble()
     
     var gameLost = false
     
-    var enemyArray = [Enemy]()
-    var timeBetweenEnemies = 1.0
+    var timeBetweenEnemies = 0.7
     
     // Game Statistics
     var enemiesDestroyed = 0
     
-    var background = SKSpriteNode(imageNamed: "background")
+    var background = SKSpriteNode(imageNamed: "Mountains")
     
     
     override func didMoveToView(view: SKView) {
+        
+        // Check if timer is running and if user if premium
+        hud.notPremiumAndTimerRunning()
+        
         // Show outlines
         // view.showsPhysics = true
         
-        // Set level to 1 
+        // Set level to 1
         level.levelValue = 1
         
         // Background
@@ -97,7 +101,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hud.zPosition = 50
         
         // Get highscore
-        hud.updateHighScore()        
+        hud.updateHighScore()
         
         // Physics World settings
         physicsWorld.gravity = CGVectorMake(0, 0)
@@ -106,10 +110,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Show start menu items
         hud.logoShow()
         hud.menuButtonShow()
-        print("Show start menu")
-        
-        print("This user has the premium membership:", p.checkIfUserIsPremium())
-        
         
     }
     
@@ -117,15 +117,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
             
-            self.removeAllEnemyNodes()
-            
-            print("Check game over")
             self.gameLost = true
             
             // Animation Player dies
             player.die(self.size)
-            
-            print("menu after game is game over")
             
             // Check if new highScore and lifeCount, if yes write it in the plist
             let newHighscore = hud.checkIfNewHighScore(enemiesDestroyed)
@@ -134,21 +129,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let newLifeCount = life.decreaseLifeCount(newHighscore)
             life.updateLifeScore(newLifeCount)
             
+            // If no lifes left the timer should fire but only if the user is not premium
+            startTimerIfNeeded()
+            
             // Show normal elements
             hud.menuItemsShow(newHighscore)
             
         }
     }
     
-    
-    
-    
-    
-    func removeAllEnemyNodes()  {
-        // Go through the enemyArray and delete all enemy nodes from the game
-        for i in 0 ..< self.enemyArray.count  {
-            self.enemyArray[i].removeFromParent()
-        }                
+    func startTimerIfNeeded(){
+        
+        if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (hud.checkIfTimerIsRunning() == false) {
+            hud.setEndTimePList()
+            hud.startTimer()
+        }
+        
     }
     
     
@@ -158,14 +154,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let touch = touches.first else {
             return
         }
-        let touchLocation = touch.locationInNode(self)        
+        let touchLocation = touch.locationInNode(self)
         let nodeTouched = nodeAtPoint(touchLocation)
         
         // Check for HUD buttons:
         if (nodeTouched.name == "StartGame") {
-            
-            print(life.getCurrentLifeCount())
-            print("Game started")
             
             runAction(
                 SKAction.sequence([
@@ -184,33 +177,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     }),
                     SKAction.waitForDuration(2.0),
                     SKAction.runBlock({
-                        print("Before Loop")
                         self.gameLost = false
                         self.gameLoop()
-                        print("After Loop")
                     }),
                     SKAction.runBlock({
                         self.hud.unSquishHUDDonut()
                     })
                 ])
             )
-        } else if (nodeTouched.name == "GoToUpsell") {            
+        } else if (nodeTouched.name == "GoToUpsell") {
             
-            // UPSELL PAGE
-            print("upsell page")
-            
-            hud.menuItemsHide()
-            hud.startMenuHide()
-            
-            background.runAction(SKAction.fadeAlphaTo(0, duration: 0.3))
-            backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1.0)
-            player.hideWithAnimation()
             hud.upsellPageShow()
             
         } else if (nodeTouched.name == "UpsellConfirmation") {
-            
-            // MENU AFTER UPSELL
-            print("menu after upsell")
             
             // Set life count back to max for now. If user is premium there is no need for this check anymore
             life.resetLifeCount()
@@ -218,28 +197,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // Set premium account
             p.getPremium()
             
-            print("User is now premium")
             hud.premiumLabel.text = "PREMIUM"
             
-            hud.upsellPageHide()
+            hud.endTimer()
+            hud.hideHeartItems()
             
+            hud.upsellPageHide()
             hud.menuItemsAfterPurchaseShow()
-            background.runAction(SKAction.fadeAlphaTo(1, duration: 0.3))
-            player.showWithAnimation()
             
             // Here we should check if the purchase was successful or not in an own class
             
+        } else if (nodeTouched.name == "BackFromFunnelToMenu") {
             
+            hud.upsellPageHide()
             
-        } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy)        {
-            
-            // If the user touches an enemy
+        } else if (nodeTouched.physicsBody?.categoryBitMask == PhysicsCategory.Enemy) {
             
             if let nodeTouchedAsSKSpriteNode: SKSpriteNode = (nodeTouched as? SKSpriteNode)! {
-                self.enemyDie(nodeTouchedAsSKSpriteNode)
+                
+                // Squish donuts
+                enemySprites.enemyDieSquish(nodeTouchedAsSKSpriteNode)
                 
                 let damagePotential = self.enemyDamage(nodeTouched.name!)
-                
                 enemiesDestroyed += calculatePotential(damagePotential)
                 
                 let levelNew = level.checkLevel(enemiesDestroyed, currentLevel: level.levelValue)
@@ -258,42 +237,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func calculatePotential(potential: Int) -> Int {
         return (potential / 10)
     }
-
     
-    func enemyDidCollideWithPlayer(enemy enemy:SKSpriteNode, playerHit:SKSpriteNode) {
+    
+    func enemyDidCollideWithPlayer(enemyCollision:SKSpriteNode, playerHit:SKSpriteNode) {
+        
         
         // TODO: enemy animation fade out or similar
-        
-        // Remove enemy from view
-        enemy.removeFromParent()
+        enemySprites.enemyDieEat(enemyCollision)
         
         // Get enemy type to check damage
-        let damagePotential = self.enemyDamage(enemy.name!)
+        let damagePotential = self.enemyDamage(enemyCollision.name!)
         
         // Update player
-        player.updatePlayerPhysics()        
+        player.updatePlayerPhysics()
         player.growPlayerWhenHit(damagePotential, sizeScreen: self.size)
         
         // Get enemy type to check bubble color
-        let bubbleColor = self.bubbleColor(enemy.name!)
+        let bubbleColor = self.bubbleColor(enemyCollision.name!)
         
         // Add 3 bubbles to the eating action
-        addBubbles(bubbleColor)
+        addBubbles(bubbleColor)               
         
     }
     
-    func addBubbles(color: String) {
+    func addBubbles(colorOfBubbles: String) {
         
         var index = 0
         while index <= 2 {
             
-            let bubbles = Bubble()
-            bubbles.addBubbles(self.size, texture: color)
-            self.addChild(bubbles)
+            addChild(bubbles.spawnBubble(self.size, typeOfEnemy: colorOfBubbles))
             
             index += 1
         }
-        
     }
     
     func didBeginContact(contact: SKPhysicsContact) {
@@ -313,11 +288,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Check if both hit bodies are not null and than do the function
                 if let bodyAAC = destructingBody.node as? SKSpriteNode {
                     if let bodyAAB = hitBody.node as? SKSpriteNode {
-                        enemyDidCollideWithPlayer(enemy: bodyAAC, playerHit: bodyAAB)
+                        enemyDidCollideWithPlayer(bodyAAC, playerHit: bodyAAB)
                     }
                 }
             }
-        
+            
         } else {
             // Nothing
         }
@@ -328,7 +303,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         switch type {
         case "Donut":
-            return 150
+            return 15
         case "Apple":
             return -10
         case "Cookie":
@@ -342,50 +317,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    // Merge with other bubbleColor in Enemy.swift
     func bubbleColor(type: String) -> String {
         
         switch type {
         case "Donut":
-            return "bubblePink"
+            return "Eat_Dot_Donut"
+        case "Apple":
+            return "Eat_Dot_Apple"
+        case "Cookie":
+            return "Eat_Dot_Cookie"
         case "Scoop":
-            return "bubbleYellow"
+            return "Eat_Dot_Scoop"
+        case "Lollipop":
+            return "Eat_Dot_Lollipop"
         default:
-            return "bubblePink"
-        }
-    }
-    //
-    
-    func enemySquish(type: String) -> String {
-        
-        switch type {
-        case "Donut":
-            return "Donut-squished"
-        case "Scoop":
-            return "Scoop-squished"
-        default:
-            return "Donut-squished"
+            return "Eat_Dot_Donut"
         }
     }
     
-    
-    func enemyDie(enemy: SKSpriteNode) {
-        
-        let whichEnemyShouldBeSquished = enemySquish(enemy.name!)
-        var actions = Array<SKAction>();
-        
-        actions.append(SKAction.scaleTo(1.1, duration: 0.1))
-        
-        enemy.texture = SKTexture(imageNamed: whichEnemyShouldBeSquished)
-        enemy.removeAllActions()
-        enemy.runAction(SKAction.sequence([
-            SKAction.group(actions),
-            SKAction.waitForDuration(0.7),
-            SKAction.fadeAlphaTo(0, duration: 2.0)
-        ]))
-        enemy.removeAllChildren()
-        
-    }
     
     func initPlayer() {
         
@@ -402,39 +351,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameLoop() {
         
-        print("Inside Loop Start")
-        
-        var index = 1
-        
         runAction(
-            SKAction.repeatActionForever (
+            SKAction.repeatActionForever(
                 SKAction.sequence([
                     SKAction.runBlock({
+                    
+                        self.checkGameLost()
                         
-                        print("Loop Round", index)
-                        index = index + 1
-                        
-                        // Check if game over
                         if self.gameLost == true {
-                            print("Game over")
+                            
+                            self.bubbles.removeAllChildren()
+                            self.bubbles.removeAllActions()
+                            self.bubbles.removeFromParent()
+                            
+                            self.enemySprites.removeAllChildren()
+                            self.enemySprites.removeAllActions()
+                            self.enemySprites.removeFromParent()
+                            
+                            self.removeAllActions()
                             self.removeActionForKey("GameLost")
+                            
                         } else {
-                            self.checkGameLost()
-                        }
-                        
-                    }),
-                    SKAction.runBlock({
-                        
-                        let enemy = Enemy()
-                        
-                        // Check if game lost
-                        if self.gameLost != true {
                             
-                            enemy.defineEnemySpecFor(self.level.levelValue, sizeScreen: self.size)
-                            self.addChild(enemy)
-                            
-                            // Add enemy to array which is needed to delete all enemies if the player dies
-                            self.enemyArray.append(enemy)
+                            // Add new Enemy
+                            self.addChild(self.enemySprites.spawnEnemy(self.size, currentLevel: self.level.levelValue))
                             
                         }
                         
@@ -442,17 +382,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
                         
                     }),
-                    
                     // Time after a new enemy is displayed
                     SKAction.waitForDuration(self.timeBetweenEnemies)
-                    
-                    
-                    ])                
+                ])
             ),
-            withKey: "GameLost"
-        )
+        withKey: "GameLost")
     }
 }
+
+
+
 
 
 

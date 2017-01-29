@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 
 class GameViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +22,7 @@ class GameViewController: UIViewController {
         scene.scaleMode = .ResizeFill
         
         skView.presentScene(scene)
+        
     }
     
     override func prefersStatusBarHidden() -> Bool {

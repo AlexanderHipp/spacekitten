@@ -13,18 +13,36 @@ import SpriteKit
 
 class Bubble: SKNode {
     
-    let bubble = SKSpriteNode()
+    
     let calculationOfRandom = Calculation()
-    let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
+    let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")    
     
-    
-    func addBubbles(sizeScreen: CGSize, texture: String) {
+    func spawnBubble(sizeScreen: CGSize, typeOfEnemy: String) -> SKSpriteNode {
+        
+        let bubble = SKSpriteNode(imageNamed:typeOfEnemy)
         
         bubble.size = CGSize(width: 10, height: 10)
         let bubbleRandomPosition = defineBubbleGoalPosition(sizeScreen, bubbleSize: bubble.size)
-        defineBubble(bubbleRandomPosition, sizeScreen: sizeScreen, texture: texture)
+        
+        bubble.position = CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2)
+        bubble.zPosition = 50
+        
+        // Add the enemy to the scene
+        bubble.runAction(SKAction.sequence([
+            SKAction.group([
+                SKAction.moveTo(bubbleRandomPosition, duration: 8),
+                SKAction.fadeAlphaTo(0, duration: 1.0),
+            ]),
+            SKAction.runBlock({ 
+                bubble.removeAllChildren()
+                bubble.removeFromParent()
+            })
+        ]))
+        
+        return bubble
 
     }
+    
     
     func defineBubbleGoalPosition(sizeScreen: CGSize, bubbleSize: CGSize) -> CGPoint {
         
@@ -52,30 +70,6 @@ class Bubble: SKNode {
         return leftRightBottomTop.sample()
         
     }
-    
-    func defineBubble(endPosition: CGPoint, sizeScreen: CGSize, texture: String) {
-        
-        bubble.texture = textureAtlas.textureNamed(texture)
-        bubble.position = CGPoint(x: sizeScreen.width/2, y: sizeScreen.height/2)        
-        bubble.zPosition = 50
-        
-        // Add the enemy to the scene
-        self.addChild(bubble)        
-                
-        self.growAndHideBubbles(endPosition)
-        
-    }
-    
-    func growAndHideBubbles(target: CGPoint) {
-        // Create the actions
-        bubble.runAction(SKAction.group([
-            SKAction.moveTo(target, duration: 8),
-            SKAction.fadeOutWithDuration(1.0),
-            SKAction.waitForDuration(6)
-        ]))
-    }
-    
-    
     
     
 }

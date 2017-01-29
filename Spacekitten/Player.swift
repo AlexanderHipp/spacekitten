@@ -18,43 +18,47 @@ class Player: SKNode {
     
     // Initialize variable for the player
     var playerSize: Int = 1
-    var initialPlayerSize: Int = 1
-    
+    var initialPlayerSize: Int = 1    
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
-    let imageHead = "waiting-1"
-    let imageMouth = "mouth"
+    let imageHead = "Ralph"
     
     func definePlayer(sizeScreen sizeScreen: CGSize) {
         
         // Calculate real player size
-        playerSize = setSizeForPlayer(sizeScreen)
+        definePlayerSize(sizeScreen)
         
         // Head
         playerHead.texture = textureAtlas.textureNamed(imageHead)
-        playerHead.size = CGSize(width: playerSize, height: playerSize)
+        //playerHead.size = CGSize(width: playerSize * 3 / 4, height: playerSize)
+        playerHead.size = CGSize(width: 150, height: 200)
         playerHead.zPosition = 12
         playerHead.position = positionPlayer(sizeScreen)
         
         
         // Mouth
         playerMouth.texture = textureAtlas.textureNamed("black")
-        playerMouth.size = CGSize(width: 4, height: 4)
-        playerMouth.zPosition = 13
+        playerMouth.size = CGSize(width: 1, height: 1)
+        playerMouth.zPosition = 1
         playerMouth.position = positionPlayer(sizeScreen)
         
         // Spawn player to the scene
         addChild(playerHead)
         addChild(playerMouth)
         
-        waiting()
-        self.playerHead.runAction(waitingAnimation, withKey: "waitingAnimation")
+        //waiting()
+        //self.playerHead.runAction(waitingAnimation, withKey: "waitingAnimation")
         
     }
     
+    func definePlayerSize(sizeScreen: CGSize) {
+        playerSize = Int(setSizeForPlayer(sizeScreen))
+    }
+    
     func updatePlayerPhysics() {        
-        playerHead.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: self.imageMouth), size: playerMouth.size)
+        //playerHead.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: self.imageMouth), size: playerMouth.size)
+        playerHead.physicsBody = SKPhysicsBody(circleOfRadius: max(playerMouth.size.width / 2, playerMouth.size.height / 2))
         playerHead.physicsBody?.dynamic = false
         playerHead.physicsBody?.categoryBitMask = PhysicsCategory.Player
         playerHead.physicsBody?.contactTestBitMask = PhysicsCategory.Enemy
@@ -93,15 +97,15 @@ class Player: SKNode {
     }
     
     func resizePlayer(damage: Int) {
-        playerHead.runAction(SKAction.resizeByWidth(CGFloat(damage), height: CGFloat(damage), duration: 0.5))
+        playerHead.runAction(SKAction.resizeByWidth(CGFloat(damage * 3 / 4), height: CGFloat(damage), duration: 0.5))
     }
     
     func positionPlayer(sizeScreen: CGSize) -> CGPoint {
         return CGPoint(x: sizeScreen.width * 0.5, y: sizeScreen.height * 0.5)
     }
     
-    func setSizeForPlayer(sizeScreen: CGSize) -> Int {
-        return Int(sizeScreen.width) / 3
+    func setSizeForPlayer(sizeScreen: CGSize) -> Double {
+        return Double(sizeScreen.width) / 2.5
     }
     
     
@@ -110,8 +114,9 @@ class Player: SKNode {
         // Stop all actions
         self.removeAllActions()
         
-        playerSize = setSizeForPlayer(sizeScreen)
-        playerHead.size = CGSize(width: playerSize, height: playerSize)
+        definePlayerSize(sizeScreen)
+        // playerHead.size = CGSize(width: playerSize * 3 / 4, height: playerSize)
+        playerHead.size = CGSize(width: 150, height: 200)
         
         // TODO: Schöner schrumpfen lassen
         
