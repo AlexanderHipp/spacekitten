@@ -88,7 +88,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         level.levelValue = 1
         
         // Background
-        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)        
         background.zPosition = 0
         addChild(background)
         
