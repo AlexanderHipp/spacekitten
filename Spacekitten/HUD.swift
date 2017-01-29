@@ -34,7 +34,7 @@ class HUD: SKNode {
     let premiumLabel = SKLabelNode(text: "BASIC")
     let backgroundFunnel = SKSpriteNode()
     let menuButton = SKSpriteNode()
-    let upsellButton = SKLabelNode(text: "Buy Fullversion")
+    let upsellButton = SKLabelNode(text: "Skip")
     
     let textureAtlas:SKTextureAtlas = SKTextureAtlas(named: "sprites.atlas")
     
@@ -166,7 +166,7 @@ class HUD: SKNode {
         waitingTime.userInteractionEnabled = false
         waitingTime.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         waitingTime.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        waitingTime.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        waitingTime.fontColor = UIColor(red: 0.0549, green: 0.2196, blue: 0.6902, alpha: 1.0) /* #0e38b0 */
         waitingTime.alpha = 0
         
         
@@ -178,7 +178,7 @@ class HUD: SKNode {
         upsellButton.userInteractionEnabled = false
         upsellButton.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         upsellButton.verticalAlignmentMode = SKLabelVerticalAlignmentMode.Center
-        upsellButton.fontColor = UIColor(red:0.95, green:0.36, blue:0.26, alpha:1.0)
+        upsellButton.fontColor = UIColor(red: 0.9882, green: 0.2353, blue: 0.1765, alpha: 1.0) /* #fc3c2d */
         upsellButton.name = "UpsellConfirmation"
         upsellButton.alpha = 0
         
@@ -203,11 +203,10 @@ class HUD: SKNode {
         // Background for the funnel
         backgroundFunnel.name = "bar"
         backgroundFunnel.size = CGSizeMake(CGFloat(d.width), CGFloat(d.height))
-        backgroundFunnel.color = UIColor(red:0.79, green:0.79, blue:0.79, alpha:1.0)
+        backgroundFunnel.color = UIColor(red: 0.651, green: 0.8118, blue: 0.8863, alpha: 1.0) /* #a6cfe2 */
         backgroundFunnel.position = CGPoint(x: d.middleX, y: d.middleY)
         backgroundFunnel.zPosition = 40
         backgroundFunnel.alpha = 0
-        
         
         
         // Apply all nodes to HUD
@@ -322,6 +321,7 @@ class HUD: SKNode {
         
         labelBest.runAction(fadeInAnimation)
         coinCountBest.runAction(fadeInAnimation)
+        logoHide()
     }
     
     func menuItemsHide() {
