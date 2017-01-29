@@ -118,7 +118,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if (player.heightOfPlayer() >= size.height) || (player.widthOfPlayer() >= size.width) {
             
-//            self.removeAllEnemyNodes()
             self.gameLost = true
             
             // Animation Player dies
@@ -148,16 +147,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
     }
-    
-    
-//    func removeAllEnemyNodes()  {
-//        // Go through the enemyArray and delete all enemy nodes from the game
-//        for i in 0 ..< self.enemyArray.count  {
-//            print("i:", i)
-//            self.enemyArray[i].removeAllChildren()
-//            self.enemyArray[i].removeFromParent()
-//        }
-//    }
     
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -195,7 +184,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     SKAction.runBlock({
                         self.hud.unSquishHUDDonut()
                     })
-                    ])
+                ])
             )
         } else if (nodeTouched.name == "GoToUpsell") {
             
@@ -363,27 +352,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameLoop() {
         
-        //var index = 1
-        
         runAction(
-            SKAction.repeatActionForever (
+            SKAction.repeatActionForever(
                 SKAction.sequence([
                     SKAction.runBlock({
+                    
+                        self.checkGameLost()
                         
-                        // Check if game over
                         if self.gameLost == true {
-                            self.removeActionForKey("GameLost")
-                        } else {
-                            self.checkGameLost()
-                        }
-                        
-                    }),
-                    SKAction.runBlock({
-                        
-                        
-                        // Check if game lost
-                        if self.gameLost != true {
                             
+                            self.removeAllActions()
+                            self.removeActionForKey("GameLost")
+                            
+                        } else {
+                                                    
                             // Add new Enemy
                             self.addChild(self.enemySprites.spawnEnemy(self.size, currentLevel: self.level.levelValue))
                             
@@ -393,16 +375,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                         self.timeBetweenEnemies = self.level.getWaitingTimeDependentOnLevel(self.level.levelValue)
                         
                     }),
-                    
                     // Time after a new enemy is displayed
                     SKAction.waitForDuration(self.timeBetweenEnemies)
-                    
-                    ])
+                ])
             ),
-            withKey: "GameLost"
-        )
+        withKey: "GameLost")
     }
 }
+
+
+
 
 
 

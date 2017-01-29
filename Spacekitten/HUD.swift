@@ -241,9 +241,7 @@ class HUD: SKNode {
             let xPos = Int(index * 35 + 25)
             let yPos = d.height - 30
             newHeartNode.position = CGPoint(x: xPos, y: yPos)
-            newHeartNode.alpha = 0
-            
-            print(index)
+            newHeartNode.alpha = 0                
             
             heartNodes.append(newHeartNode)
             self.addChild(newHeartNode)
@@ -386,19 +384,17 @@ class HUD: SKNode {
             
             heartNodes[index].alpha = 0
             
-            print("index2:", index)
         }
     }
     
     func displayButtonAccordingToGameover() {
         
         if (p.checkIfUserIsPremium() == false) && (life.checkLifeCountForGameover() == true) && (checkIfTimerIsRunning() == true) {
-            print(checkIfTimerIsRunning())
             menuButton.name = "GoToUpsell"
         } else {
             menuButton.name = "StartGame"
         }
-        print("Button:", menuButton.name)
+        
     }
     
     func letItRain() {
@@ -493,7 +489,6 @@ class HUD: SKNode {
             }
         } else {
             hideHeartItems()
-            print("User is premium therefore don't show the health display")
         }
     }
     
@@ -535,8 +530,6 @@ class HUD: SKNode {
             menuItemsShow(false)
             
         }
-        
-        print("Timer", stringForTimer)
         
     }
     
@@ -605,8 +598,9 @@ class HUD: SKNode {
     
     func notPremiumAndTimerRunning() {
         if (p.checkIfUserIsPremium() == false) && (checkIfTimerIsRunning() == true) {
+            
             startTimer()
-            print("Start timer from plist ")
+            
         }
     }
     
